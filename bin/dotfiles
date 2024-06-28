@@ -5,60 +5,67 @@ set -e
 
 
 # color codes
-RESTORE='\033[0m'
+#RESTORE='\033[0m'
 NC='\033[0m'
-BLACK='\033[00;30m'
+#BLACK='\033[00;30m'
 RED='\033[00;31m'
 GREEN='\033[00;32m'
 YELLOW='\033[00;33m'
-BLUE='\033[00;34m'
+#BLUE='\033[00;34m'
 PURPLE='\033[00;35m'
 CYAN='\033[00;36m'
-SEA="\\033[38;5;49m"
+SEA='\033[38;5;49m'
 LIGHTGRAY='\033[00;37m'
-LBLACK='\033[01;30m'
+#LBLACK='\033[01;30m'
 LRED='\033[01;31m'
-LGREEN='\033[01;32m'
-LYELLOW='\033[01;33m'
-LBLUE='\033[01;34m'
-LPURPLE='\033[01;35m'
-LCYAN='\033[01;36m'
-WHITE='\033[01;37m'
+#LGREEN='\033[01;32m'
+#LYELLOW='\033[01;33m'
+#LBLUE='\033[01;34m'
+#LPURPLE='\033[01;35m'
+#LCYAN='\033[01;36m'
+#WHITE='\033[01;37m'
 OVERWRITE='\e[1A\e[K'
 
 #emoji codes
 CHECK_MARK="${GREEN}\xE2\x9C\x94${NC}"
 X_MARK="${RED}\xE2\x9C\x96${NC}"
-PIN="${RED}\xF0\x9F\x93\x8C${NC}"
-CLOCK="${GREEN}\xE2\x8C\x9B${NC}"
+#PIN="${RED}\xF0\x9F\x93\x8C${NC}"
+#CLOCK="${GREEN}\xE2\x8C\x9B${NC}"
 ARROW="${SEA}\xE2\x96\xB6${NC}"
-BOOK="${RED}\xF0\x9F\x93\x8B${NC}"
-HOT="${ORANGE}\xF0\x9F\x94\xA5${NC}"
+#BOOK="${RED}\xF0\x9F\x93\x8B${NC}"
+#HOT="${ORANGE}\xF0\x9F\x94\xA5${NC}"
 WARNING="${RED}\xF0\x9F\x9A\xA8${NC}"
-RIGHT_ANGLE="${GREEN}\xE2\x88\x9F${NC}"
+#RIGHT_ANGLE="${GREEN}\xE2\x88\x9F${NC}"
 
 # Paths
-if [ "$1" == "--dry-run" ]; then
-    home="./dev_env"
-else
-    home="$HOME"
-fi
-CONFIG_DIR="$home/.config/dotfiles"
-VAULT_SECRET="$home/.ansible-vault/vault.secret"
-DOTFILES_DIR="$home/.dotfiles"
-SSH_DIR="$home/.ssh"
-IS_FIRST_RUN="$home/.dotfiles_run"
-DOTFILES_LOG="$home/.dotfiles.log"
+HOME_DIR="$HOME"
+# Iterate over all arguments
+for arg in "$@"; do
+    if [ "$arg" == "--dry-run" ]; then
+        HOME_DIR="${HOME_DIR}/dev_env"
+    elif [ "$arg" == "--debug" ]; then
+        set -x
+    elif [ "$arg" == "--help" ]; then
+        echo "Usage: $0 [--dry-run] [--help]"
+        exit 0
+    fi
+done
+CONFIG_DIR="$HOME_DIR/.config/dotfiles"
+VAULT_SECRET="$HOME_DIR/.ansible-vault/vault.secret"
+DOTFILES_DIR="$HOME_DIR/.dotfiles"
+SSH_DIR="$HOME_DIR/.ssh"
+IS_FIRST_RUN="$HOME_DIR/.dotfiles_run"
+DOTFILES_LOG="$HOME_DIR/.dotfiles.log"
 
 # _header colorize the given argument with spacing
 function _task {
     # if _task is called while a task was set, complete the previous
     if [[ $TASK != "" ]]; then
-        printf "%s [${CHECK_MARK}]  %s\n" "${OVERWRITE}" "${LGREEN}${TASK}"
+        printf "${OVERWRITE} [${CHECK_MARK}]  ${GREEN}%s\n" "${TASK}"
     fi
     # set new task title and print
     TASK=$1
-    printf "%s [ ]  %s \n%s" "${LBLACK}" "${TASK}" "${LRED}"
+    printf "${NC} [ ]  ${LIGHTGRAY}%s \n${NC}" "${TASK}"
 }
 
 # _cmd performs commands with error checking
@@ -68,13 +75,13 @@ function _cmd {
         touch "$DOTFILES_LOG"
     fi
     # Empty log
-    > "$DOTFILES_LOG"
+    : > "$DOTFILES_LOG"
     # Hide stdout, on error we print and exit
     if eval "$1" 1> /dev/null 2> "$DOTFILES_LOG"; then
         return 0 # Success
     fi
     # Read error from log and add spacing
-    printf "%s%s [${X_MARK}]  %s%s\n" "${OVERWRITE}" "${LRED}" "${TASK}" "${RED}"
+    printf "${OVERWRITE} [${X_MARK}]  ${LRED}%s\n" "${TASK}"
     while IFS= read -r line; do
         printf "      %s\n" "${line}"
     done < "$DOTFILES_LOG"
@@ -90,15 +97,16 @@ function _clear_task {
 }
 
 function _task_done {
-    printf "%s%s [${CHECK_MARK}]  %s\n" "${OVERWRITE}" "${LGREEN}" "${LGREEN}${TASK}"
+    printf "${OVERWRITE}${NC} [${CHECK_MARK}]  ${GREEN}%s\n" "${TASK}"
     _clear_task
 }
 
 
 function ubuntu_setup() {
+  _task "Updating apt repository cache"
+  _cmd "sudo apt-get update"
   if ! dpkg -s ansible >/dev/null 2>&1; then
     _task "Installing Ansible"
-    _cmd "sudo apt-get update"
     _cmd "sudo apt-get install -y software-properties-common"
     _cmd "sudo apt-add-repository -y ppa:ansible/ansible"
     _cmd "sudo apt-get update"
@@ -142,8 +150,8 @@ case $ID in
     ubuntu_setup
     ;;
   *)
-    _task "Unsupported OS"
-    _cmd "echo 'Unsupported OS'"
+    printf " ${WARNING} ${YELLOW}Unsupported OS: %s!\n" "${ID}"
+    exit 1
     ;;
 esac
 
@@ -170,11 +178,13 @@ pushd "$DOTFILES_DIR" > /dev/null 2>&1
 update_ansible_galaxy $ID
 
 _task "Running playbook"; _task_done
-#if [[ -f $VAULT_SECRET ]]; then
-#    ansible-playbook --diff --extra-vars "@$CONFIG_DIR/values.yml" --vault-password-file "$CONFIG_DIR/vault.secret" "$DOTFILES_DIR/main.yml" "$@"
-#else
+if [[ -f $VAULT_SECRET ]]; then
+    echo -e "${PURPLE}Running playbook with vault"
+    ansible-playbook --diff --extra-vars "@$CONFIG_DIR/values.yml" --vault-password-file "$CONFIG_DIR/vault.secret" "$DOTFILES_DIR/main.yml" "$@"
+else
+    echo -e "${PURPLE}Running playbook without vault"
 #    ansible-playbook --diff --extra-vars "@$CONFIG_DIR/values.yml" "$DOTFILES_DIR/main.yml" "$@"
-#fi
+fi
 
 popd > /dev/null 2>&1
 
