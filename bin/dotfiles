@@ -39,20 +39,24 @@ WARNING="${RED}\xF0\x9F\x9A\xA8${NC}"
 
 # Paths
 HOME_DIR="$HOME"
-# Iterate over all arguments
-for arg in "$@"; do
-    if [ "$arg" == "--dry-run" ]; then
-        HOME_DIR="${HOME_DIR}/dev_env"
-    elif [ "$arg" == "--debug" ]; then
-        set -x
-    elif [ "$arg" == "--help" ]; then
-        echo "Usage: $0 [--dry-run] [--help]"
-        exit 0
-    fi
-done
+DEBUG=0
+if [ "$1" == "--dry-run" ]; then
+    HOME_DIR="${HOME_DIR}/dev_env"
+    shift
+fi
+if [ "$1" == "--debug" ]; then
+    #set -x
+    DEBUG=1
+    shift
+fi
+if [ "$1" == "--help" ]; then
+    echo "Usage: $0 [--dry-run] [--debug] [--help]"
+    exit 0
+fi
+
 CONFIG_DIR="$HOME_DIR/.config/dotfiles"
 VAULT_SECRET="$HOME_DIR/.ansible-vault/vault.secret"
-DOTFILES_DIR="$HOME_DIR/.dotfiles"
+DOTFILES_DIR="$HOME_DIR/dev/.dotfiles_wip"
 SSH_DIR="$HOME_DIR/.ssh"
 IS_FIRST_RUN="$HOME_DIR/.dotfiles_run"
 DOTFILES_LOG="$HOME_DIR/.dotfiles.log"
@@ -76,13 +80,20 @@ function _cmd {
     fi
     # Empty log
     : > "$DOTFILES_LOG"
-    # Hide stdout, on error we print and exit
-    if eval "$1" 1> /dev/null 2> "$DOTFILES_LOG"; then
-        return 0 # Success
+    if [ $DEBUG -eq 1 ]; then
+        echo "Running: $1"
+        if eval "$1" 2> "$DOTFILES_LOG"; then
+            return 0 # Success
+        fi
+    else
+        # Hide stdout, on error we print and exit
+        if eval "$1" 1> /dev/null 2> "$DOTFILES_LOG"; then
+            return 0 # Success
+        fi
     fi
     # Read error from log and add spacing
     printf "${OVERWRITE} [${X_MARK}]  ${LRED}%s\n" "${TASK}"
-    while IFS= read -r line; do
+    while read -r line; do
         printf "      %s\n" "${line}"
     done < "$DOTFILES_LOG"
     printf "\n"
@@ -111,7 +122,7 @@ function ubuntu_setup() {
     _cmd "sudo apt-add-repository -y ppa:ansible/ansible"
     _cmd "sudo apt-get update"
     _cmd "sudo apt-get install -y ansible"
-    _cmd "sudo apt-get install python3-argcomplete"
+    _cmd "sudo apt-get install -y python3-argcomplete"
     _cmd "sudo activate-global-python-argcomplete3"
   fi
   if ! dpkg -s python3 >/dev/null 2>&1; then
@@ -166,13 +177,13 @@ if ! [[ -f "$SSH_DIR/authorized_keys" ]]; then
 fi
 
 # Clone repository
-if ! [[ -d "$DOTFILES_DIR" ]]; then
-    _task "Cloning repository"
-    _cmd "git clone --quiet https://github.com/elidholm/dotfiles_ansible.git $DOTFILES_DIR"
-else
-    _task "Updating repository"
-    _cmd "git -C $DOTFILES_DIR pull --quiet"
-fi
+#if ! [[ -d "$DOTFILES_DIR" ]]; then
+#    _task "Cloning repository"
+#    _cmd "git clone --quiet https://github.com/elidholm/dotfiles_ansible.git $DOTFILES_DIR"
+#else
+#    _task "Updating repository"
+#    _cmd "git -C $DOTFILES_DIR pull --quiet"
+#fi
 
 pushd "$DOTFILES_DIR" > /dev/null 2>&1
 update_ansible_galaxy $ID
@@ -180,10 +191,10 @@ update_ansible_galaxy $ID
 _task "Running playbook"; _task_done
 if [[ -f $VAULT_SECRET ]]; then
     echo -e "${PURPLE}Running playbook with vault"
-    ansible-playbook --diff --extra-vars "@$CONFIG_DIR/values.yml" --vault-password-file "$CONFIG_DIR/vault.secret" "$DOTFILES_DIR/main.yml" "$@"
+    ansible-playbook --diff --extra-vars "@$CONFIG_DIR/values.yml" --vault-password-file "$VAULT_SECRET" "$DOTFILES_DIR/main.yml" "$@"
 else
     echo -e "${PURPLE}Running playbook without vault"
-#    ansible-playbook --diff --extra-vars "@$CONFIG_DIR/values.yml" "$DOTFILES_DIR/main.yml" "$@"
+    ansible-playbook --diff --extra-vars "@$CONFIG_DIR/values.yml" "$DOTFILES_DIR/main.yml" "$@"
 fi
 
 popd > /dev/null 2>&1
