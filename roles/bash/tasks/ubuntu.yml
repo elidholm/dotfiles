@@ -1,0 +1,74 @@
+---
+- name: "Bash | Detect Starship"
+  ansible.builtin.stat:
+    path: "/usr/local/bin/starship"
+  register: starship
+
+- name: "Bash | Register Starship state"
+  ansible.builtin.set_fact:
+    starship_is_installed: "{{ starship.stat.exists }}"
+
+- name: "Bash | Debug starship_is_installed"
+  ansible.builtin.debug:
+    var: starship_is_installed
+
+- name: "Bash | Install Starship"
+  when: not starship_is_installed
+  block:
+    - name: "Bash | Download Starship install script"
+      ansible.builtin.get_url:
+        url: https://starship.rs/install.sh
+        dest: "{{ ansible_user_dir }}/starship.install.sh"
+        force: true
+        mode: "0755"
+      notify:
+        - "Bash | Cleanup Starship install script"
+
+    - name: "Bash | Run the install script"
+      ansible.builtin.script:
+        cmd: "{{ ansible_user_dir }}/starship.install.sh"
+
+- name: "Bash | Configure Starship"
+  ansible.builtin.copy:
+    src: starship.toml
+    dest: "{{ ansible_user_dir }}/.config/starship.toml"
+    mode: "0644"
+
+- name: "Bash | Copy .bashrc"
+  ansible.builtin.copy:
+    src: ".bashrc"
+    dest: "{{ ansible_user_dir }}/.bashrc"
+    mode: "0644"
+
+- name: "Bash | Copy .bash_profile"
+  ansible.builtin.copy:
+    src: ".bash_profile"
+    dest: "{{ ansible_user_dir }}/.bash_profile"
+    mode: "0644"
+
+- name: "Bash | Copy custom bash config"
+  ansible.builtin.copy:
+    src: "bash"
+    dest: "{{ ansible_user_dir }}/.config/"
+    mode: "0644"
+    directory_mode: "0755"
+    force: true
+
+- name: "Bash | Set default terminal"
+  user:
+    name: "{{ host_user }}"
+    shell: "/usr/bin/bash"
+  become: true
+
+- name: "Bash | Set public variables"
+  ansible.builtin.template:
+    src: ".bash_public.j2"
+    dest: "{{ ansible_user_dir }}/.config/bash/.bash_public"
+    mode: "0644"
+
+- name: "Bash | Set private variables"
+  ansible.builtin.template:
+    src: ".bash_private.j2"
+    dest: "{{ ansible_user_dir }}/.config/bash/.bash_private"
+    mode: "0644"
+  no_log: true

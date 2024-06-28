@@ -1,0 +1,33 @@
+---
+- name: "Fonts | Update APT cache"
+  ansible.builtin.apt:
+    update_cache: true
+  become: true
+
+- name: "Fonts | Install fontconfig"
+  ansible.builtin.apt:
+    name:
+      - fontconfig
+    state: present
+  become: true
+
+- name: "Fonts | Download nerd-fonts"
+  ansible.builtin.get_url:
+    url: https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Meslo.zip
+    dest: "{{ ansible_user_dir }}/Meslo.zip"
+
+- name: "Fonts | Create fonts directory"
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/.local/share/fonts"
+    state: directory
+    mode: "0755"
+
+- name: "Fonts | Unzip nerd-fonts"
+  ansible.builtin.unarchive:
+    src: "{{ ansible_user_dir }}/Meslo.zip"
+    dest: "{{ ansible_user_dir }}/.local/share/fonts"
+    remote_src: true
+  notify: "Fonts | Cleanup downloaded zip file"
+
+- name: "Fonts | Update font cache"
+  ansible.builtin.shell: "fc-cache -fv"

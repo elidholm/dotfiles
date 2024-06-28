@@ -1,0 +1,28 @@
+---
+default_roles:
+  - system
+  - alacritty
+  - bash
+  - docker
+  - flatpak
+  - fonts
+  # - fzf
+  - git
+  - github-cli
+  - go
+  # - lazygit
+  - lua
+  - nala
+  - neofetch
+  - neovim
+  - npm
+  - nvm
+  - python
+  - ruby
+  - rust
+  - ssh
+  - sshfs
+  - tldr
+  - tmux
+  - spotify
+  - zoxide

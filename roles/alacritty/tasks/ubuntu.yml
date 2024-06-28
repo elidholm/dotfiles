@@ -1,0 +1,75 @@
+---
+- name: "Alacritty | Check if Alacritty is installed"
+  ansible.builtin.stat:
+    path: /usr/local/bin/alacritty
+  register: alacritty_check
+
+- name: "Alacritty | Check if Rustup is installed"
+  ansible.builtin.stat:
+    path: "{{ ansible_user_dir }}/.cargo/bin/cargo"
+  register: rustup_check
+
+- name: "Alacritty | Install Rustup"
+  when: not rustup_check.stat.exists
+  block:
+  - name: "Alacritty | Download rust install script"
+    ansible.builtin.get_url:
+      url: https://sh.rustup.rs
+      dest: "{{ ansible_user_dir }}/rustup.sh"
+      mode: '0755'
+    become: true
+    notify:
+      - "Alacritty | Cleanup rust install script"
+
+  - name: "Alacritty | Run Rustup installer"
+    ansible.builtin.shell: "{{ ansible_user_dir }}/rustup.sh -y"
+    args:
+      creates: "{{ ansible_user_dir }}/.cargo/bin/cargo"
+
+- name: "Alacritty | Set Rust to stable version"
+  ansible.builtin.shell: "rustup override set stable"
+
+- name: "Alacritty | Update Rust stable version"
+  ansible.builtin.shell: "rustup update stable"
+
+- name: "Alacritty | Install dependencies"
+  ansible.builtin.apt:
+    name:
+      - cmake
+      - pkg-config
+      - libfreetype6-dev
+      - libfontconfig1-dev
+      - libxcb-xfixes0-dev
+      - libxkbcommon-dev
+      - python3
+      - gzip
+      - scdoc
+    state: present
+  become: true
+
+- name: "Alacritty | Install"
+  when: not alacritty_check.stat.exists
+  block:
+  - name: "Alacritty | Clone source code"
+    ansible.builtin.git:
+      repo: https://github.com/alacritty/alacritty.git
+      dest: "{{ ansible_user_dir }}/alacritty"
+
+  - name: "Alacritty | Build Alacritty"
+    ansible.builtin.shell: "cargo build --release"
+    args:
+      chdir: "{{ ansible_user_dir }}/alacritty"
+  notify: "Alacritty | Post installation"
+
+- name: "Alacritty | Ensure .config directory exists"
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/.config/alacritty"
+    state: directory
+    mode: "0755"
+
+- name: "Alacritty | Copy config"
+  ansible.builtin.copy:
+    src: "alacritty.toml"
+    dest: "{{ ansible_user_dir }}/.config/alacritty/alacritty.toml"
+    mode: '0644'
+

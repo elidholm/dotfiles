@@ -1,0 +1,53 @@
+---
+- name: "Neovim | Install dependencies"
+  ansible.builtin.package:
+    name:
+      - base-devel
+      - cmake
+      - curl
+      - ninja
+      - tree-sitter
+      - unzip
+      - ripgrep
+    state: latest
+  become: true
+
+- name: "Neovim | Clone repository"
+  ansible.builtin.git:
+    clone: yes
+    depth: 1
+    dest: "{{ ansible_user_dir }}/github/neovim"
+    force: yes
+    repo: https://github.com/neovim/neovim.git
+    single_branch: yes
+    update: yes
+    version: "{{ neovim_version | default('master') }}"
+  register: clone
+
+- name: "Neovim | Build"
+  make:
+    chdir: "{{ ansible_user_dir }}/github/neovim"
+    params:
+      CMAKE_BUILD_TYPE: RelWithDebInfo
+  when: clone.changed
+
+- name: "Neovim | Install"
+  make:
+    chdir: "{{ ansible_user_dir }}/github/neovim"
+    target: install
+  become: true
+  when: clone.changed
+  notify: "Neovim | Remove build folder"
+
+- name: "Neovim | Config folder"
+  ansible.builtin.file:
+    mode: "0755"
+    path: "{{ ansible_user_dir }}/.config/nvim"
+    state: directory
+
+- name: "Neovim | Create symlink to role files directory"
+  ansible.builtin.file:
+    src: "{{ role_path }}/files"
+    dest: "{{ ansible_user_dir }}/.config/nvim"
+    state: link
+    force: true

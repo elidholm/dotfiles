@@ -1,0 +1,189 @@
+live_config_reload = true
+
+[[colors.indexed_colors]]
+color = "0xcb4b16"
+index = 16
+
+[[colors.indexed_colors]]
+color = "0xd33682"
+index = 17
+
+[[colors.indexed_colors]]
+color = "0x073642"
+index = 18
+
+[[colors.indexed_colors]]
+color = "0x586e75"
+index = 19
+
+[[colors.indexed_colors]]
+color = "0x839496"
+index = 20
+
+[[colors.indexed_colors]]
+color = "0xeee8d5"
+index = 21
+
+[colors.bright]
+black = "0x657b83"
+blue = "0x268bd2"
+cyan = "0x2aa198"
+green = "0x859900"
+magenta = "0x6c71c4"
+red = "0xdc322f"
+white = "0xffffff"
+yellow = "0xb58900"
+
+[colors.cursor]
+cursor = "0xffffff"
+text = "0x002b36"
+
+[colors.normal]
+black = "0x002b36"
+blue = "0x268bd2"
+cyan = "0x2aa198"
+green = "0x859900"
+magenta = "0x6c71c4"
+red = "0xdc322f"
+white = "0xffffff"
+yellow = "0xb58900"
+
+[colors.primary]
+background = "0x002b36"
+foreground = "0xffffff"
+
+[env]
+TERM = "screen-256color"
+
+[font]
+size = 12.0
+
+[font.bold]
+family = "terminal-font"
+style = "Bold"
+
+[font.bold_italic]
+family = "terminal-font"
+style = "Bold Italic"
+
+[font.italic]
+family = "terminal-font"
+style = "Italic"
+
+[font.normal]
+family = "terminal-font"
+style = "Regular"
+
+[font.offset]
+x = 1
+y = 1
+
+[[keyboard.bindings]]
+action = "Paste"
+key = "V"
+mods = "Control|Shift"
+
+[[keyboard.bindings]]
+action = "Copy"
+key = "C"
+mods = "Control|Shift"
+
+[[keyboard.bindings]]
+action = "PasteSelection"
+key = "Insert"
+mods = "Shift"
+
+[[keyboard.bindings]]
+action = "ResetFontSize"
+key = "Key0"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "IncreaseFontSize"
+key = "Equals"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "IncreaseFontSize"
+key = "Plus"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "DecreaseFontSize"
+key = "Minus"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "Paste"
+key = "Paste"
+
+[[keyboard.bindings]]
+action = "Copy"
+key = "Copy"
+
+[[keyboard.bindings]]
+action = "ClearLogNotice"
+key = "L"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "ScrollPageUp"
+key = "PageUp"
+mode = "~Alt"
+mods = "Shift"
+
+[[keyboard.bindings]]
+action = "ScrollPageDown"
+key = "PageDown"
+mode = "~Alt"
+mods = "Shift"
+
+[[keyboard.bindings]]
+action = "ScrollToTop"
+key = "Home"
+mode = "~Alt"
+mods = "Shift"
+
+[[keyboard.bindings]]
+action = "ScrollToBottom"
+key = "End"
+mode = "~Alt"
+mods = "Shift"
+
+[[keyboard.bindings]]
+key = "N"
+mods = "Control|Shift"
+action = "CreateNewWindow"
+
+[scrolling]
+history = 10000
+
+[selection]
+save_to_clipboard = true
+
+[window]
+title = "Alacritty"
+opacity = 0.95
+dynamic_padding = true
+decorations = "None"
+startup_mode = "Maximized"
+
+[window.class]
+general = "Alacritty"
+instance = "Alacritty"
+
+[window.padding]
+x = 1
+y = 0
+
+[shell]
+program = "/usr/bin/bash"
+
+[cursor]
+blink_interval = 500
+blink_timeout = 0
+
+[cursor.style]
+shape= "Block"
+blinking = "Always"
+

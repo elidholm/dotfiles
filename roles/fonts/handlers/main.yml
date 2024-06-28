@@ -1,0 +1,5 @@
+---
+- name: "Fonts | Cleanup downloaded zip file"
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/Meslo.zip"
+    state: absent

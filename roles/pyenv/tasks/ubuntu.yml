@@ -1,0 +1,55 @@
+---
+- name: "Pyenv | Install dependencies"
+  ansible.builtin.apt:
+    name:
+      - make
+      - build-essential
+      - libssl-dev
+      - zlib1g-dev
+      - libbz2-dev
+      - libreadline-dev
+      - libsqlite3-dev
+      - wget
+      - curl
+      - llvm
+      - libncurses5-dev
+      - libncursesw5-dev
+      - xz-utils
+      - tk-dev
+      - libffi-dev
+      - liblzma-dev
+      - python-openssl
+    state: present
+  become: true
+
+- name: "Pyenv | Download Pyenv installer"
+  ansible.builtin.get_url:
+    url: "https://pyenv.run"
+    dest: "/tmp/pyenv-installer"
+    mode: "0755"
+
+- name: "Pyenv | Run Pyenv installer"
+  ansible.builtin.shell: "/tmp/pyenv-installer"
+  args:
+    creates: "{{ ansible_user_dir }}/.pyenv"
+  become: true
+
+- name: "Pyenv | Source .bashrc"
+  ansible.builtin.shell: exec "$SHELL"
+  args:
+    executable: "/bin/bash"
+
+- name: "Pyenv | Install Python versions"
+  ansible.builtin.shell: "pyenv install -v {{ item }}"
+  args:
+    executable: "/bin/bash"
+  with_items:
+    - "3.10.13"
+    - "3.8.18"
+  become: true
+
+- name: "Pyenv | Set global Python version"
+  ansible.builtin.shell: "pyenv global 3.10.13"
+  args:
+    executable: "/bin/bash"
+  become: true

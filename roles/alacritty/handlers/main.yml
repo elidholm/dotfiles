@@ -1,0 +1,93 @@
+---
+- name: "Alacritty | Cleanup rust install script"
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/rustup.sh"
+    state: absent
+  become: true
+
+- name: "Alacritty | Post installation"
+  become: true
+  block:
+    - name: "Alacritty | Ensure Alacritty terminfo is installed"
+      ansible.builtin.shell: infocmp alacritty
+      args:
+        chdir: "{{ ansible_user_dir }}/alacritty"
+      ignore_errors: true
+      register: terminfo_check
+
+    - name: "Alacritty | Install Alacritty terminfo"
+      ansible.builtin.shell: sudo tic -xe alacritty,alacritty-direct extra/alacritty.info
+      args:
+        chdir: "{{ ansible_user_dir }}/alacritty"
+      when: terminfo_check.rc != 0
+
+    - name: "Alacritty | Copy Alacritty binary to PATH"
+      ansible.builtin.copy:
+        src: "{{ ansible_user_dir }}/alacritty/target/release/alacritty"
+        dest: /usr/local/bin/alacritty
+        mode: "0755"
+
+    - name: "Alacritty | Copy Alacritty logo to system icons directory"
+      ansible.builtin.copy:
+        src: "{{ ansible_user_dir }}/alacritty/extra/logo/alacritty-term.svg"
+        dest: /usr/share/pixmaps/Alacritty.svg
+        mode: "0644"
+
+    - name: "Alacritty | Install Alacritty desktop file"
+      ansible.builtin.shell: sudo desktop-file-install {{ ansible_user_dir }}/alacritty/extra/linux/Alacritty.desktop
+
+    - name: "Alacritty | Update desktop database"
+      ansible.builtin.shell: sudo update-desktop-database
+
+    - name: "Alacritty | Create manual page directories"
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        mode: "0755"
+      loop:
+        - /usr/local/share/man/man1
+        - /usr/local/share/man/man5
+
+    - name: "Alacritty | Install manual pages"
+      ansible.builtin.shell: "scdoc < {{ item.src }} | gzip -c | sudo tee {{ item.dest }} > /dev/null"
+      args:
+        chdir: "{{ ansible_user_dir }}/alacritty"
+      loop:
+        - {
+            src: "extra/man/alacritty.1.scd",
+            dest: "/usr/local/share/man/man1/alacritty.1.gz",
+          }
+        - {
+            src: "extra/man/alacritty-msg.1.scd",
+            dest: "/usr/local/share/man/man1/alacritty-msg.1.gz",
+          }
+        - {
+            src: "extra/man/alacritty.5.scd",
+            dest: "/usr/local/share/man/man5/alacritty.5.gz",
+          }
+        - {
+            src: "extra/man/alacritty-bindings.5.scd",
+            dest: "/usr/local/share/man/man5/alacritty-bindings.5.gz",
+          }
+
+    - name: "Alacritty | Create bash_completion directory"
+      ansible.builtin.file:
+        path: "{{ ansible_user_dir }}/.bash_completion"
+        state: directory
+        mode: "0755"
+
+    - name: "Alacritty | Copy bash completion script"
+      ansible.builtin.copy:
+        src: "{{ ansible_user_dir }}/alacritty/extra/completions/alacritty.bash"
+        dest: "{{ ansible_user_dir }}/.bash_completion/alacritty"
+        mode: "0644"
+
+    - name: "Alacritty | Add bash completion to bashrc"
+      ansible.builtin.lineinfile:
+        dest: "{{ ansible_user_dir }}/.bashrc"
+        line: "source $HOME/.bash_completion/alacritty"
+
+    - name: "Alacritty | Cleanup source code folder"
+      ansible.builtin.file:
+        path: "{{ ansible_user_dir }}/alacritty"
+        state: absent

@@ -1,0 +1,47 @@
+---
+- name: "System | Update APT Repos and Upgrade APT Packages"
+  ansible.builtin.apt:
+    update_cache: yes
+    upgrade: full
+    state: latest
+    autoremove: true
+    autoclean: true
+  become: true
+
+- name: "System | Install"
+  ansible.builtin.apt:
+    name:
+      - jq
+      - open-iscsi
+      - autojump
+    state: present
+  become: true
+
+- name: "System | Set sudo"
+  ansible.builtin.template:
+    src: user-sudo.j2
+    dest: "/etc/sudoers.d/{{ ansible_env['USER] }}"
+    mode: "0644"
+  become: true
+
+- name: "System | Ensure group exists for current user"
+  ansible.builtin.group:
+    name: "{{ host_user }}"
+    state: present
+  become: true
+
+- name: "System | Ensure user is in group {{ host_user }}"
+  ansible.builtin.user:
+    name: "{{ host_user }}"
+    group: "{{ host_user }}"
+    append: yes
+  become: true
+
+- name: "System | Set hosts"
+  ansible.builtin.template:
+    dest: "/etc/hosts"
+    src: hosts.j2
+    mode: "0644"
+  become: true
+  when: ansible_host_environment_is_ubuntu_debian
+

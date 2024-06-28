@@ -1,0 +1,6 @@
+---
+- name: "Neovim | Remove build folder"
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/github/neovim"
+    state: absent
+  become: true
