@@ -31,25 +31,25 @@
 - name: "Bash | Configure Starship"
   ansible.builtin.copy:
     src: starship.toml
-    dest: "{{ ansible_user_dir }}/.config/starship.toml"
+    dest: "{{ ansible_user_dir }}/dev_env/.config/starship.toml"
     mode: "0644"
 
 - name: "Bash | Copy .bashrc"
   ansible.builtin.copy:
     src: ".bashrc"
-    dest: "{{ ansible_user_dir }}/.bashrc"
+    dest: "{{ ansible_user_dir }}/dev_env/.bashrc"
     mode: "0644"
 
 - name: "Bash | Copy .bash_profile"
   ansible.builtin.copy:
     src: ".bash_profile"
-    dest: "{{ ansible_user_dir }}/.bash_profile"
+    dest: "{{ ansible_user_dir }}/dev_env/.bash_profile"
     mode: "0644"
 
 - name: "Bash | Copy custom bash config"
   ansible.builtin.copy:
     src: "bash"
-    dest: "{{ ansible_user_dir }}/.config/"
+    dest: "{{ ansible_user_dir }}/dev_env/.config/"
     mode: "0644"
     directory_mode: "0755"
     force: true
@@ -63,12 +63,12 @@
 - name: "Bash | Set public variables"
   ansible.builtin.template:
     src: ".bash_public.j2"
-    dest: "{{ ansible_user_dir }}/.config/bash/.bash_public"
+    dest: "{{ ansible_user_dir }}/dev_env/.config/bash/.bash_public"
     mode: "0644"
 
 - name: "Bash | Set private variables"
   ansible.builtin.template:
     src: ".bash_private.j2"
-    dest: "{{ ansible_user_dir }}/.config/bash/.bash_private"
+    dest: "{{ ansible_user_dir }}/dev_env/.config/bash/.bash_private"
     mode: "0644"
   no_log: true
