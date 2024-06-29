@@ -63,13 +63,13 @@
 
 - name: "Alacritty | Ensure .config directory exists"
   ansible.builtin.file:
-    path: "{{ ansible_user_dir }}/.config/alacritty"
+    path: "{{ ansible_user_dir }}/dev_env/.config/alacritty"
     state: directory
     mode: "0755"
 
 - name: "Alacritty | Copy config"
   ansible.builtin.copy:
     src: "alacritty.toml"
-    dest: "{{ ansible_user_dir }}/.config/alacritty/alacritty.toml"
+    dest: "{{ ansible_user_dir }}/dev_env/.config/alacritty/alacritty.toml"
     mode: '0644'
 
