@@ -7,7 +7,7 @@ default_roles:
   #- docker
   - flatpak
   #- fonts
-  #- fzf
+  - fzf
   #- git
   #- github-cli
   #- go
