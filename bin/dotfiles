@@ -191,10 +191,10 @@ update_ansible_galaxy $ID
 _task "Running playbook"; _task_done
 if [[ -f $VAULT_SECRET ]]; then
     echo -e "${PURPLE}Running playbook with vault"
-    ansible-playbook --diff --extra-vars "@$CONFIG_DIR/values.yml" --vault-password-file "$VAULT_SECRET" "$DOTFILES_DIR/main.yml" "$@"
+    ansible-playbook --vault-password-file "$VAULT_SECRET" "$DOTFILES_DIR/main.yml" "$@"
 else
     echo -e "${PURPLE}Running playbook without vault"
-    ansible-playbook --diff --extra-vars "@$CONFIG_DIR/values.yml" "$DOTFILES_DIR/main.yml" "$@"
+    ansible-playbook "$DOTFILES_DIR/main.yml" "$@"
 fi
 
 popd > /dev/null 2>&1
