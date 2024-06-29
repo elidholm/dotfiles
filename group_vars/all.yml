@@ -1,31 +1,31 @@
 ---
 default_roles:
   - system
-  - alacritty
-  - bash
-  - docker
-  - flatpak
-  - fonts
-  # - fzf
-  - git
-  - github-cli
-  - go
-  # - lazygit
-  - lua
-  - nala
-  - neofetch
-  - neovim
-  - npm
-  - nvm
-  - python
-  - ruby
-  - rust
-  - ssh
-  - sshfs
-  - tldr
-  - tmux
-  - spotify
-  - zoxide
+  #- alacritty
+  #- bash
+  #- docker
+  #- flatpak
+  #- fonts
+  #- fzf
+  #- git
+  #- github-cli
+  #- go
+  #- lazygit
+  #- lua
+  #- nala
+  #- neofetch
+  #- neovim
+  #- npm
+  #- nvm
+  #- python
+  #- ruby
+  #- rust
+  #- ssh
+  #- sshfs
+  #- tldr
+  #- tmux
+  #- spotify
+  #- zoxide
 
 git_user_name: "Edvin Lidholm"
 git_user_email: !vault |
