@@ -13,7 +13,7 @@ default_roles:
   #- lazygit
   #- lua
   #- nala
-  #- neofetch
+  - neofetch
   #- neovim
   #- npm
   #- nvm
