@@ -13,4 +13,3 @@
 - name: Register Ubuntu/Debian State fact
   ansible.builtin.set_fact:
     ansible_host_environment_is_ubuntu_debian: "{{ ansible_host_environment_is_ubuntu_debian.stdout }}"
-
