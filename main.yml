@@ -37,4 +37,4 @@
         loop_var: roles_item
       with_items: "{{ run_roles }}"
       tags:
-        - never
+        - always
