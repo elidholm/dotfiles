@@ -1,8 +1,10 @@
 ---
 - name: Detect Ubuntu or Debian
   ansible.builtin.shell: |
-    if [[ -f /etc/os-release && grep 'ID=ubuntu|ID=debian' -Er /etc/os-release > /dev/null ]]; then
+    if [[ -f /etc/os-release && $(grep 'ID=ubuntu|ID=debian' -Er /etc/os-release) ]]; then
       echo true
+    else
+      echo false
     fi
   register: ansible_host_environment_is_ubuntu_debian
   args:
@@ -13,3 +15,8 @@
 - name: Register Ubuntu/Debian State fact
   ansible.builtin.set_fact:
     ansible_host_environment_is_ubuntu_debian: "{{ ansible_host_environment_is_ubuntu_debian.stdout }}"
+
+
+- name: Show Ubuntu/Debian State
+  ansible.builtin.debug:
+    msg: "Ansible host environment is Ubuntu/Debian: {{ ansible_host_environment_is_ubuntu_debian }}"
