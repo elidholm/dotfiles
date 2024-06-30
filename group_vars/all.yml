@@ -18,14 +18,14 @@ default_roles:
   #- nala
   - neofetch
   - neovim
-  #- npm
-  #- nvm
+  - npm
+  - nvm
   - python
-  #- ruby
+  - ruby
   #- rust
   #- ssh
   #- sshfs
-  #- tldr
+  - tldr
   #- tmux
   #- spotify
   - zoxide
