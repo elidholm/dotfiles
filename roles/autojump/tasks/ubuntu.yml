@@ -4,7 +4,7 @@
   ignore_errors: true
 
 - name: "Autojump | Install"
-  when: autojump_check.rc != 0
+  when: autojump_check.rc != 0 and ansible_distribution_version < '21.04'
   block:
     - name: "Autojump | Clone repository from GitHub"
       ansible.builtin.git:

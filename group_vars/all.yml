@@ -2,6 +2,7 @@
 default_roles:
   - system
   - alacritty
+  - autojump
   - bash
   - bat
   #- docker
@@ -26,7 +27,7 @@ default_roles:
   #- tldr
   #- tmux
   #- spotify
-  #- zoxide
+  - zoxide
 
 git_user_name: "Edvin Lidholm"
 git_user_email: !vault |
