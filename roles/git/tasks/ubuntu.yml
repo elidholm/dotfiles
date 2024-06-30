@@ -12,12 +12,6 @@
     scope: global
     value: true
 
-- name: "Git | Set init.defaultBranch"
-  community.general.git_config:
-    name: init.defaultBranch
-    scope: global
-    value: main
-
 - name: "Git | Set pull.rebase"
   community.general.git_config:
     name: pull.rebase
@@ -54,3 +48,28 @@
     name: alias.uncommit
     scope: global
     value: "reset HEAD^"
+
+- name: "Git | Set alias.last"
+  community.general.git_config:
+    name: alias.last
+    scope: global
+    value: "log -1 HEAD"
+
+- name: "Git | Set alias.pop"
+  community.general.git_config:
+    name: alias.pop
+    scope: global
+    value: "stash pop"
+
+- name: "Git | Set alias.del"
+  community.general.git_config:
+    name: alias.del
+    scope: global
+    value: "branch -D"
+
+- name: "Git | Set editor to nvim"
+  community.general.git_config:
+    name: core.editor
+    scope: global
+    value: "nvim"
+
