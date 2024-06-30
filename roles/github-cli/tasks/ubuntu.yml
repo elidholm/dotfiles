@@ -15,7 +15,7 @@
 
 - name: "Github CLI | Add Github’s stable repository"
   ansible.builtin.apt_repository:
-    repo: deb [arch={{ dpkg_architecture.stdout }} signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] ttps://cli.github.com/packages stable main
+    repo: deb [arch={{ dpkg_architecture.stdout }} signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main
     mode: "0644"
   become: true
 

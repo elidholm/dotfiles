@@ -11,7 +11,7 @@ default_roles:
   - fonts
   - fzf
   #- git
-  #- github-cli
+  - github-cli
   #- go
   #- lazygit
   #- lua
