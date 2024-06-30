@@ -3,15 +3,16 @@
   apt:
     update_cache: true
   become: true
+  changed_when: false
 
 - name: "Lua | Install Lua"
   ansible.builtin.apt:
-    name: "{{ item }}"
+    name:
+      - lua5.3
+      - luarocks
+      - luajit
+    state: latest
   become: true
-  loop:
-    - lua5.3
-    - luarocks
-    - luajit
 
 - name: "Lua | Gather installed lua rocks"
   ansible.builtin.command: luarocks list
