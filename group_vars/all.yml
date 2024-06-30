@@ -17,10 +17,10 @@ default_roles:
   - lua
   #- nala
   - neofetch
-  #- neovim
+  - neovim
   #- npm
   #- nvm
-  #- python
+  - python
   #- ruby
   #- rust
   #- ssh

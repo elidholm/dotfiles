@@ -7,7 +7,6 @@ lsp.ensure_installed({
   'rust_analyzer',
   'pylsp',
   'html',
-  'julials',
   'lua_ls',
   'vimls',
 })

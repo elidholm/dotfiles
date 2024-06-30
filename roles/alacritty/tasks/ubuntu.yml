@@ -28,9 +28,11 @@
 
 - name: "Alacritty | Set Rust to stable version"
   ansible.builtin.shell: "rustup override set stable"
+  changed_when: false
 
 - name: "Alacritty | Update Rust stable version"
   ansible.builtin.shell: "rustup update stable"
+  changed_when: false
 
 - name: "Alacritty | Install dependencies"
   ansible.builtin.apt:

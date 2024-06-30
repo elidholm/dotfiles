@@ -43,7 +43,7 @@
   ansible.builtin.shell: "pyenv install -v {{ item }}"
   args:
     executable: "/bin/bash"
-  with_items:
+  loop:
     - "3.10.13"
     - "3.8.18"
   become: true
