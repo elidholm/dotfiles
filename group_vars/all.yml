@@ -5,7 +5,8 @@ default_roles:
   - autojump
   - bash
   - bat
-  #- docker
+  - btop
+  - docker
   - flatpak
   #- fonts
   - fzf
