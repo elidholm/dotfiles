@@ -8,7 +8,7 @@ default_roles:
   - btop
   - docker
   - flatpak
-  #- fonts
+  - fonts
   - fzf
   #- git
   #- github-cli
