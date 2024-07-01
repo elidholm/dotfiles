@@ -15,6 +15,14 @@
     force: true
   become: true
 
+- name: "Bash | Create symlink to .inputrc"
+  ansible.builtin.file:
+    src: "{{ role_path }}/files/.inputrc"
+    dest: "{{ ansible_user_dir }}/.inputrc"
+    state: link
+    force: true
+  become: true
+
 - name: "Bash | Copy custom bash config"
   ansible.builtin.copy:
     src: "bash"
