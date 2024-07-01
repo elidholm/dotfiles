@@ -71,8 +71,8 @@
 
 - name: "Alacritty | Create symlink to Alacritty config"
   ansible.builtin.file:
-    src: "{{ role_path }}/files"
-    dest: "{{ ansible_user_dir }}/dev_env/.config/alacritty"
+    src: "{{ role_path }}/files/alacritty.toml"
+    dest: "{{ ansible_user_dir }}/dev_env/.config/alacritty/alacritty.toml"
     state: link
     force: true
 

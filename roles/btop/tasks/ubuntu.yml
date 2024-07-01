@@ -15,8 +15,8 @@
 
 - name: "Btop | Create symlink to btop config"
   ansible.builtin.file:
-    src: "{{ role_path }}/files"
-    dest: "{{ ansible_user_dir }}/dev_env/.config/btop"
+    src: "{{ role_path }}/files/btop.conf"
+    dest: "{{ ansible_user_dir }}/dev_env/.config/btop/btop.conf"
     state: link
     force: true
 

@@ -13,8 +13,8 @@
 
 - name: "Neofetch | Create symlink to Neofetch config"
   ansible.builtin.file:
-    src: "{{ role_path }}/files"
-    dest: "{{ ansible_user_dir }}/dev_env/.config/neofetch"
+    src: "{{ role_path }}/files/config.conf"
+    dest: "{{ ansible_user_dir }}/dev_env/.config/neofetch/config.conf"
     state: link
     force: true
 
