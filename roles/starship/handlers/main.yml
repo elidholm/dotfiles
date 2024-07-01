@@ -1,9 +1,4 @@
 ---
-- name: Remove Starship install script
-  ansible.builtin.file:
-    path: /tmp/starship.install.sh
-    state: absent
-
 - name: Bash | Cleanup Starship install script
   ansible.builtin.file:
     path: /{{ ansible_user_dir }}/starship.install.sh
