@@ -13,7 +13,7 @@ default_roles:
   - git
   - github-cli
   #- go
-  #- lazygit
+  - lazygit
   - lua
   - neofetch
   - neovim

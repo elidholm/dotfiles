@@ -1,0 +1,12 @@
+---
+- name: "Lazygit | Cleanup downloaded lazygit tar"
+  ansible.builtin.file:
+    path: "/tmp/{{ lazygit_file }}.tar.gz"
+    state: absent
+  become: true
+
+- name: "Lazygit | Remove extracted lazygit directory"
+  ansible.builtin.file:
+    path: /tmp/lazygit
+    state: absent
+  become: true
