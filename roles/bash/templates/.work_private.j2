@@ -1,0 +1,6 @@
+{% if work_env.private is defined %}
+{% for key, value in work_env.private.items() %}
+export {{ key }}="{{ value | trim }}"
+{% endfor %}
+{% endif %}
+

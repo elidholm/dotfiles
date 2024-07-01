@@ -70,6 +70,14 @@ if [[ -f "$HOME/.config/bash/.bash_public" ]]; then
   source "$HOME/.config/bash/.bash_public"
 fi
 
+if [[ -f "$HOME/.config/bash/.work_private" ]]; then
+  source "$HOME/.config/bash/.work_private"
+fi
+
+if [[ -f "$HOME/.config/bash/.work_public" ]]; then
+  source "$HOME/.config/bash/.work_public"
+fi
+
 for file in "$HOME"/.config/bash/*.sh; do
   source "$file"
 done
