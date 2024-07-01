@@ -40,7 +40,7 @@
     executable: "/bin/bash"
 
 - name: "Pyenv | Install Python versions"
-  ansible.builtin.shell: "pyenv install -v {{ item }}"
+  ansible.builtin.shell: "pyenv install -sv {{ item }}"
   args:
     executable: "/bin/bash"
   loop:

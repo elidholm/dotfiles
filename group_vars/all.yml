@@ -15,11 +15,11 @@ default_roles:
   #- go
   #- lazygit
   - lua
-  #- nala
   - neofetch
   - neovim
   - npm
   - nvm
+  - pyenv
   - python
   - ripgrep
   - ruby
