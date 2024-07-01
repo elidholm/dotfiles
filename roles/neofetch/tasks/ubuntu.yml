@@ -17,4 +17,3 @@
     dest: "{{ ansible_user_dir }}/dev_env/.config/neofetch/config.conf"
     state: link
     force: true
-

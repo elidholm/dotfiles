@@ -29,7 +29,7 @@ default_roles:
   - sshfs
   - starship
   - tldr
-  #- tmux
+  - tmux
   - zoxide
 
 git_user_name: "Edvin Lidholm"
