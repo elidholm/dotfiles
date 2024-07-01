@@ -5,6 +5,7 @@
     dest: "{{ ansible_user_dir }}/.bashrc"
     state: link
     force: true
+  become: true
 
 - name: "Bash | Create symlink to .bash_profile"
   ansible.builtin.file:
@@ -12,6 +13,7 @@
     dest: "{{ ansible_user_dir }}/.bash_profile"
     state: link
     force: true
+  become: true
 
 - name: "Bash | Copy custom bash config"
   ansible.builtin.copy:
@@ -20,6 +22,7 @@
     mode: "0644"
     directory_mode: "0755"
     force: true
+  become: true
 
 - name: "Bash | Set default terminal"
   user:
@@ -32,6 +35,7 @@
     src: ".bash_public.j2"
     dest: "{{ ansible_user_dir }}/.config/bash/.bash_public"
     mode: "0644"
+  become: true
 
 - name: "Bash | Set private variables"
   ansible.builtin.template:
@@ -39,6 +43,7 @@
     dest: "{{ ansible_user_dir }}/.config/bash/.bash_private"
     mode: "0644"
   no_log: true
+  become: true
 
 - name: "Bash | Set work evironment variables"
   when: work_env is defined
@@ -55,3 +60,4 @@
         dest: "{{ ansible_user_dir }}/.config/bash/.work_private"
         mode: "0644"
       no_log: true
+  become: true

@@ -34,5 +34,6 @@
     dest: "{{ ansible_user_dir }}/.config/starship.toml"
     state: link
     force: true
+  become: true
 
 

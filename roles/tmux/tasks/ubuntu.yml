@@ -16,3 +16,4 @@
     dest: "{{ ansible_user_dir }}/.tmux.conf"
     state: link
     force: true
+  become: true

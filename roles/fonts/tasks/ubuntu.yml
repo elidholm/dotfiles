@@ -55,6 +55,7 @@
     dest: "{{ ansible_user_dir }}/.config/fontconfig/conf.d/01-emoji.conf"
     state: link
     force: true
+  become: true
 
 - name: "Fonts | Update font cache"
   ansible.builtin.shell: "fc-cache -fv"
