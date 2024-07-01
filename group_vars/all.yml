@@ -12,7 +12,6 @@ default_roles:
   - fzf
   - git
   - github-cli
-  #- go
   - lazygit
   - lua
   - neofetch

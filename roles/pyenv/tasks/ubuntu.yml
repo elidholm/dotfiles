@@ -38,6 +38,7 @@
   ansible.builtin.shell: exec "$SHELL"
   args:
     executable: "/bin/bash"
+  changed_when: false
 
 - name: "Pyenv | Install Python versions"
   ansible.builtin.shell: "pyenv install -sv {{ item }}"
@@ -47,9 +48,11 @@
     - "3.10.13"
     - "3.8.18"
   become: true
+  changed_when: false
 
 - name: "Pyenv | Set global Python version"
   ansible.builtin.shell: "pyenv global 3.10.13"
   args:
     executable: "/bin/bash"
   become: true
+  changed_when: false
