@@ -31,7 +31,7 @@
 - name: "Starship | Create symlink to Starship config"
   ansible.builtin.file:
     src: "{{ role_path }}/files/starship.toml"
-    dest: "{{ ansible_user_dir }}/dev_env/.config/starship.toml"
+    dest: "{{ ansible_user_dir }}/.config/starship.toml"
     state: link
     force: true
 

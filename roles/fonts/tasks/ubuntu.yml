@@ -38,20 +38,20 @@
     state: directory
     mode: "0755"
   loop:
-    - "{{ ansible_user_dir }}/dev_env/.config/fontconfig"
-    - "{{ ansible_user_dir }}/dev_env/.config/fontconfig/conf.d"
+    - "{{ ansible_user_dir }}/.config/fontconfig"
+    - "{{ ansible_user_dir }}/.config/fontconfig/conf.d"
 
 - name: "fonts | Create symlink to fontconfig config"
   ansible.builtin.file:
     src: "{{ role_path }}/files/fonts.conf"
-    dest: "{{ ansible_user_dir }}/dev_env/.config/fontconfig/fonts.conf"
+    dest: "{{ ansible_user_dir }}/.config/fontconfig/fonts.conf"
     state: link
     force: true
 
 - name: "fonts | Create symlink to emoji fontconfig config"
   ansible.builtin.file:
     src: "{{ role_path }}/files/01-emoji.conf"
-    dest: "{{ ansible_user_dir }}/dev_env/.config/fontconfig/conf.d/01-emoji.conf"
+    dest: "{{ ansible_user_dir }}/.config/fontconfig/conf.d/01-emoji.conf"
     state: link
     force: true
 

@@ -13,4 +13,5 @@ alias vimsetup="cd \$HOME/.config/nvim"
 alias bconf="nvim ~/.bashrc"
 alias nconf="nvim ~/.config/nvim"
 alias tconf="nvim ~/.tmux.conf"
+alias aconf="nvim ~/.config/alacritty/alacritty.toml"
 

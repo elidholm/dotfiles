@@ -2,21 +2,21 @@
 - name: "Bash | Create symlink to .bashrc"
   ansible.builtin.file:
     src: "{{ role_path }}/files/.bashrc"
-    dest: "{{ ansible_user_dir }}/dev_env/.bashrc"
+    dest: "{{ ansible_user_dir }}/.bashrc"
     state: link
     force: true
 
 - name: "Bash | Create symlink to .bash_profile"
   ansible.builtin.file:
     src: "{{ role_path }}/files/.bash_profile"
-    dest: "{{ ansible_user_dir }}/dev_env/.bash_profile"
+    dest: "{{ ansible_user_dir }}/.bash_profile"
     state: link
     force: true
 
 - name: "Bash | Copy custom bash config"
   ansible.builtin.copy:
     src: "bash"
-    dest: "{{ ansible_user_dir }}/dev_env/.config/"
+    dest: "{{ ansible_user_dir }}/.config/"
     mode: "0644"
     directory_mode: "0755"
     force: true
@@ -30,13 +30,13 @@
 - name: "Bash | Set public variables"
   ansible.builtin.template:
     src: ".bash_public.j2"
-    dest: "{{ ansible_user_dir }}/dev_env/.config/bash/.bash_public"
+    dest: "{{ ansible_user_dir }}/.config/bash/.bash_public"
     mode: "0644"
 
 - name: "Bash | Set private variables"
   ansible.builtin.template:
     src: ".bash_private.j2"
-    dest: "{{ ansible_user_dir }}/dev_env/.config/bash/.bash_private"
+    dest: "{{ ansible_user_dir }}/.config/bash/.bash_private"
     mode: "0644"
   no_log: true
 
@@ -46,12 +46,12 @@
     - name: "Bash | Work | Set public variables"
       ansible.builtin.template:
         src: ".work_public.j2"
-        dest: "{{ ansible_user_dir }}/dev_env/.config/bash/.work_public"
+        dest: "{{ ansible_user_dir }}/.config/bash/.work_public"
         mode: "0644"
 
     - name: "Bash | Work | Set private variables"
       ansible.builtin.template:
         src: ".work_private.j2"
-        dest: "{{ ansible_user_dir }}/dev_env/.config/bash/.work_private"
+        dest: "{{ ansible_user_dir }}/.config/bash/.work_private"
         mode: "0644"
       no_log: true

@@ -17,13 +17,13 @@ generate_log() {
 # Usage: _task "installing kubectl"
 # Returns: nothing
 function _task {
-  # if _task is called while a task was set, complete the previous
-  if [[ $TASK != "" ]]; then
-    printf "%s%s [✓]  %s%s\n" "$OVERWRITE" "$LGREEN" "$LGREEN" "$TASK"
-  fi
-  # set new task title and print
-  TASK="$*"
-  printf "%s [ ]  %s \n%s" "$LBLACK" "$TASK" "$LRED"
+    # if _task is called while a task was set, complete the previous
+    if [[ $TASK != "" ]]; then
+      printf "${OVERWRITE} [${CHECK_MARK}]  ${GREEN}%s\n" "${TASK}"
+    fi
+    # set new task title and print
+    TASK="$*"
+    printf "${NC} [ ]  ${LIGHTGRAY}%s \n${NC}" "${TASK}"
 }
 
 # _clear_task clears the current task
@@ -35,7 +35,7 @@ function _clear_task {
 # _task_done completes the current task and clears the task
 # this is used to mark previous TASK as complete for this session.
 function _task_done {
-  printf "%s%s [✓]  %s%s\n" "$OVERWRITE" "$LGREEN" "$LGREEN" "$TASK"
+  printf "${OVERWRITE}${LGREEN} [${CHECK_MARK}]  ${LGREEN}%s\n" "${TASK}"
   _clear_task
 }
 
@@ -46,20 +46,20 @@ function _task_done {
 # Returns: 0 on success, 1 on failure
 # Note: This function will hide stdout and print stderr on failure
 function _cmd {
-  LOG=$(generate_log)
-  # hide stdout, on error we print and exit
-  if eval "$1" 1> /dev/null 2> "$LOG"; then
+    LOG=$(generate_log)
+    # hide stdout, on error we print and exit
+    if eval "$1" 1> /dev/null 2> "$LOG"; then
+        rm "$LOG"
+        return 0 # success
+    fi
+    # read error from log and add spacing
+    printf "${OVERWRITE} [${X_MARK}]  ${LRED}%s\n" "${TASK}"
+    while read -r line; do
+        printf "      %s\n" "${line}"
+    done < "$LOG"
+    printf "\n"
+    cat "$LOG" >> /tmp/halp.log
     rm "$LOG"
-    return 0 # success
-  fi
-  # read error from log and add spacing
-  printf "%s%s [X]  %s%s\n" "$OVERWRITE" "$LRED" "$TASK" "$LRED"
-  while read -r line; do
-    printf "      %s\n" "$line"
-  done < "$LOG"
-  printf "\n"
-  cat "$LOG" >> /tmp/halp.log
-  rm "$LOG"
-  return 1
+    return 1
 }
 

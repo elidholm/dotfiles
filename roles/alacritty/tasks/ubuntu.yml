@@ -65,14 +65,14 @@
 
 - name: "Alacritty | Ensure .config directory exists"
   ansible.builtin.file:
-    path: "{{ ansible_user_dir }}/dev_env/.config/alacritty"
+    path: "{{ ansible_user_dir }}/.config/alacritty"
     state: directory
     mode: "0755"
 
 - name: "Alacritty | Create symlink to Alacritty config"
   ansible.builtin.file:
     src: "{{ role_path }}/files/alacritty.toml"
-    dest: "{{ ansible_user_dir }}/dev_env/.config/alacritty/alacritty.toml"
+    dest: "{{ ansible_user_dir }}/.config/alacritty/alacritty.toml"
     state: link
     force: true
 

@@ -38,27 +38,22 @@ WARNING="${RED}\xF0\x9F\x9A\xA8${NC}"
 #RIGHT_ANGLE="${GREEN}\xE2\x88\x9F${NC}"
 
 # Paths
-HOME_DIR="$HOME"
 DEBUG=0
-if [ "$1" == "--dry-run" ]; then
-    HOME_DIR="${HOME_DIR}/dev_env"
-    shift
-fi
 if [ "$1" == "--debug" ]; then
     #set -x
     DEBUG=1
     shift
 fi
 if [ "$1" == "--help" ]; then
-    echo "Usage: $0 [--dry-run] [--debug] [--help]"
+    echo "Usage: $0 [--debug] [--help]"
     exit 0
 fi
 
 VAULT_SECRET="$HOME/.ansible-vault/vault.secret"
 DOTFILES_DIR="$HOME/.dotfiles-test"
-SSH_DIR="$HOME_DIR/.ssh"
-IS_FIRST_RUN="$HOME_DIR/.dotfiles_run"
-DOTFILES_LOG="$HOME_DIR/.dotfiles.log"
+SSH_DIR="$HOME/.ssh"
+IS_FIRST_RUN="$HOME/.dotfiles_run"
+DOTFILES_LOG="$HOME/.dotfiles.log"
 
 # _header colorize the given argument with spacing
 function _task {

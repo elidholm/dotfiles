@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 
-alias supdate="sudo nala update && sudo nala upgrade -y && sudo nala autoremove -y"
-alias supgrade="sudo nala upgrade -y"
-alias sinstall="sudo nala install"
-alias sautoremove="sudo nala autoremove -y"
-alias spurge="sudo nala purge"
+alias supdate="sudo aptitude update"
+alias supgrade="sudo aptitude upgrade"
+alias sinstall="sudo aptitude install"
+alias sautoremove="sudo apt autoremove"
+alias sautoclean="sudo aptitude autoclean"
+alias spurge="sudo aptitude purge"
 
 alias df="df -h"
 alias tree='tree -CAhF --dirsfirst'
@@ -13,7 +14,7 @@ alias mountedinfo='df -hT'
 alias countfiles="for t in files links directories; do echo \`find . -type \${t:0:1} | wc -l\` \$t; done 2> /dev/null"
 alias checkcommand="type -t"
 
-alias cat="batcat"
+alias cat="bat"
 alias h="history | grep "
 alias f="find . | grep "
 alias grep="grep --color=always"
