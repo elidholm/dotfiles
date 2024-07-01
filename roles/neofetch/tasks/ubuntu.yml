@@ -11,8 +11,10 @@
     state: directory
     mode: "0755"
 
-- name: "Neofetch | Copy config file"
-  ansible.builtin.copy:
-    src: config.conf
-    dest: "{{ ansible_user_dir }}/dev_env/.config/neofetch/config.conf"
-    mode: "0644"
+- name: "Neofetch | Create symlink to Neofetch config"
+  ansible.builtin.file:
+    src: "{{ role_path }}/files"
+    dest: "{{ ansible_user_dir }}/dev_env/.config/neofetch"
+    state: link
+    force: true
+

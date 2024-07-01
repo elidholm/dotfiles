@@ -55,8 +55,8 @@ if [ "$1" == "--help" ]; then
 fi
 
 CONFIG_DIR="$HOME_DIR/.config/dotfiles"
-VAULT_SECRET="$HOME_DIR/.ansible-vault/vault.secret"
-DOTFILES_DIR="$HOME_DIR/dev/.dotfiles_wip"
+VAULT_SECRET="$HOME/.ansible-vault/vault.secret"
+DOTFILES_DIR="$HOME/dev/.dotfiles_wip"
 SSH_DIR="$HOME_DIR/.ssh"
 IS_FIRST_RUN="$HOME_DIR/.dotfiles_run"
 DOTFILES_LOG="$HOME_DIR/.dotfiles.log"
@@ -177,13 +177,13 @@ if ! [[ -f "$SSH_DIR/authorized_keys" ]]; then
 fi
 
 # Clone repository
-#if ! [[ -d "$DOTFILES_DIR" ]]; then
-#    _task "Cloning repository"
-#    _cmd "git clone --quiet https://github.com/elidholm/dotfiles_ansible.git $DOTFILES_DIR"
-#else
-#    _task "Updating repository"
-#    _cmd "git -C $DOTFILES_DIR pull --quiet"
-#fi
+if ! [[ -d "$DOTFILES_DIR" ]]; then
+    _task "Cloning repository"
+    _cmd "git clone --quiet https://github.com/elidholm/dotfiles_ansible.git $DOTFILES_DIR"
+else
+    _task "Updating repository"
+    _cmd "git -C $DOTFILES_DIR pull --quiet"
+fi
 
 pushd "$DOTFILES_DIR" > /dev/null 2>&1
 update_ansible_galaxy $ID

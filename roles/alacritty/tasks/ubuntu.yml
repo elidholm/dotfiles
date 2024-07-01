@@ -69,9 +69,10 @@
     state: directory
     mode: "0755"
 
-- name: "Alacritty | Copy config"
-  ansible.builtin.copy:
-    src: "alacritty.toml"
-    dest: "{{ ansible_user_dir }}/dev_env/.config/alacritty/alacritty.toml"
-    mode: '0644'
+- name: "Alacritty | Create symlink to Alacritty config"
+  ansible.builtin.file:
+    src: "{{ role_path }}/files"
+    dest: "{{ ansible_user_dir }}/dev_env/.config/alacritty"
+    state: link
+    force: true
 

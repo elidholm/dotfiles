@@ -28,9 +28,11 @@
       ansible.builtin.script:
         cmd: "{{ ansible_user_dir }}/starship.install.sh"
 
-- name: "Starship | Configure Starship"
-  ansible.builtin.copy:
-    src: starship.toml
+- name: "Starship | Create symlink to Starship config"
+  ansible.builtin.file:
+    src: "{{ role_path }}/files/starship.toml"
     dest: "{{ ansible_user_dir }}/dev_env/.config/starship.toml"
-    mode: "0644"
+    state: link
+    force: true
+
 

@@ -13,8 +13,10 @@
     - "{{ ansible_user_dir }}/dev_env/.config"
     - "{{ ansible_user_dir }}/dev_env/.config/btop"
 
-- name: "Btop | Copy btop config"
-  ansible.builtin.copy:
-    src: btop.conf
-    dest: "{{ ansible_user_dir }}/dev_env/.config/btop/btop.conf"
-    mode: "0644"
+- name: "Btop | Create symlink to btop config"
+  ansible.builtin.file:
+    src: "{{ role_path }}/files"
+    dest: "{{ ansible_user_dir }}/dev_env/.config/btop"
+    state: link
+    force: true
+

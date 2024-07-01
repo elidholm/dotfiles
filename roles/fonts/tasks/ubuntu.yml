@@ -41,17 +41,19 @@
     - "{{ ansible_user_dir }}/dev_env/.config/fontconfig"
     - "{{ ansible_user_dir }}/dev_env/.config/fontconfig/conf.d"
 
-- name: "Fonts | Copy fontconfig file"
-  ansible.builtin.copy:
-    src: "fonts.conf"
+- name: "fonts | Create symlink to fontconfig config"
+  ansible.builtin.file:
+    src: "{{ role_path }}/files/fonts.conf"
     dest: "{{ ansible_user_dir }}/dev_env/.config/fontconfig/fonts.conf"
-    mode: "0644"
+    state: link
+    force: true
 
-- name: "Fonts | Copy emoji fontconfig file"
-  ansible.builtin.copy:
-    src: "01-emoji.conf"
+- name: "fonts | Create symlink to emoji fontconfig config"
+  ansible.builtin.file:
+    src: "{{ role_path }}/files/01-emoji.conf"
     dest: "{{ ansible_user_dir }}/dev_env/.config/fontconfig/conf.d/01-emoji.conf"
-    mode: "0644"
+    state: link
+    force: true
 
 - name: "Fonts | Update font cache"
   ansible.builtin.shell: "fc-cache -fv"
