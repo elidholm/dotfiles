@@ -7,6 +7,7 @@
     autoremove: true
     autoclean: true
   become: true
+  changed_when: false
 
 - name: "System | Install"
   ansible.builtin.apt:

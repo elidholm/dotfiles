@@ -21,11 +21,12 @@ default_roles:
   - npm
   - nvm
   - python
+  - ripgrep
   - ruby
   - rust
   - spotify
-  #- ssh
-  #- sshfs
+  - ssh
+  - sshfs
   - starship
   - tldr
   #- tmux
