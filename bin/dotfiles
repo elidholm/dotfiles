@@ -54,9 +54,8 @@ if [ "$1" == "--help" ]; then
     exit 0
 fi
 
-CONFIG_DIR="$HOME_DIR/.config/dotfiles"
 VAULT_SECRET="$HOME/.ansible-vault/vault.secret"
-DOTFILES_DIR="$HOME/dev/.dotfiles_wip"
+DOTFILES_DIR="$HOME/.dotfiles-test"
 SSH_DIR="$HOME_DIR/.ssh"
 IS_FIRST_RUN="$HOME_DIR/.dotfiles_run"
 DOTFILES_LOG="$HOME_DIR/.dotfiles.log"
