@@ -50,7 +50,7 @@ if [ "$1" == "--help" ]; then
 fi
 
 VAULT_SECRET="$HOME/.ansible-vault/vault.secret"
-DOTFILES_DIR="$HOME/.dotfiles-test"
+DOTFILES_DIR="$HOME/.dotfiles"
 SSH_DIR="$HOME/.ssh"
 IS_FIRST_RUN="$HOME/.dotfiles_run"
 DOTFILES_LOG="$HOME/.dotfiles.log"
