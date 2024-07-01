@@ -19,4 +19,5 @@
     dest: "{{ ansible_user_dir }}/.config/btop/btop.conf"
     state: link
     force: true
+  become: true
 
