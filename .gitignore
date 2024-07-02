@@ -1,3 +1,3 @@
 /callback_plugins/__pycache__
-*/plugin/packer_compiled.lua
+roles/neovim/files/plugin/
 group_vars/work.yml
