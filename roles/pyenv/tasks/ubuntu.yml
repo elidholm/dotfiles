@@ -35,6 +35,7 @@
         url: "https://pyenv.run"
         dest: "/tmp/pyenv-installer"
         mode: "0755"
+      nofity: "Pyenv | Cleanup pyenv installer"
 
     - name: "Pyenv | Run Pyenv installer"
       ansible.builtin.shell: "/tmp/pyenv-installer"

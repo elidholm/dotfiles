@@ -3,3 +3,4 @@
   ansible.builtin.file:
     path: /{{ ansible_user_dir }}/starship.install.sh
     state: absent
+  become: true

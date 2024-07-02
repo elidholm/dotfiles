@@ -3,3 +3,4 @@
   ansible.builtin.file:
     path: "{{ ansible_user_dir }}/Meslo.zip"
     state: absent
+  become: true
