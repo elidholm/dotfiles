@@ -13,24 +13,35 @@
     state: present
   become: true
 
-- name: "Fonts | Download nerd-fonts"
-  ansible.builtin.get_url:
-    url: https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Meslo.zip
-    dest: "{{ ansible_user_dir }}/Meslo.zip"
-  notify:
-    - "Fonts | Cleanup downloaded zip file"
-
-- name: "Fonts | Create fonts directory"
+- name: "Fonts | Ensure fonts directory"
   ansible.builtin.file:
     path: "{{ ansible_user_dir }}/.local/share/fonts"
     state: directory
     mode: "0755"
+  become: true
 
-- name: "Fonts | Unzip nerd-fonts"
-  ansible.builtin.unarchive:
-    src: "{{ ansible_user_dir }}/Meslo.zip"
-    dest: "{{ ansible_user_dir }}/.local/share/fonts"
-    remote_src: true
+- name: "Fonts | Check if nerd-fonts are installed"
+  ansible.builtin.shell: "fc-list | grep -i 'MesloLGS NF'"
+  register: nerd_fonts_installed
+  changed_when: false
+
+- name: "Fonts | Install nerd-fonts"
+  when: nerd_fonts_installed.rc != 0
+  block:
+    - name: "Fonts | Download nerd-fonts"
+      ansible.builtin.get_url:
+        url: https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Meslo.zip
+        dest: "{{ ansible_user_dir }}/Meslo.zip"
+      notify:
+        - "Fonts | Cleanup downloaded zip file"
+
+    - name: "Fonts | Unzip nerd-fonts"
+      ansible.builtin.unarchive:
+        src: "{{ ansible_user_dir }}/Meslo.zip"
+        dest: "{{ ansible_user_dir }}/.local/share/fonts"
+        remote_src: true
+  become: true
+
 
 - name: "Fonts | Ensure config directories exist"
   ansible.builtin.file:
