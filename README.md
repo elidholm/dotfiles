@@ -1,8 +1,8 @@
 # Dotfiles with Ansible
 <p align="center">
-    <a href="https://github.com/elidholm/dotfiles_ansible/actions/workflows/ansible-lint.yml"><img align="center" src="https://github.com/elidholm/dotfiles_ansible/actions/workflows/ansible-lint.yml/badge.svg"/></a>
-    <a href="https://github.com/elidholm/dotfiles_ansible/issues"><img align="center" src="https://img.shields.io/github/issues/elidholm/dotfiles_ansible"/></a>
-    <a href="https://github.com/elidholm/dotfiles_ansible/commits/main"><img align="center" src="https://img.shields.io/github/commit-activity/m/elidholm/dotfiles_ansible" alt="commit frequency"></a>
+    <a href="https://github.com/elidholm/dotfiles/actions/workflows/ansible-lint.yml"><img align="center" src="https://github.com/elidholm/dotfiles/actions/workflows/ansible-lint.yml/badge.svg"/></a>
+    <a href="https://github.com/elidholm/dotfiles/issues"><img align="center" src="https://img.shields.io/github/issues/elidholm/dotfiles"/></a>
+    <a href="https://github.com/elidholm/dotfiles/commits/main"><img align="center" src="https://img.shields.io/github/commit-activity/m/elidholm/dotfiles" alt="commit frequency"></a>
 </p>
 
 ---
@@ -185,12 +185,12 @@ This shell script is also used to initialize your environment after installing `
 > NOTE: You must follow required steps before running this command or things may become unusable until fixed.
 
 ```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/elidholm/dotfiles_ansible/master/bin/dotfiles)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/elidholm/dotfiles/master/bin/dotfiles)"
 ```
 
 If you want to run only a specific role, you can specify the following bash command:
 ```bash
-curl -fsSL https://raw.githubusercontent.com/elidholm/dotfiles_ansible/master/bin/dotfiles | bash -s -- --tags comma,seperated,tags
+curl -fsSL https://raw.githubusercontent.com/elidholm/dotfiles/master/bin/dotfiles | bash -s -- --tags comma,seperated,tags
 ```
 
 ### Update
