@@ -1,5 +1,5 @@
 - name: "Autojump | Check if autojump is installed"
-  command: "type -P autojump"
+  command: "which autojump"
   register: autojump_check
   ignore_errors: true
 

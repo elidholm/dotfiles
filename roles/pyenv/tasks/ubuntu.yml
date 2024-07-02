@@ -23,9 +23,9 @@
   become: true
 
 - name: "Pyenv | Check if pyenv is installed"
-  command: "type -P pyenv"
+  ansible.builtin.command: "which pyenv"
   register: pyenv_check
-  ignore_errors: true
+  changed_when: false
 
 - name: "Pyenv | Install"
   when: pyenv_check.rc != 0
@@ -35,7 +35,7 @@
         url: "https://pyenv.run"
         dest: "/tmp/pyenv-installer"
         mode: "0755"
-      nofity: "Pyenv | Cleanup pyenv installer"
+      notify: "Pyenv | Cleanup pyenv installer"
 
     - name: "Pyenv | Run Pyenv installer"
       ansible.builtin.shell: "/tmp/pyenv-installer"
