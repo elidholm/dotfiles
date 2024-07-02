@@ -45,5 +45,4 @@
     src: hosts.j2
     mode: "0644"
   become: true
-  when: ansible_host_environment_is_ubuntu_debian
 
