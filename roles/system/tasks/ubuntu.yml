@@ -15,6 +15,7 @@
       - jq
       - open-iscsi
       - autojump
+      - aptitude
     state: present
   become: true
 
