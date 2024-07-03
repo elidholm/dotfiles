@@ -1,5 +1,5 @@
 - name: "Autojump | Check if autojump is installed"
-  ansible.buitin.command: "which autojump"
+  ansible.builtin.command: "which autojump"
   register: autojump_check
   ignore_errors: true
   changed_when: false
