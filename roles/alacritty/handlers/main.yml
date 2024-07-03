@@ -9,17 +9,20 @@
   become: true
   block:
     - name: "Alacritty | Ensure Alacritty terminfo is installed"
-      ansible.builtin.shell: infocmp alacritty
+      ansible.builtin.command: infocmp alacritty
       args:
         chdir: "{{ ansible_user_dir }}/alacritty"
       ignore_errors: true
       register: terminfo_check
+      changed_when: false
 
     - name: "Alacritty | Install Alacritty terminfo"
-      ansible.builtin.shell: sudo tic -xe alacritty,alacritty-direct extra/alacritty.info
+      ansible.builtin.command: sudo tic -xe alacritty,alacritty-direct extra/alacritty.info
       args:
         chdir: "{{ ansible_user_dir }}/alacritty"
+      register: terminfo_installation
       when: terminfo_check.rc != 0
+      changed_when: terminfo_installation.rc == 0
 
     - name: "Alacritty | Copy Alacritty binary to PATH"
       ansible.builtin.copy:
@@ -34,10 +37,14 @@
         mode: "0644"
 
     - name: "Alacritty | Install Alacritty desktop file"
-      ansible.builtin.shell: sudo desktop-file-install {{ ansible_user_dir }}/alacritty/extra/linux/Alacritty.desktop
+      ansible.builtin.command: sudo desktop-file-install {{ ansible_user_dir }}/alacritty/extra/linux/Alacritty.desktop
+      register: desktop_file_installation
+      changed_when: desktop_file_installation.rc == 0
 
     - name: "Alacritty | Update desktop database"
-      ansible.builtin.shell: sudo update-desktop-database
+      ansible.builtin.command: sudo update-desktop-database
+      register: desktop_database_update
+      changed_when: desktop_database_update.rc == 0
 
     - name: "Alacritty | Create manual page directories"
       ansible.builtin.file:
@@ -49,26 +56,30 @@
         - /usr/local/share/man/man5
 
     - name: "Alacritty | Install manual pages"
-      ansible.builtin.shell: "scdoc < {{ item.src }} | gzip -c | sudo tee {{ item.dest }} > /dev/null"
+      ansible.builtin.shell:
+        cmd: "set -o pipefail && scdoc < {{ item.src }} | gzip -c | sudo tee {{ item.dest }} > /dev/null"
+        executable: bin/bash
       args:
         chdir: "{{ ansible_user_dir }}/alacritty"
       loop:
         - {
-            src: "extra/man/alacritty.1.scd",
-            dest: "/usr/local/share/man/man1/alacritty.1.gz",
-          }
+          src: "extra/man/alacritty.1.scd",
+          dest: "/usr/local/share/man/man1/alacritty.1.gz",
+        }
         - {
-            src: "extra/man/alacritty-msg.1.scd",
-            dest: "/usr/local/share/man/man1/alacritty-msg.1.gz",
-          }
+          src: "extra/man/alacritty-msg.1.scd",
+          dest: "/usr/local/share/man/man1/alacritty-msg.1.gz",
+        }
         - {
-            src: "extra/man/alacritty.5.scd",
-            dest: "/usr/local/share/man/man5/alacritty.5.gz",
-          }
+          src: "extra/man/alacritty.5.scd",
+          dest: "/usr/local/share/man/man5/alacritty.5.gz",
+        }
         - {
-            src: "extra/man/alacritty-bindings.5.scd",
-            dest: "/usr/local/share/man/man5/alacritty-bindings.5.gz",
-          }
+          src: "extra/man/alacritty-bindings.5.scd",
+          dest: "/usr/local/share/man/man5/alacritty-bindings.5.gz",
+        }
+      register: manual_installation
+      changed_when: manual_installation.rc == 0
 
     - name: "Alacritty | Create bash_completion directory"
       ansible.builtin.file:
@@ -85,7 +96,7 @@
     - name: "Alacritty | Add bash completion to bashrc"
       ansible.builtin.lineinfile:
         dest: "{{ ansible_user_dir }}/.bashrc"
-        line: "source $HOME/.bash_completion/alacritty"
+        line: "source \"$HOME/.bash_completion.d/alacritty\""
 
     - name: "Alacritty | Cleanup source code folder"
       ansible.builtin.file:
