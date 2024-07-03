@@ -14,7 +14,9 @@
     tldr_latest_version: "{{ tldr_latest_release.stdout | default('') }}"
 
 - name: "Tldr | Getting version information"
-  ansible.builtin.command: echo "v$(/usr/local/bin/tldr -v)"
+  ansible.builtin.shell: echo "v$(/usr/local/bin/tldr -v)"
+  args:
+    executable: /bin/bash
   register: current_tldr_version
   changed_when: false
   failed_when: false
