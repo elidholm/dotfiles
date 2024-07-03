@@ -6,6 +6,8 @@
       grep '"tag_name":' |
       sed -E 's/.*"([^"]+)".*/\1/' |
       sed 's/v//'
+  args:
+    executable: /bin/bash
   register: command_result
   changed_when: false
   failed_when: >

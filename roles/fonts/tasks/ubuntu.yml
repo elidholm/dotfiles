@@ -17,6 +17,8 @@
 
 - name: "Fonts | Check if nerd-fonts are installed"
   ansible.builtin.shell: "set -o pipefail && fc-list | grep -i 'MesloLGS NF'"
+  args:
+    executable: /bin/bash
   register: nerd_fonts_installed
   changed_when: false
 

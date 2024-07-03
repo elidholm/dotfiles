@@ -3,6 +3,8 @@
   ansible.builtin.shell: |
     set -o pipefail
     curl -sL https://nodejs.org/dist/index.json | jq -r '.[] | select(.lts) | .version' | head -n 1
+  args:
+    executable: /bin/bash
   register: nodejs_latest_version
   changed_when: false
 

@@ -56,10 +56,9 @@
         - /usr/local/share/man/man5
 
     - name: "Alacritty | Install manual pages"
-      ansible.builtin.shell:
-        cmd: "set -o pipefail && scdoc < {{ item.src }} | gzip -c | sudo tee {{ item.dest }} > /dev/null"
-        executable: bin/bash
+      ansible.builtin.shell: "set -o pipefail && scdoc < {{ item.src }} | gzip -c | sudo tee {{ item.dest }} > /dev/null"
       args:
+        executable: bin/bash
         chdir: "{{ ansible_user_dir }}/alacritty"
       loop:
         - {
