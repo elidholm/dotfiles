@@ -33,7 +33,7 @@
   become: true
 
 - name: "Bash | Set default terminal"
-  user:
+  ansible.builtin.user:
     name: "{{ host_user }}"
     shell: "/usr/bin/bash"
   become: true
@@ -55,6 +55,7 @@
 
 - name: "Bash | Set work evironment variables"
   when: work_env is defined
+  become: true
   block:
     - name: "Bash | Work | Set public variables"
       ansible.builtin.template:
@@ -68,4 +69,3 @@
         dest: "{{ ansible_user_dir }}/.config/bash/.work_private"
         mode: "0644"
       no_log: true
-  become: true

@@ -1,20 +1,22 @@
 - name: "Autojump | Check if autojump is installed"
-  command: "which autojump"
+  ansible.buitin.command: "which autojump"
   register: autojump_check
   ignore_errors: true
   changed_when: false
 
 - name: "Autojump | Install"
   when: autojump_check.rc != 0 and ansible_distribution_version < '21.04'
+  become: true
   block:
     - name: "Autojump | Clone repository from GitHub"
       ansible.builtin.git:
         repo: git://github.com/wting/autojump.git
         dest: /tmp/autojump
+        version: master
       notify: "Autojump | Cleanup installation script"
 
     - name: "Autojump | Run installation script"
-      ansible.builtin.shell: ./install.py
+      ansible.builtin.command: ./install.py
       args:
         chdir: /tmp/autojump
-  become: true
+      changed_when: false
