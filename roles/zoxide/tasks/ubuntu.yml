@@ -4,5 +4,6 @@
     name:
       - zoxide
     state: present
+    update_cache: true
   become: true
   when: ansible_distribution_version >= '21.04'

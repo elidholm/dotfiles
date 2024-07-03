@@ -1,9 +1,9 @@
 ---
 - name: "Rust | Install packages"
   ansible.builtin.apt:
-    name: "{{ item }}"
+    name:
+      - rustc
+      - cargo
     state: present
+    update_cache: true
   become: true
-  loop:
-    - rustc
-    - cargo

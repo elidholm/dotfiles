@@ -1,11 +1,5 @@
 ---
 # These steps are based on the official Docker documentation: https://docs.docker.com/engine/install/ubuntu/#installation-methods
-- name: "Docker | Update APT cache"
-  ansible.builtin.apt:
-    update_cache: true
-  become: true
-  changed_when: false
-
 - name: "Docker | Install dependencies"
   ansible.builtin.apt:
     name:
@@ -13,6 +7,7 @@
       - curl
       - gnupg
     state: present
+    update_cache: true
   become: true
 
 - name: "Docker | Add Docker’s official GPG key"

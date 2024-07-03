@@ -1,11 +1,12 @@
 ---
 - name: "System | Update APT Repos and Upgrade APT Packages"
   ansible.builtin.apt:
-    update_cache: yes
-    upgrade: full
+    update_cache: true
+    upgrade: "full"
     state: latest
     autoremove: true
     autoclean: true
+    only_upgrade: true
   become: true
   changed_when: false
 
@@ -36,7 +37,7 @@
   ansible.builtin.user:
     name: "{{ host_user }}"
     groups: "{{ host_user }}"
-    append: yes
+    append: true
   become: true
 
 - name: "System | Set hosts"
@@ -45,4 +46,3 @@
     src: hosts.j2
     mode: "0644"
   become: true
-

@@ -2,6 +2,7 @@
   ansible.builtin.apt:
     name: btop
     state: present
+    update_cache: true
   become: true
 
 - name: "Btop | Ensure btop directory structure exists"

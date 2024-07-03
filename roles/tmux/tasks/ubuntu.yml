@@ -3,12 +3,14 @@
   ansible.builtin.apt:
     name: tmux
     state: present
+    update_cache: true
   become: true
 
 - name: "Tmux | Install TPM"
   ansible.builtin.git:
     repo: https://github.com/tmux-plugins/tpm
     dest: "{{ ansible_user_dir }}/.tmux/plugins/tpm"
+    version: master
 
 - name: "Tmux | Create symlink to Tmux config"
   ansible.builtin.file:

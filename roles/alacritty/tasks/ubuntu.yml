@@ -47,6 +47,7 @@
       - gzip
       - scdoc
     state: present
+    update_cache: true
   become: true
 
 - name: "Alacritty | Install"

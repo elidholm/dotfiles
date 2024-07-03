@@ -2,7 +2,8 @@
 - name: "Neofetch | Install neofetch"
   ansible.builtin.apt:
     name: neofetch
-    state: latest
+    state: present
+    update_cache: true
   become: true
 
 - name: "Neofetch | Ensure .config directory exists"

@@ -3,5 +3,6 @@
   ansible.builtin.apt:
     name:
       - ripgrep
-    state: latest
+    state: present
+    update_cache: true
   become: true

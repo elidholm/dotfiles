@@ -1,16 +1,11 @@
 ---
-- name: "Fonts | Update APT cache"
-  ansible.builtin.apt:
-    update_cache: true
-  become: true
-  changed_when: false
-
 - name: "Fonts | Install fontconfig and emoji support"
   ansible.builtin.apt:
     name:
       - fontconfig
       - fonts-noto-color-emoji
     state: present
+    update_cache: true
   become: true
 
 - name: "Fonts | Ensure fonts directory"

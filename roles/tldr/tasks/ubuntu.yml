@@ -11,7 +11,7 @@
 
 - name: "Tldr | Registering Tldr Latest Version"
   ansible.builtin.set_fact:
-    tldr_latest_version: "{{ tldr_latest_release.stdout|default('') }}"
+    tldr_latest_version: "{{ tldr_latest_release.stdout | default('') }}"
 
 - name: "Tldr | Getting version information"
   ansible.builtin.shell:

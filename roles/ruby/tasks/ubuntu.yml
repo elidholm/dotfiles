@@ -4,5 +4,6 @@
     name:
       - ruby
       - ruby-dev
-    state: latest
+    state: present
+    update_cache: true
   become: true

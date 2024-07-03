@@ -20,6 +20,7 @@
       - liblzma-dev
       - python-openssl
     state: present
+    update_cache: true
   become: true
 
 - name: "Pyenv | Check if pyenv is installed"
@@ -29,6 +30,7 @@
 
 - name: "Pyenv | Install"
   when: pyenv_check.rc != 0
+  become: true
   block:
     - name: "Pyenv | Download Pyenv installer"
       ansible.builtin.get_url:
@@ -38,17 +40,15 @@
       notify: "Pyenv | Cleanup pyenv installer"
 
     - name: "Pyenv | Run Pyenv installer"
-      ansible.builtin.shell: "/tmp/pyenv-installer"
+      ansible.builtin.command: "/tmp/pyenv-installer"
       args:
         creates: "{{ ansible_user_dir }}/.pyenv"
-      become: true
 
     - name: "Pyenv | Source .bashrc"
       ansible.builtin.shell: exec "$SHELL"
       args:
         executable: "/bin/bash"
       changed_when: false
-  become: true
 
 
 - name: "Pyenv | Install Python versions"

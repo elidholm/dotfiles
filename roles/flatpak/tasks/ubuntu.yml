@@ -3,6 +3,7 @@
   ansible.builtin.apt:
     name: flatpak
     state: present
+    update_cache: true
   become: true
 
 - name: "Flatpak | Add Flathub remote"

@@ -3,7 +3,8 @@
   ansible.builtin.apt:
     name:
       - git
-    state: latest
+    state: present
+    update_cache: true
   become: true
 
 - name: "Git | Set fetch.prune"
@@ -72,4 +73,3 @@
     name: core.editor
     scope: global
     value: "nvim"
-

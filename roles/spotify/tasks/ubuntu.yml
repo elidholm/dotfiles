@@ -3,5 +3,6 @@
   ansible.builtin.apt:
     name:
       - spotify-client
-    state: latest
+    state: present
+    update_cache: true
   become: true

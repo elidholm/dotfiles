@@ -22,6 +22,6 @@
 - name: "Github CLI | Install Github CLI"
   ansible.builtin.apt:
     name: gh
-    state: latest
+    state: present
     update_cache: true
   become: true

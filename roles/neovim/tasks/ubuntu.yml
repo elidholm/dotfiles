@@ -9,7 +9,8 @@
       - curl
       - unzip
       - ripgrep
-    state: latest
+    state: present
+    update_cache: true
   become: true
 
 - name: "Neovim | Install"
