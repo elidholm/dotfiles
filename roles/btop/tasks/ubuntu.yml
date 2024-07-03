@@ -20,4 +20,3 @@
     state: link
     force: true
   become: true
-

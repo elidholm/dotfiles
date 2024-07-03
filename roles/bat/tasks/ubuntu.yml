@@ -1,6 +1,7 @@
 ---
-- name: Bat | Get current version of bat
+- name: Bat | Get current version of bat # noqa: command-instead-of-module
   ansible.builtin.shell: >
+      set -o pipefail &&
       curl --silent https://api.github.com/repos/{{ bat_gh_user }}/{{ bat_gh_repo }}/releases/latest |
       grep '"tag_name":' |
       sed -E 's/.*"([^"]+)".*/\1/' |
