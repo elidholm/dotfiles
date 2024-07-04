@@ -101,3 +101,11 @@ pwdtail ()
 {
 	pwd|awk -F/ '{nlast = NF -1;print $nlast"/"$NF}'
 }
+
+# Count the number of files, links, and directories in the current directory
+countfiles ()
+{
+  for t in files links directories; do
+    echo "$(find . -type ${t:0:1} | wc -l)" ${t};
+  done 2> /dev/null
+}

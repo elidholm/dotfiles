@@ -23,6 +23,14 @@
     force: true
   become: true
 
+- name: "Bash | Create symlink to .dircolors"
+  ansible.builtin.file:
+    src: "{{ role_path }}/files/.dircolors"
+    dest: "{{ ansible_user_dir }}/.dircolors"
+    state: link
+    force: true
+  become: true
+
 - name: "Bash | Copy custom bash config"
   ansible.builtin.copy:
     src: "bash"
@@ -69,3 +77,9 @@
         dest: "{{ ansible_user_dir }}/.config/bash/.work_private"
         mode: "0644"
       no_log: true
+
+- name: "Bash | Source .bashrc"
+  ansible.builtin.shell: exec "$SHELL"
+  args:
+    executable: "/bin/bash"
+  changed_when: false

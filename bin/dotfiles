@@ -176,7 +176,7 @@ else
 fi
 
 pushd "$DOTFILES_DIR" > /dev/null 2>&1
-update_ansible_galaxy $ID
+update_ansible_galaxy "$ID"
 
 _task "Running playbook"; _task_done
 if [[ -f $VAULT_SECRET ]]; then

@@ -1,4 +1,5 @@
-#!/usr/env/bin bash
+#!/usr/bin/env bash
+# shellcheck disable=SC2034
 
 # color codes
 RESTORE='\033[0m'

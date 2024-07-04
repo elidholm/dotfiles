@@ -1,7 +1,7 @@
 #!/bin/bash
-# shellcheck disable=SC1091
+# shellcheck disable=SC1090,SC1091
 
-iatest=$(expr index "$-" i)
+iatest=${-%%i*}; iatest=$((${#iatest}+1))
 
 if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
     exec tmux
@@ -81,6 +81,12 @@ fi
 for file in "$HOME"/.config/bash/*.sh; do
   source "$file"
 done
+
+if [[ -f "$HOME/.dircolors" ]]; then
+  eval "$(dircolors -b "$HOME/.dircolors")"
+else
+  eval "$(dircolors -b)"
+fi
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && source  "$NVM_DIR/nvm.sh"

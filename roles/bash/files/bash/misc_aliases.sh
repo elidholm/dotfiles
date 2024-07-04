@@ -11,7 +11,6 @@ alias df="df -h"
 alias tree='tree -CAhF --dirsfirst'
 alias treed='tree -CAFd'
 alias mountedinfo='df -hT'
-alias countfiles="for t in files links directories; do echo \`find . -type \${t:0:1} | wc -l\` \$t; done 2> /dev/null"
 alias checkcommand="type -t"
 
 alias cat="bat"

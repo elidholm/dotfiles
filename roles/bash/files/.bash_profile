@@ -1,3 +1,6 @@
+#! /bin/bash
+# shellcheck disable=SC1090,SC1091
+
 export XDG_CONFIG_HOME="$HOME"/.config
 
 export PYENV_ROOT="$HOME/.pyenv"
@@ -8,9 +11,5 @@ eval "$(pyenv init -)"
 
 if [ -f "$HOME/.bashrc" ]; then
   source "$HOME/.bashrc"
-fi
-
-if [ -f "$DOTFILES/scripts/clean-path.py" ]; then
-  export "$($DOTFILES/scripts/clean-path.py)" 1> /dev/null
 fi
 

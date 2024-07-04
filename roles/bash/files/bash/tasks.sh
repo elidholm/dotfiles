@@ -5,7 +5,7 @@
 #   Returns: the log file name as a string
 generate_log() {
   TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-  RANDOM_STRING=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1)
+  RANDOM_STRING=$(< /dev/urandom tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1)
   echo "$TMP/bash._task.$TIMESTAMP-$RANDOM_STRING.log"
 }
 
