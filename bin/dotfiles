@@ -59,7 +59,7 @@ DOTFILES_LOG="$HOME/.dotfiles.log"
 function _task {
     # if _task is called while a task was set, complete the previous
     if [[ $TASK != "" ]]; then
-        printf "${OVERWRITE} [${CHECK_MARK}]  ${GREEN}%s\n" "${TASK}"
+        printf "${OVERWRITE}${NC} [${CHECK_MARK}]  ${GREEN}%s\n" "${TASK}"
     fi
     # set new task title and print
     TASK=$1
@@ -86,7 +86,7 @@ function _cmd {
         fi
     fi
     # Read error from log and add spacing
-    printf "${OVERWRITE} [${X_MARK}]  ${LRED}%s\n" "${TASK}"
+    printf "${OVERWRITE}${NC} [${X_MARK}]  ${LRED}%s\n" "${TASK}"
     while read -r line; do
         printf "      %s\n" "${line}"
     done < "$DOTFILES_LOG"
@@ -102,7 +102,7 @@ function _clear_task {
 }
 
 function _task_done {
-    printf "${OVERWRITE}${NC} [${CHECK_MARK}]  ${GREEN}%s\n" "${TASK}"
+    printf "${OVERWRITE}${NC} [${CHECK_MARK}]  ${GREEN}%s\n${NC}" "${TASK}"
     _clear_task
 }
 
@@ -186,6 +186,10 @@ else
     echo -e "${PURPLE}Running playbook without vault"
     ansible-playbook "$DOTFILES_DIR/main.yml" "$@"
 fi
+
+_task "Reloading shell"
+_cmd "source $HOME/.bashrc"
+_task_done
 
 popd > /dev/null 2>&1
 

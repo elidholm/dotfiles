@@ -35,7 +35,7 @@ function _clear_task {
 # _task_done completes the current task and clears the task
 # this is used to mark previous TASK as complete for this session.
 function _task_done {
-  printf "${OVERWRITE}${LGREEN} [${CHECK_MARK}]  ${LGREEN}%s\n" "${TASK}"
+  printf "${OVERWRITE}${NC} [${CHECK_MARK}]  ${GREEN}%s\n" "${TASK}"
   _clear_task
 }
 
