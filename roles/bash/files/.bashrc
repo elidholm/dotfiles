@@ -8,19 +8,13 @@ if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ tmux ]] && [
 fi
 
 # Source global definitions
-if [ -f /etc/bash.bashrc ]; then
-	 source /etc/bash.bashrc
-fi
+[ -f /etc/bash.bashrc ] && source /etc/bash.bashrc
 
 # Enable bash programmable completion features in interactive shells
 if [ -f /usr/share/bash-completion/bash_completion ]; then
 	source /usr/share/bash-completion/bash_completion
 elif [ -f /etc/bash_completion ]; then
 	source /etc/bash_completion
-fi
-
-if [ -f "$HOME/.bash_completion.d/alacritty" ]; then
-  source "$HOME/.bash_completion.d/alacritty"
 fi
 
 # Ignore case on auto-completion
@@ -46,12 +40,13 @@ shopt -s checkwinsize
 eval "$(starship init bash)"
 eval "$(pyenv virtualenv-init -)"
 eval "$(register-python-argcomplete dizzy)"
+eval "$(dircolors -b "$HOME/.dircolors")" || eval "$(dircolors -b)"
 
 #Autojump
 if [ -f "/usr/share/autojump/autojump.sh" ]; then
-	. /usr/share/autojump/autojump.sh
+	source /usr/share/autojump/autojump.sh
 elif [ -f "/usr/share/autojump/autojump.bash" ]; then
-	. /usr/share/autojump/autojump.bash
+	source /usr/share/autojump/autojump.bash
 else
 	echo "can't found the autojump script"
 fi
@@ -82,17 +77,13 @@ for file in "$HOME"/.config/bash/*.sh; do
   source "$file"
 done
 
-if [[ -f "$HOME/.dircolors" ]]; then
-  eval "$(dircolors -b "$HOME/.dircolors")"
-else
-  eval "$(dircolors -b)"
-fi
-
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && source  "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
+[ -s "$HOME/.bash_completion.d/alacritty" ] && source "$HOME/.bash_completion.d/alacritty"
 [ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
 [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env"
+[ -f "$HOME/.fzf.bash" ] && source "$HOME/.fzf.bash"
 
 # if neofetch exists, run it
 if [[ -z "$TMUX" ]]; then

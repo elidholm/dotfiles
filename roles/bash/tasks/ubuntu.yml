@@ -77,9 +77,3 @@
         dest: "{{ ansible_user_dir }}/.config/bash/.work_private"
         mode: "0644"
       no_log: true
-
-- name: "Bash | Source .bashrc"
-  ansible.builtin.shell: exec "$SHELL"
-  args:
-    executable: "/bin/bash"
-  changed_when: false
