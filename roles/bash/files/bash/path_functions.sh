@@ -11,3 +11,8 @@ prependToPath() {
     export PATH="$1":$PATH
   fi
 }
+
+# Takes the content of the $PATH environment variable and replaces every : with a newline character.
+path() {
+  echo -e "${PATH//:/\\n}"
+}
