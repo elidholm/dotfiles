@@ -84,11 +84,9 @@ export NVM_DIR="$HOME/.nvm"
 [ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
 [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env"
 [ -f "$HOME/.fzf.bash" ] && source "$HOME/.fzf.bash"
+eval "$(fzf --bash)"
 
-# if neofetch exists, run it
-if [[ -z "$TMUX" ]]; then
-  if command -v neofetch &> /dev/null; then neofetch; fi
-fi
+if command -v neofetch &> /dev/null; then neofetch; fi
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
