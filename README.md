@@ -1,9 +1,9 @@
 # Dotfiles with Ansible
 <p align="center">
     <a href="https://github.com/elidholm/dotfiles/actions/workflows/code-analysis.yml"><img align="center" src="https://github.com/elidholm/dotfiles/actions/workflows/code-analysis.yml/badge.svg"/></a>
-    <a href="https://github.com/zricethezav/gitleaks-action"><img align="center" src="https://img.shields.io/badge/protected%20by-gitleaks-blue"></a>
+    <a href="https://github.com/zricethezav/gitleaks-action"><img align="center" src="https://img.shields.io/badge/protected%20by-gitleaks-blue" alt="gitleaks badge"></a>
     <a href="https://github.com/elidholm/dotfiles/issues"><img align="center" src="https://img.shields.io/github/issues/elidholm/dotfiles"/></a>
-    <a href="https://github.com/elidholm/dotfiles/commits/main"><img align="center" src="https://img.shields.io/github/commit-activity/m/elidholm/dotfiles" alt="commit frequency"></a>
+    <a href="https://github.com/elidholm/dotfiles/commits/master"><img align="center" src="https://img.shields.io/github/commit-activity/m/elidholm/dotfiles" alt="commit frequency"></a>
 </p>
 
 ---
