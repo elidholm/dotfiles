@@ -18,7 +18,7 @@
       - tk-dev
       - libffi-dev
       - liblzma-dev
-      - python-openssl
+      - python3-openssl
     state: present
     update_cache: true
   become: true
@@ -27,6 +27,7 @@
   ansible.builtin.command: "which pyenv"
   register: pyenv_check
   changed_when: false
+  ignore_errors: true
 
 - name: "Pyenv | Install"
   when: pyenv_check.rc != 0

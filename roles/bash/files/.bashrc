@@ -17,16 +17,6 @@ elif [ -f /etc/bash_completion ]; then
 	source /etc/bash_completion
 fi
 
-# Ignore case on auto-completion
-# Note: bind used instead of sticking these in .inputrc
-if [[ $iatest -gt 0 ]]; then bind "set completion-ignore-case on"; fi
-
-# Show auto-completion list automatically, without double tab
-if [[ $iatest -gt 0 ]]; then bind "set show-all-if-ambiguous On"; fi
-
-# Disable the bell
-if [[ $iatest -gt 0 ]]; then bind "set bell-style visible"; fi
-
 # Causes bash to append to history instead of overwriting it so if you start a new terminal, you have old session history
 shopt -s histappend
 PROMPT_COMMAND='history -a'

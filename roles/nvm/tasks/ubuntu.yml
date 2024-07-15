@@ -13,9 +13,15 @@
   ansible.builtin.set_fact:
     nvm_latest_version: "{{ nvm_latest_release.stdout | default('') }}"
 
-- name: NVM | Show nvm_latest_release debug
+- name: "NVM | Show nvm_latest_release debug"
   ansible.builtin.debug:
     var: nvm_latest_release
+
+- name: "NVM | Ensure nvm directory exists"
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/.nvm"
+    state: directory
+    mode: "0755"
 
 - name: "NVM | Install"
   ansible.builtin.shell: >
