@@ -38,12 +38,6 @@
     scope: global
     value: "{{ git_user_name }}"
 
-- name: "Git | Set core.editor"
-  community.general.git_config:
-    name: core.editor
-    scope: global
-    value: "nvim"
-
 - name: "Git | Set alias.uncommit"
   community.general.git_config:
     name: alias.uncommit
