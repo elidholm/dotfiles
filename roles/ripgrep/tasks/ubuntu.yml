@@ -1,5 +1,5 @@
 ---
-- name: "Ripgrep | Install"
+- name: Ripgrep | Install
   ansible.builtin.apt:
     name:
       - ripgrep

@@ -1,34 +1,34 @@
 ---
-- name: "Starship | Detect Starship"
+- name: Starship | Detect Starship
   ansible.builtin.stat:
-    path: "/usr/local/bin/starship"
+    path: /usr/local/bin/starship
   register: starship
 
-- name: "Starship | Register Starship state"
+- name: Starship | Register Starship state
   ansible.builtin.set_fact:
     starship_is_installed: "{{ starship.stat.exists }}"
 
-- name: "Starship | Debug starship_is_installed"
+- name: Starship | Debug starship_is_installed
   ansible.builtin.debug:
     var: starship_is_installed
 
-- name: "Starship | Install Starship"
+- name: Starship | Install Starship
   when: not starship_is_installed
   block:
-    - name: "Starship | Download Starship install script"
+    - name: Starship | Download Starship install script
       ansible.builtin.get_url:
         url: https://starship.rs/install.sh
         dest: "{{ ansible_user_dir }}/starship.install.sh"
         force: true
         mode: "0755"
       notify:
-        - "Starship | Cleanup Starship install script"
+        - Starship | Cleanup Starship install script
 
-    - name: "Starship | Run the install script"
+    - name: Starship | Run the install script
       ansible.builtin.script:
         cmd: "{{ ansible_user_dir }}/starship.install.sh"
 
-- name: "Starship | Create symlink to Starship config"
+- name: Starship | Create symlink to Starship config
   ansible.builtin.file:
     src: "{{ role_path }}/files/starship.toml"
     dest: "{{ ansible_user_dir }}/.config/starship.toml"

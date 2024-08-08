@@ -1,40 +1,40 @@
 ---
-- name: "Alacritty | Check if Alacritty is installed"
+- name: Alacritty | Check if Alacritty is installed
   ansible.builtin.stat:
     path: /usr/local/bin/alacritty
   register: alacritty_check
 
-- name: "Alacritty | Check if Rustup is installed"
+- name: Alacritty | Check if Rustup is installed
   ansible.builtin.stat:
     path: "{{ ansible_user_dir }}/.cargo/bin/cargo"
   register: rustup_check
 
-- name: "Alacritty | Install Rustup"
+- name: Alacritty | Install Rustup
   when: not rustup_check.stat.exists
   block:
-    - name: "Alacritty | Download rust install script"
+    - name: Alacritty | Download rust install script
       ansible.builtin.get_url:
         url: https://sh.rustup.rs
         dest: "{{ ansible_user_dir }}/rustup.sh"
-        mode: '0755'
+        mode: "0755"
       become: true
       notify:
-        - "Alacritty | Cleanup rust install script"
+        - Alacritty | Cleanup rust install script
 
-    - name: "Alacritty | Run Rustup installer"
+    - name: Alacritty | Run Rustup installer
       ansible.builtin.command: "{{ ansible_user_dir }}/rustup.sh -y"
       args:
         creates: "{{ ansible_user_dir }}/.cargo/bin/cargo"
 
-- name: "Alacritty | Set Rust to stable version"
-  ansible.builtin.command: "rustup override set stable"
+- name: Alacritty | Set Rust to stable version
+  ansible.builtin.command: rustup override set stable
   changed_when: false
 
-- name: "Alacritty | Update Rust stable version"
-  ansible.builtin.command: "rustup update stable"
+- name: Alacritty | Update Rust stable version
+  ansible.builtin.command: rustup update stable
   changed_when: false
 
-- name: "Alacritty | Install dependencies"
+- name: Alacritty | Install dependencies
   ansible.builtin.apt:
     name:
       - cmake
@@ -50,30 +50,30 @@
     update_cache: true
   become: true
 
-- name: "Alacritty | Install"
+- name: Alacritty | Install
   when: not alacritty_check.stat.exists
-  notify: "Alacritty | Post installation"
+  notify: Alacritty | Post installation
   block:
-    - name: "Alacritty | Clone source code"
+    - name: Alacritty | Clone source code
       ansible.builtin.git:
         repo: https://github.com/alacritty/alacritty.git
         dest: "{{ ansible_user_dir }}/alacritty"
         version: master
 
-    - name: "Alacritty | Build Alacritty"
-      ansible.builtin.command: "cargo build --release"
+    - name: Alacritty | Build Alacritty
+      ansible.builtin.command: cargo build --release
       args:
         chdir: "{{ ansible_user_dir }}/alacritty"
       register: alacritty_build
       changed_when: alacritty_build.rc == 0
 
-- name: "Alacritty | Ensure .config directory exists"
+- name: Alacritty | Ensure .config directory exists
   ansible.builtin.file:
     path: "{{ ansible_user_dir }}/.config/alacritty"
     state: directory
     mode: "0755"
 
-- name: "Alacritty | Create symlink to Alacritty config"
+- name: Alacritty | Create symlink to Alacritty config
   ansible.builtin.file:
     src: "{{ role_path }}/files/alacritty.toml"
     dest: "{{ ansible_user_dir }}/.config/alacritty/alacritty.toml"

@@ -16,7 +16,6 @@
   ansible.builtin.set_fact:
     ansible_host_environment_is_ubuntu_debian: "{{ ansible_host_environment_is_ubuntu_debian.stdout }}"
 
-
 - name: Show Ubuntu/Debian State
   ansible.builtin.debug:
     msg: "Ansible host environment is Ubuntu/Debian: {{ ansible_host_environment_is_ubuntu_debian }}"

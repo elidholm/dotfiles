@@ -1,6 +1,6 @@
 ---
 # These steps are based on the official Docker documentation: https://docs.docker.com/engine/install/ubuntu/#installation-methods
-- name: "Docker | Install dependencies"
+- name: Docker | Install dependencies
   ansible.builtin.apt:
     name:
       - ca-certificates
@@ -10,30 +10,29 @@
     update_cache: true
   become: true
 
-- name: "Docker | Add Docker’s official GPG key"
+- name: Docker | Add Docker’s official GPG key
   ansible.builtin.apt_key:
     url: https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg
     keyring: /etc/apt/keyrings/docker.gpg
     state: present
   become: true
 
-- name: "Docker | Get System Architecture"
-  ansible.builtin.command: "dpkg --print-architecture"
+- name: Docker | Get System Architecture
+  ansible.builtin.command: dpkg --print-architecture
   register: dpkg_architecture
   changed_when: false
   failed_when: false
   check_mode: false
 
-- name: "Docker | Add Docker’s stable repository"
+- name: Docker | Add Docker’s stable repository
   ansible.builtin.apt_repository:
     repo: >-
-      deb [arch={{ dpkg_architecture.stdout }} signed-by=/etc/apt/keyrings/docker.gpg]
-      https://download.docker.com/linux/{{ ansible_distribution | lower}}
-      {{ ansible_distribution_release }} stable
+      deb [arch={{ dpkg_architecture.stdout }} signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release
+      }} stable
     mode: "0644"
   become: true
 
-- name: "Docker | Install Docker Engine"
+- name: Docker | Install Docker Engine
   ansible.builtin.apt:
     name:
       - docker-ce
@@ -45,20 +44,20 @@
     update_cache: true
   become: true
 
-- name: "Docker | Enable service"
+- name: Docker | Enable service
   ansible.builtin.systemd:
     enabled: true
     name: docker
     state: started
   become: true
 
-- name: "Docker | Create docker group"
+- name: Docker | Create docker group
   ansible.builtin.group:
     name: docker
     state: present
   become: true
 
-- name: "Docker | Add to group"
+- name: Docker | Add to group
   ansible.builtin.user:
     name: "{{ host_user }}"
     groups: docker

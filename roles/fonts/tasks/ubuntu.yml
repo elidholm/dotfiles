@@ -1,5 +1,5 @@
 ---
-- name: "Fonts | Install fontconfig and emoji support"
+- name: Fonts | Install fontconfig and emoji support
   ansible.builtin.apt:
     name:
       - fontconfig
@@ -8,40 +8,39 @@
     update_cache: true
   become: true
 
-- name: "Fonts | Ensure fonts directory"
+- name: Fonts | Ensure fonts directory
   ansible.builtin.file:
     path: "{{ ansible_user_dir }}/.local/share/fonts"
     state: directory
     mode: "0755"
   become: true
 
-- name: "Fonts | Check if nerd-fonts are installed"
-  ansible.builtin.shell: "set -o pipefail && fc-list | grep -i 'MesloLGS NF'"
+- name: Fonts | Check if nerd-fonts are installed
+  ansible.builtin.shell: set -o pipefail && fc-list | grep -i 'MesloLGS NF'
   args:
     executable: /bin/bash
   register: nerd_fonts_installed
   changed_when: false
 
-- name: "Fonts | Install nerd-fonts"
+- name: Fonts | Install nerd-fonts
   when: nerd_fonts_installed.rc != 0
   become: true
   block:
-    - name: "Fonts | Download nerd-fonts"
+    - name: Fonts | Download nerd-fonts
       ansible.builtin.get_url:
         url: https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Meslo.zip
         dest: "{{ ansible_user_dir }}/Meslo.zip"
         mode: "0644"
       notify:
-        - "Fonts | Cleanup downloaded zip file"
+        - Fonts | Cleanup downloaded zip file
 
-    - name: "Fonts | Unzip nerd-fonts"
+    - name: Fonts | Unzip nerd-fonts
       ansible.builtin.unarchive:
         src: "{{ ansible_user_dir }}/Meslo.zip"
         dest: "{{ ansible_user_dir }}/.local/share/fonts"
         remote_src: true
 
-
-- name: "Fonts | Ensure config directories exist"
+- name: Fonts | Ensure config directories exist
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
@@ -50,7 +49,7 @@
     - "{{ ansible_user_dir }}/.config/fontconfig"
     - "{{ ansible_user_dir }}/.config/fontconfig/conf.d"
 
-- name: "Fonts | Create symlink to fontconfig config"
+- name: Fonts | Create symlink to fontconfig config
   ansible.builtin.file:
     src: "{{ role_path }}/files/fonts.conf"
     dest: "{{ ansible_user_dir }}/.config/fontconfig/fonts.conf"
@@ -58,7 +57,7 @@
     force: true
   become: true
 
-- name: "Fonts | Create symlink to emoji fontconfig config"
+- name: Fonts | Create symlink to emoji fontconfig config
   ansible.builtin.file:
     src: "{{ role_path }}/files/01-emoji.conf"
     dest: "{{ ansible_user_dir }}/.config/fontconfig/conf.d/01-emoji.conf"
@@ -66,6 +65,6 @@
     force: true
   become: true
 
-- name: "Fonts | Update font cache"
-  ansible.builtin.command: "fc-cache -fv"
+- name: Fonts | Update font cache
+  ansible.builtin.command: fc-cache -fv
   changed_when: false

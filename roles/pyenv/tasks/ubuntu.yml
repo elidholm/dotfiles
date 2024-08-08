@@ -1,5 +1,5 @@
 ---
-- name: "Pyenv | Install dependencies"
+- name: Pyenv | Install dependencies
   ansible.builtin.apt:
     name:
       - make
@@ -23,48 +23,47 @@
     update_cache: true
   become: true
 
-- name: "Pyenv | Check if pyenv is installed"
-  ansible.builtin.command: "which pyenv"
+- name: Pyenv | Check if pyenv is installed
+  ansible.builtin.command: which pyenv
   register: pyenv_check
   changed_when: false
   ignore_errors: true
 
-- name: "Pyenv | Install"
+- name: Pyenv | Install
   when: pyenv_check.rc != 0
   become: true
   block:
-    - name: "Pyenv | Download Pyenv installer"
+    - name: Pyenv | Download Pyenv installer
       ansible.builtin.get_url:
-        url: "https://pyenv.run"
-        dest: "/tmp/pyenv-installer"
+        url: https://pyenv.run
+        dest: /tmp/pyenv-installer
         mode: "0755"
-      notify: "Pyenv | Cleanup pyenv installer"
+      notify: Pyenv | Cleanup pyenv installer
 
-    - name: "Pyenv | Run Pyenv installer"
-      ansible.builtin.command: "/tmp/pyenv-installer"
+    - name: Pyenv | Run Pyenv installer
+      ansible.builtin.command: /tmp/pyenv-installer
       args:
         creates: "{{ ansible_user_dir }}/.pyenv"
 
-    - name: "Pyenv | Source .bashrc"
+    - name: Pyenv | Source .bashrc
       ansible.builtin.shell: exec "$SHELL"
       args:
-        executable: "/bin/bash"
+        executable: /bin/bash
       changed_when: false
 
-
-- name: "Pyenv | Install Python versions"
-  ansible.builtin.shell: "pyenv install -sv {{ item }}"
+- name: Pyenv | Install Python versions
+  ansible.builtin.shell: pyenv install -sv {{ item }}
   args:
-    executable: "/bin/bash"
+    executable: /bin/bash
   loop:
-    - "3.10.13"
-    - "3.8.18"
+    - 3.10.13
+    - 3.8.18
   become: true
   changed_when: false
 
-- name: "Pyenv | Set global Python version"
-  ansible.builtin.shell: "pyenv global 3.10.13"
+- name: Pyenv | Set global Python version
+  ansible.builtin.shell: pyenv global 3.10.13
   args:
-    executable: "/bin/bash"
+    executable: /bin/bash
   become: true
   changed_when: false

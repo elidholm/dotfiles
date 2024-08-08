@@ -1,14 +1,14 @@
 ---
-- name: "Flatpak | Install flatpak"
+- name: Flatpak | Install flatpak
   ansible.builtin.apt:
     name: flatpak
     state: present
     update_cache: true
   become: true
 
-- name: "Flatpak | Add Flathub remote"
+- name: Flatpak | Add Flathub remote
   community.general.flatpak_remote:
-    name: "flathub"
-    flatpakrepo_url: "https://flathub.org/repo/flathub.flatpakrepo"
+    name: flathub
+    flatpakrepo_url: https://flathub.org/repo/flathub.flatpakrepo
     state: present
   become: true

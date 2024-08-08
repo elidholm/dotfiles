@@ -1,11 +1,11 @@
 ---
 - name: Bat | Get current version of bat # noqa: command-instead-of-module
   ansible.builtin.shell: >
-      set -o pipefail &&
-      curl --silent https://api.github.com/repos/{{ bat_gh_user }}/{{ bat_gh_repo }}/releases/latest |
-      grep '"tag_name":' |
-      sed -E 's/.*"([^"]+)".*/\1/' |
-      sed 's/v//'
+    set -o pipefail &&
+    curl --silent https://api.github.com/repos/{{ bat_gh_user }}/{{ bat_gh_repo }}/releases/latest |
+    grep '"tag_name":' |
+    sed -E 's/.*"([^"]+)".*/\1/' |
+    sed 's/v//'
   args:
     executable: /bin/bash
   register: command_result
@@ -21,16 +21,16 @@
   when: bat_target_bat_version|length == 0
 
 - name: Bat | Getting local version information
-  ansible.builtin.command: "bat -V"
+  ansible.builtin.command: bat -V
   register: current_bat_version
   changed_when: false
   failed_when: false
 
-- name: "Bat | Show current_bat_version debug"
+- name: Bat | Show current_bat_version debug
   ansible.builtin.debug:
     var: current_bat_version.stdout|default('')
 
-- name: "Bat | Show bat_target_bat_version debug"
+- name: Bat | Show bat_target_bat_version debug
   ansible.builtin.debug:
     var: bat_target_bat_version|default('')
 

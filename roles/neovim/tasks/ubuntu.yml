@@ -1,5 +1,5 @@
 ---
-- name: "Neovim | Install dependencies"
+- name: Neovim | Install dependencies
   ansible.builtin.package:
     name:
       - cmake
@@ -13,13 +13,13 @@
     update_cache: true
   become: true
 
-- name: "Neovim | Install"
+- name: Neovim | Install
   community.general.snap:
     name: nvim
     classic: true
   become: true
 
-- name: "Neovim | Create symlink to role files directory"
+- name: Neovim | Create symlink to role files directory
   ansible.builtin.file:
     src: "{{ role_path }}/files"
     dest: "{{ ansible_user_dir }}/.config/nvim"

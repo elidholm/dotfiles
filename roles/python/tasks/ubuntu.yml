@@ -1,5 +1,5 @@
 ---
-- name: "Python | Install"
+- name: Python | Install
   ansible.builtin.apt:
     name:
       - python3

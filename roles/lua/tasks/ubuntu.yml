@@ -1,5 +1,5 @@
 ---
-- name: "Lua | Install Lua"
+- name: Lua | Install Lua
   ansible.builtin.apt:
     name:
       - lua5.3
@@ -9,7 +9,7 @@
     update_cache: true
   become: true
 
-- name: "Lua | Gather installed lua rocks"
+- name: Lua | Gather installed lua rocks
   ansible.builtin.command: luarocks list
   register: rocks
   changed_when: false

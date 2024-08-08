@@ -1,8 +1,8 @@
 ---
-- name: "System | Update APT Repos and Upgrade APT Packages"
+- name: System | Update APT Repos and Upgrade APT Packages
   ansible.builtin.apt:
     update_cache: true
-    upgrade: "full"
+    upgrade: full
     state: latest
     autoremove: true
     autoclean: true
@@ -10,7 +10,7 @@
   become: true
   changed_when: false
 
-- name: "System | Install"
+- name: System | Install
   ansible.builtin.apt:
     name:
       - jq
@@ -20,29 +20,29 @@
     state: present
   become: true
 
-- name: "System | Set sudo"
+- name: System | Set sudo
   ansible.builtin.template:
     src: user-sudo.j2
-    dest: "/etc/sudoers.d/{{ ansible_env['USER'] }}"
+    dest: /etc/sudoers.d/{{ ansible_env['USER'] }}
     mode: "0644"
   become: true
 
-- name: "System | Ensure group exists for current user"
+- name: System | Ensure group exists for current user
   ansible.builtin.group:
     name: "{{ host_user }}"
     state: present
   become: true
 
-- name: "System | Ensure user is in group {{ host_user }}"
+- name: System | Ensure user is in group {{ host_user }}
   ansible.builtin.user:
     name: "{{ host_user }}"
     groups: "{{ host_user }}"
     append: true
   become: true
 
-- name: "System | Set hosts"
+- name: System | Set hosts
   ansible.builtin.template:
-    dest: "/etc/hosts"
+    dest: /etc/hosts
     src: hosts.j2
     mode: "0644"
   become: true

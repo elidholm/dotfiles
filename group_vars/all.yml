@@ -34,7 +34,7 @@ default_roles:
 exclude_roles:
   - pyenv
 
-git_user_name: "Edvin Lidholm"
+git_user_name: Edvin Lidholm
 git_user_email: !vault |
   $ANSIBLE_VAULT;1.1;AES256
   34616264343662383939356130303130386331623631616436353262393136326530333462636136

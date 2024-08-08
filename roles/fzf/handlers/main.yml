@@ -1,5 +1,5 @@
 ---
-- name: "FZF | Install fzf"
+- name: FZF | Install fzf
   ansible.builtin.command: "{{ ansible_user_dir }}/.fzf/install --all --no-update-rc --no-zsh --no-fish"
   register: fzf_install
   changed_when: fzf_install.rc == 0

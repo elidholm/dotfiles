@@ -1,5 +1,5 @@
 ---
-- name: "Bash | Create symlink to .bashrc"
+- name: Bash | Create symlink to .bashrc
   ansible.builtin.file:
     src: "{{ role_path }}/files/.bashrc"
     dest: "{{ ansible_user_dir }}/.bashrc"
@@ -7,7 +7,7 @@
     force: true
   become: true
 
-- name: "Bash | Create symlink to .bash_profile"
+- name: Bash | Create symlink to .bash_profile
   ansible.builtin.file:
     src: "{{ role_path }}/files/.bash_profile"
     dest: "{{ ansible_user_dir }}/.bash_profile"
@@ -15,7 +15,7 @@
     force: true
   become: true
 
-- name: "Bash | Create symlink to .inputrc"
+- name: Bash | Create symlink to .inputrc
   ansible.builtin.file:
     src: "{{ role_path }}/files/.inputrc"
     dest: "{{ ansible_user_dir }}/.inputrc"
@@ -23,7 +23,7 @@
     force: true
   become: true
 
-- name: "Bash | Create symlink to .dircolors"
+- name: Bash | Create symlink to .dircolors
   ansible.builtin.file:
     src: "{{ role_path }}/files/.dircolors"
     dest: "{{ ansible_user_dir }}/.dircolors"
@@ -31,49 +31,49 @@
     force: true
   become: true
 
-- name: "Bash | Copy custom bash config"
+- name: Bash | Copy custom bash config
   ansible.builtin.copy:
-    src: "bash"
+    src: bash
     dest: "{{ ansible_user_dir }}/.config/"
     mode: "0644"
     directory_mode: "0755"
     force: true
   become: true
 
-- name: "Bash | Set default terminal"
+- name: Bash | Set default terminal
   ansible.builtin.user:
     name: "{{ host_user }}"
-    shell: "/usr/bin/bash"
+    shell: /usr/bin/bash
   become: true
 
-- name: "Bash | Set public variables"
+- name: Bash | Set public variables
   ansible.builtin.template:
-    src: ".bash_public.j2"
+    src: .bash_public.j2
     dest: "{{ ansible_user_dir }}/.config/bash/.bash_public"
     mode: "0644"
   become: true
 
-- name: "Bash | Set private variables"
+- name: Bash | Set private variables
   ansible.builtin.template:
-    src: ".bash_private.j2"
+    src: .bash_private.j2
     dest: "{{ ansible_user_dir }}/.config/bash/.bash_private"
     mode: "0644"
   no_log: true
   become: true
 
-- name: "Bash | Set work evironment variables"
+- name: Bash | Set work evironment variables
   when: work_env is defined
   become: true
   block:
-    - name: "Bash | Work | Set public variables"
+    - name: Bash | Work | Set public variables
       ansible.builtin.template:
-        src: ".work_public.j2"
+        src: .work_public.j2
         dest: "{{ ansible_user_dir }}/.config/bash/.work_public"
         mode: "0644"
 
-    - name: "Bash | Work | Set private variables"
+    - name: Bash | Work | Set private variables
       ansible.builtin.template:
-        src: ".work_private.j2"
+        src: .work_private.j2
         dest: "{{ ansible_user_dir }}/.config/bash/.work_private"
         mode: "0644"
       no_log: true

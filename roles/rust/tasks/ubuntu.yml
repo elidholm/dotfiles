@@ -1,5 +1,5 @@
 ---
-- name: "Rust | Install packages"
+- name: Rust | Install packages
   ansible.builtin.apt:
     name:
       - rustc

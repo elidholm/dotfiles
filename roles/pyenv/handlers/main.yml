@@ -1,5 +1,5 @@
 ---
-- name: "Pyenv | Cleanup pyenv installer"
+- name: Pyenv | Cleanup pyenv installer
   ansible.builtin.file:
     path: /tmp/pyenv-installer
     state: absent

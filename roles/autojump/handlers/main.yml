@@ -1,5 +1,5 @@
 ---
-- name: "Autojump | Cleanup installation script"
+- name: Autojump | Cleanup installation script
   ansible.builtin.file:
     path: /tmp/autojump
     state: absent

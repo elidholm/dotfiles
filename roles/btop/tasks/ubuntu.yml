@@ -1,11 +1,12 @@
-- name: "Btop | Install"
+---
+- name: Btop | Install
   ansible.builtin.apt:
     name: btop
     state: present
     update_cache: true
   become: true
 
-- name: "Btop | Ensure btop directory structure exists"
+- name: Btop | Ensure btop directory structure exists
   ansible.builtin.file:
     path: "{{ item }}"
     mode: "0755"
@@ -14,7 +15,7 @@
     - "{{ ansible_user_dir }}/.config"
     - "{{ ansible_user_dir }}/.config/btop"
 
-- name: "Btop | Create symlink to btop config"
+- name: Btop | Create symlink to btop config
   ansible.builtin.file:
     src: "{{ role_path }}/files/btop.conf"
     dest: "{{ ansible_user_dir }}/.config/btop/btop.conf"
