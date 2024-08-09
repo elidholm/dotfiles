@@ -76,8 +76,6 @@ export NVM_DIR="$HOME/.nvm"
 [ -f "$HOME/.fzf.bash" ] && source "$HOME/.fzf.bash"
 eval "$(fzf --bash)"
 
-if command -v neofetch &> /dev/null; then neofetch; fi
-
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
 [ -s "$HOME/.sdkman/bin/sdkman-init.sh" ] && source "$HOME/.sdkman/bin/sdkman-init.sh"
