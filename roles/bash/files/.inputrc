@@ -17,10 +17,11 @@ set echo-control-characters off
 "\e[1;5D": backward-word
 "\e[1;5C": forward-word
 
+# Delete next/previous word
+"\e[3;5~": shell-kill-word
+"\C-H": "\C-w"
 
 # Bash Keybindings
 "\C-b":"cd ..\n"
 "\C-h":"cd\n"
-"\C-w":"webserver\n"
 "\es": "\C-asudo \C-e"
-
