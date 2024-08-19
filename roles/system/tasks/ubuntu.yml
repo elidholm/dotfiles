@@ -20,12 +20,12 @@
     state: present
   become: true
 
-- name: System | Set sudo
-  ansible.builtin.template:
-    src: user-sudo.j2
-    dest: /etc/sudoers.d/{{ ansible_env['USER'] }}
-    mode: "0644"
-  become: true
+- name: System | Set passwordless sudo
+  community.general.sudoers:
+    name: "{{ host_user }}"
+    nopassword: true
+    commands: ALL
+    state: present
 
 - name: System | Ensure group exists for current user
   ansible.builtin.group:

@@ -31,9 +31,6 @@ default_roles:
   - tmux
   - zoxide
 
-exclude_roles:
-  - pyenv
-
 git_user_name: Edvin Lidholm
 git_user_email: !vault |
   $ANSIBLE_VAULT;1.1;AES256
