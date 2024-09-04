@@ -19,7 +19,7 @@ default_roles:
   - npm
   - nvm
   - pyenv
-  - python
+  #- python
   - ripgrep
   - ruby
   - rust

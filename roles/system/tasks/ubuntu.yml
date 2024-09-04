@@ -26,6 +26,8 @@
     nopassword: true
     commands: ALL
     state: present
+    user: "{{ host_user }}"
+  become: true
 
 - name: System | Ensure group exists for current user
   ansible.builtin.group:
