@@ -18,8 +18,8 @@ default_roles:
   - neovim
   - npm
   - nvm
-  - pyenv
-  # - python
+  # - pyenv
+  - python
   - ripgrep
   - ruby
   - rust
