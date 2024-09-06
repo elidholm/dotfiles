@@ -31,7 +31,10 @@ return require("packer").startup(function(use)
         as = 'solarized',
         config = function()
             vim.o.background = 'dark' -- or 'light'
-
+            --@type solarized
+            local solarized = require('solarized')
+            vim.o.termguicolors = true
+            solarized.setup({})
             vim.cmd.colorscheme 'solarized'
         end
     })

@@ -1,17 +1,17 @@
 require('solarized').setup({
-    transparent = true,
+    transparent = {
+        enabled = true,
+    },
     palette = 'selenized',
     styles = {
         comments = { italic = true, bold = false },
     },
-    enables = {
-        editor = true,
-        syntax = true,
-
-        -- PLUGINS
+    variant = 'winter',
+    plugins = {
         lsp = true,
         telescope = true,
         treesitter = true,
+        cmp = true,
     },
     autocmd = true,
 })
