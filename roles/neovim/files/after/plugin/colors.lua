@@ -6,7 +6,7 @@ require('solarized').setup({
     styles = {
         comments = { italic = true, bold = false },
     },
-    variant = 'winter',
+    variant = 'spring',
     plugins = {
         lsp = true,
         telescope = true,
