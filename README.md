@@ -40,15 +40,15 @@ The `all.yml` file allows you to personalize your setup to your needs. This file
 
 Below is a list of all available values. Not all are required but incorrect values will break the playbook if not properly set.
 
-| Name                  | Type                                | Required |
-| --------------------- | ----------------------------------- | -------- |
-| git_user_email        | string                              | yes      |
-| git_user_name         | string                              | yes      |
-| exclude_roles         | array `(see group_vars/all)`        | no       |
-| ssh_key               | dict `(see SSH Keys below)`         | no       |
-| system_host           | dict `(see System Hosts below)`     | no       |
-| bash_public           | dict `(see Environment below)`      | no       |
-| bash_private          | dict `(see Environment below)`      | no       |
+| Name                  | Type                                               | Required |
+| --------------------- | -------------------------------------------------- | -------- |
+| git_user_email        | string                                             | yes      |
+| git_user_name         | string                                             | yes      |
+| exclude_roles         | array (see group_vars/all)                         | no       |
+| ssh_key               | dict (see [SSH Keys](#ssh-keys) below)             | no       |
+| system_host           | dict (see [System Hosts](#system-hosts) below)     | no       |
+| bash_public           | dict (see [Environment](#environment) below)       | no       |
+| bash_private          | dict (see [Environment](#environment) below)       | no       |
 
 
 #### Environment
