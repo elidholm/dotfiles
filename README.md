@@ -104,7 +104,7 @@ ssh_key:
 
 ### System Hosts
 
-Manage `/etc/hosts` by setting the `system_host` value in `values.yaml`.
+Manage `/etc/hosts` by setting the `system_host` value in `all.yml`.
 
 ```yaml
 
@@ -115,11 +115,11 @@ system_host:
 
 ### Examples
 
-Below includes minimal and advanced configuration examples. If you would like to see a more real world example take a look at [blackglasses public configuration](https://github.com/TechDufus/dotfiles-erikreinert) repository.
+Below includes minimal and advanced configuration examples.
 
 #### Minimal
 
-Below is a minimal example of `values.yaml` file:
+Below is a minimal example of `all.yml` file:
 
 ```yaml
 ---
@@ -129,14 +129,16 @@ git_user_name: Foo Bar
 
 #### Advanced
 
-Below is a more advanced example of `values.yaml` file:
+Below is a more advanced example of `all.yml` file:
 
 ```yaml
 ---
 git_user_email: foo@bar.com
 git_user_name: Foo Bar
 exclude_roles:
-  - slack
+  - python
+  - tmux
+  - spotify
 ssh_key: !vault |
   $ANSIBLE_VAULT;1.1;AES256
   62333533626436313366316235626561626635396233303730343332666466393561346462303163
