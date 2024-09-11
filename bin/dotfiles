@@ -169,7 +169,7 @@ esac
 
 
 # Generate SSH keys
-if ! [[ -f "$SSH_DIR/authorized_keys" ]]; then
+if ! compgen -G "${SSH_DIR}/*.pub" > /dev/null; then
   _task "Generating SSH keys"
   _cmd "mkdir -p $SSH_DIR"
   _cmd "chmod 700 $SSH_DIR"
