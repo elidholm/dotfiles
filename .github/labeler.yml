@@ -1,0 +1,28 @@
+---
+README:
+  - changed-files:
+      - any-glob-to-any-file: README.md
+
+Role:
+  - changed-files:
+      - any-glob-to-any-file: roles/**
+
+Requirements:
+  - changed-files:
+      - any-glob-to-any-file: requirements/**
+
+License:
+  - changed-files:
+      - any-glob-to-any-file: LICENSE
+
+Setup:
+  - changed-files:
+      - any-glob-to-any-file: bin/**
+
+Variables:
+  - changed-files:
+      - any-glob-to-any-file: group_vars/**
+
+Actions:
+  - changed-files:
+      - any-glob-to-any-file: .github/**
