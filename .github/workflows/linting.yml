@@ -1,5 +1,5 @@
 ---
-name: Run Linting
+name: Ansible CI
 on:
   push:
     branches:
