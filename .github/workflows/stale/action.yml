@@ -1,0 +1,37 @@
+---
+name: Close stale issues and PRs
+on:
+  schedule:
+    - cron: '30 1 * * *' # Run every day at 1:30 UTC
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/stale@v9
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          stale-issue-message: |
+              🚨 This issue is stale because it has been open for 30 days with no activity.
+              Please comment or commit to this issue to keep it open, or it will be closed in 5 days!
+          stale-pr-message: |
+              🚨 This pull request is stale because it has been open for 45 days with no activity.
+              Please comment, push new commits, or make any necessary changes to keep this PR active.
+              PRs that remain inactive will soon be closed. If you need more time, are waiting
+              on dependencies, or have any questions, please update the PR or it will be closed in 10 days!
+          close-issue-message: |
+              🚨 This issue was closed because it has been stalled for 5 days with no activity.
+          close-pr-message: |
+              🚨 This pull request was closed because it has been stalled for 10 days with no activity.
+          days-before-issue-stale: 30
+          days-before-pr-stale: 45
+          days-before-issue-close: 5
+          days-before-pr-close: 10
+          stale-issue-label: 'no-issue-activity'
+          exempt-issue-labels: 'awaiting-approval,work-in-progress'
+          stale-pr-label: 'no-pr-activity'
+          exempt-pr-labels: 'awaiting-approval,work-in-progress'
+          only-labels: 'awaiting-feedback,awaiting-answers'
