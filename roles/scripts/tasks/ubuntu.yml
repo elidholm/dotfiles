@@ -1,0 +1,11 @@
+---
+- name: Scripts | Create symlink to update script
+  ansible.builtin.file:
+    src: "{{ role_path }}/files/update.sh"
+    dest: "/usr/bin/update"
+    state: link
+    mode: '0755'
+    owner: root
+    group: root
+    force: true
+  become: true
