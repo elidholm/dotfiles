@@ -1,0 +1,21 @@
+---
+- name: Thorium | Remove thorium.list from sources.list.d directory
+  ansible.builtin.file:
+    path: /etc/apt/sources.list.d/thorium.list
+    state: absent
+    force: true
+  become: true
+
+- name: Thorium | Download new thorium.list file
+  ansible.builtin.get_url:
+    url: http://dl.thorium.rocks/debian/dists/stable/thorium.list
+    dest: /etc/apt/sources.list.d/thorium.list
+    use_proxy: false
+    force: true
+  become: true
+
+- name: Thorium | Update apt cache
+  ansible.builtin.apt:
+    update_cache: yes
+  changed_when: false
+  become: true
