@@ -10,12 +10,13 @@
   ansible.builtin.get_url:
     url: http://dl.thorium.rocks/debian/dists/stable/thorium.list
     dest: /etc/apt/sources.list.d/thorium.list
+    mode: '644'
     use_proxy: false
     force: true
   become: true
 
 - name: Thorium | Update apt cache
   ansible.builtin.apt:
-    update_cache: yes
+    update_cache: true
   changed_when: false
   become: true
