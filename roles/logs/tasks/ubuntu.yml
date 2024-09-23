@@ -28,6 +28,7 @@
     path: /etc/logrotate.d/{{ item.path }}
     block: "{{ item.conf }}"
     create: true
+    mode: '0644'
   loop:
     - path: update
       conf: |
