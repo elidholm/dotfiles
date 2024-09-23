@@ -1,0 +1,42 @@
+---
+- name: Logs | Ensure update script log directory exists
+  ansible.builtin.file:
+    path: /var/log/update
+    state: directory
+    owner: "{{ host_user }}"
+    group: "{{ host_user }}"
+    mode: '0755'
+  become: true
+
+- name: Logs | Ensure update script log files exist
+  ansible.builtin.file:
+    path: "{{ log_file }}"
+    state: touch
+    owner: "{{ host_user }}"
+    group: "{{ host_user }}"
+    mode: '0664'
+  loop_control:
+    loop_var: log_file
+  loop:
+    - /var/log/update/update.log
+    - /var/log/update/update_errors.log
+  become: true
+  changed_when: false
+
+- name: Logs | Create logrotation
+  ansible.builtin.blockinfile:
+    path: /etc/logrotate.d/{{ item.path }}
+    block: "{{ item.conf }}"
+    create: true
+  loop:
+    - path: update
+      conf: |
+        /var/log/update/*.log {
+          daily
+          missingok
+          rotate 7
+          compress
+          notifempty
+          create
+        }
+  become: true

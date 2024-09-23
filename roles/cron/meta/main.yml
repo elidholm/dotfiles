@@ -1,0 +1,5 @@
+---
+dependencies:
+  - role: scripts
+  - role: logs
+  - role: system

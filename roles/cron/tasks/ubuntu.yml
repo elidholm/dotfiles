@@ -1,0 +1,14 @@
+---
+- name: Cron | Create CRON environment variable
+  ansible.builtin.cron:
+    name: CRON
+    env: true
+    job: "true"
+
+- name: Cron | Create cronjob for update script
+  ansible.builtin.cron:
+    name: Run update script
+    minute: "*/10"
+    hour: "9-16"
+    weekday: "1-5"
+    job: /usr/bin/update -y 1>> /var/log/update/update.log 2>> /var/log/update/update_errors.log

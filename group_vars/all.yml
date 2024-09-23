@@ -6,6 +6,7 @@ default_roles:
   - bash
   - bat
   - btop
+  - cron
   - docker
   - flatpak
   - fonts
@@ -13,12 +14,12 @@ default_roles:
   - git
   - github_cli
   - lazygit
+  - logs
   - lua
   - neofetch
   - neovim
   - npm
   - nvm
-  # - pyenv
   - python
   - ripgrep
   - ruby
