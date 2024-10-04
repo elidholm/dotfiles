@@ -65,11 +65,11 @@
   when: work_env is defined
   become: true
   block:
-    - name : Bash | Work | Ensure work config directory exists
+    - name: Bash | Work | Ensure work config directory exists
       ansible.builtin.file:
-          path: "{{ ansible_user_dir }}/.config/bash/work/"
-          state: directory
-          mode: "0755"
+        path: "{{ ansible_user_dir }}/.config/bash/work/"
+        state: directory
+        mode: "0755"
       register: work_config_dir
 
     - name: Bash | Work | Set public variables
