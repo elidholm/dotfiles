@@ -55,17 +55,23 @@ if [[ -f "$HOME/.config/bash/.bash_public" ]]; then
   source "$HOME/.config/bash/.bash_public"
 fi
 
-if [[ -f "$HOME/.config/bash/.work_private" ]]; then
-  source "$HOME/.config/bash/.work_private"
-fi
-
-if [[ -f "$HOME/.config/bash/.work_public" ]]; then
-  source "$HOME/.config/bash/.work_public"
-fi
-
 for file in "$HOME"/.config/bash/*.sh; do
   source "$file"
 done
+
+if [[ -d "$HOME/.config/bash/work" ]]; then
+  if [[ -f "$HOME/.config/bash/work/.work_private" ]]; then
+    source "$HOME/.config/bash/work/.work_private"
+  fi
+
+  if [[ -f "$HOME/.config/bash/work/.work_public" ]]; then
+    source "$HOME/.config/bash/work/.work_public"
+  fi
+
+  for file in "$HOME"/.config/bash/work/*.sh; do
+    source "$file"
+  done
+fi
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && source  "$NVM_DIR/nvm.sh"

@@ -61,19 +61,39 @@
   no_log: true
   become: true
 
-- name: Bash | Set work evironment variables
+- name: Bash | Setup work environment
   when: work_env is defined
   become: true
   block:
+    - name : Bash | Work | Ensure work config directory exists
+      ansible.builtin.file:
+          path: "{{ ansible_user_dir }}/.config/bash/work/"
+          state: directory
+          mode: "0755"
+      register: work_config_dir
+
     - name: Bash | Work | Set public variables
       ansible.builtin.template:
         src: .work_public.j2
-        dest: "{{ ansible_user_dir }}/.config/bash/.work_public"
+        dest: "{{ work_config_dir.path }}/.work_public"
         mode: "0644"
 
     - name: Bash | Work | Set private variables
       ansible.builtin.template:
         src: .work_private.j2
-        dest: "{{ ansible_user_dir }}/.config/bash/.work_private"
+        dest: "{{ work_config_dir.path }}/.work_private"
         mode: "0644"
       no_log: true
+
+    - name: Bash | Work | Copy custom work config
+      ansible.builtin.copy:
+        src: "{{ item }}"
+        dest: "{{ work_config_dir.path }}"
+        mode: "0644"
+        directory_mode: "0755"
+        force: true
+      with_fileglob:
+        - "work/*"
+      loop_control:
+        label: "{{ item }}"
+      become: true

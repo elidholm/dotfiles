@@ -1,3 +1,4 @@
 /callback_plugins/__pycache__
 roles/neovim/files/plugin/
 group_vars/work.yml
+roles/bash/files/work/
