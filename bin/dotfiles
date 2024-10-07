@@ -110,7 +110,7 @@ function _task_done {
 function ubuntu_setup() {
   _task "Updating apt repository cache"
   _cmd "sudo apt-get update"
-  if ! dpkg -s ansible >/dev/null 2>&1; then
+  if ! command -v ansible >/dev/null 2>&1; then
     _task "Installing Ansible"
     _cmd "sudo apt-get install -y software-properties-common"
     _cmd "sudo apt-add-repository -y ppa:ansible/ansible"
@@ -119,7 +119,7 @@ function ubuntu_setup() {
     _cmd "sudo apt-get install -y python3-argcomplete"
     _cmd "sudo activate-global-python-argcomplete3"
   fi
-  if ! dpkg -s python3 >/dev/null 2>&1; then
+  if ! command -v python3 >/dev/null 2>&1; then
     _task "Installing Python3"
     _cmd "sudo apt-get install -y python3"
   fi
