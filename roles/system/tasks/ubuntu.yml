@@ -17,6 +17,7 @@
       - open-iscsi
       - autojump
       - aptitude
+      - fd-find
     state: present
   become: true
 
