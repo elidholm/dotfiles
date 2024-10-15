@@ -1,3 +1,4 @@
+$include /etc/inputrc
 # Prettyfi
 set colored-stats On
 set colored-completion-prefix On
@@ -18,8 +19,7 @@ set echo-control-characters off
 "\e[1;5C": forward-word
 
 # Delete next/previous word
-"\e[3;5~": shell-kill-word
-"\C-H": "\C-w"
+"\e[3;5~": kill-word
 
 # Bash Keybindings
 "\C-b":"cd ..\n"

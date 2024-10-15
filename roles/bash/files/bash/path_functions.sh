@@ -16,3 +16,21 @@ prependToPath() {
 path() {
   echo -e "${PATH//:/\\n}"
 }
+
+# Removes duplicate entries from the $PATH environment variable.
+clean_path() {
+  OLDPATH="$PATH"
+  NEWPATH=""
+  colon=""
+  while [ "${OLDPATH#*:}" != "$OLDPATH" ]; do
+    entry="${OLDPATH%%:*}"
+    search=":${OLDPATH#*:}:"
+    if [ "${search#*:"$entry":}" == "$search" ]; then
+      NEWPATH="$NEWPATH$colon$entry"
+      colon=":"
+    fi
+    OLDPATH="${OLDPATH#*:}"
+  done
+  NEWPATH="$NEWPATH:$OLDPATH"
+  export PATH="${NEWPATH}"
+}
