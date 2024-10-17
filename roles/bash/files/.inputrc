@@ -19,9 +19,10 @@ set echo-control-characters off
 "\e[1;5C": forward-word
 
 # Delete next/previous word
-"\e[3;5~": kill-word
+"\e[3;5~": shell-kill-word
+"\e[3;3~": shell-kill-word
+"\e[^?": shell-backward-kill-word
 
 # Bash Keybindings
 "\C-b":"cd ..\n"
-"\C-h":"cd\n"
 "\es": "\C-asudo \C-e"
