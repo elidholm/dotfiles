@@ -51,3 +51,8 @@ end)
 
 vim.keymap.set("n", "<leader>gg", "<cmd>LazyGit<CR>")
 
+vim.keymap.set("v", "<leader>q", "c\"<C-r>\"\"<Esc>")
+vim.keymap.set("n", "<leader>q", "ciw\"<C-r>\"\"<Esc>")
+vim.keymap.set("v", "<leader>sq", "c'<C-r>\"'<Esc>")
+vim.keymap.set("n", "<leader>sq", "ciw'<C-r>\"'<Esc>")
+vim.keymap.set("n", "<leader>uq", "di\"hPl2x")
