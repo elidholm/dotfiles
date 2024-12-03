@@ -29,7 +29,6 @@ shopt -s checkwinsize
 
 eval "$(starship init bash)"
 eval "$(pyenv virtualenv-init -)"
-eval "$(register-python-argcomplete dizzy)"
 eval "$(dircolors -b "$HOME/.dircolors")" || eval "$(dircolors -b)"
 
 #Autojump
@@ -80,7 +79,6 @@ export NVM_DIR="$HOME/.nvm"
 [ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
 [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env"
 [ -f "$HOME/.fzf.bash" ] && source "$HOME/.fzf.bash"
-eval "$(fzf --bash)"
 
 clean_path
 

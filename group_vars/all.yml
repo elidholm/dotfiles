@@ -25,7 +25,7 @@ default_roles:
   - ruby
   - rust
   - scripts
-  - spotify
+  # - spotify
   - ssh
   - sshfs
   - starship
