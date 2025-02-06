@@ -82,7 +82,27 @@ export NVM_DIR="$HOME/.nvm"
 
 clean_path
 
+export PATH=$PATH:/usr/local/go/bin
+
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
 [ -s "$HOME/.sdkman/bin/sdkman-init.sh" ] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
+
+
+[ -f "/home/elidholm/.ghcup/env" ] && . "/home/elidholm/.ghcup/env" # ghcup-env
+
+# >>> juliaup initialize >>>
+
+# !! Contents within this block are managed by juliaup !!
+
+case ":$PATH:" in
+    *:/home/elidholm/.juliaup/bin:*)
+        ;;
+
+    *)
+        export PATH=/home/elidholm/.juliaup/bin${PATH:+:${PATH}}
+        ;;
+esac
+
+# <<< juliaup initialize <<<
