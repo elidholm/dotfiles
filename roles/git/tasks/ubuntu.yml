@@ -68,6 +68,12 @@
     scope: global
     value: log --graph --pretty=format:'%C(yellow)%d%Creset %C(cyan)%h%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=short --all
 
+- name: Git | Set alias.rename
+  community.general.git_config:
+    name: alias.rename
+    scope: global
+    value: branch -m
+
 - name: Git | Set editor to nvim
   community.general.git_config:
     name: core.editor
