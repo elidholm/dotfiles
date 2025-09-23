@@ -17,20 +17,20 @@
   ansible.builtin.shell: echo "v$(/usr/local/bin/tldr -v)"
   args:
     executable: /bin/bash
-  register: current_tldr_version
+  register: tldr_current_version
   changed_when: false
   failed_when: false
 
-- name: Tldr | Show current_tldr_version debug
+- name: Tldr | Show tldr_current_version debug
   ansible.builtin.debug:
-    var: current_tldr_version.stdout
+    var: tldr_current_version.stdout
 
 - name: Tldr | Show tldr_latest_release debug
   ansible.builtin.debug:
     var: tldr_latest_release
 
 - name: Tldr | Install
-  when: tldr_latest_release not in current_tldr_version.stdout | default('')
+  when: tldr_latest_release not in tldr_current_version.stdout | default('')
   block:
     - name: Tldr | Define tldr_file
       ansible.builtin.set_fact:

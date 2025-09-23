@@ -18,20 +18,20 @@
     cmd: set -o pipefail && /usr/local/bin/lazygit --version | grep -oP 'version=\K[^,]+' | awk 'NR==1' | sed 's/^/v/'
   args:
     executable: /bin/bash
-  register: current_lazygit_version
+  register: lazygit_current_version
   changed_when: false
   failed_when: false
 #
-- name: Lazygit | Show current_lazygit_version debug
+- name: Lazygit | Show lazygit_current_version debug
   ansible.builtin.debug:
-    var: current_lazygit_version.stdout
+    var: lazygit_current_version.stdout
 
 - name: Lazygit | Show lazygit_latest_release debug
   ansible.builtin.debug:
     var: lazygit_latest_release
 
 - name: Lazygit | Install
-  when: lazygit_latest_release not in current_lazygit_version.stdout|default('')
+  when: lazygit_latest_release not in lazygit_current_version.stdout|default('')
   block:
     # regex_replace('^.', '') removes the first character from the string (the 'v' in the version number)
     - name: Lazygit | Define lazygit_file

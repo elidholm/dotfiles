@@ -9,6 +9,7 @@
     only_upgrade: true
   become: true
   changed_when: false
+  failed_when: false
 
 - name: System | Install
   ansible.builtin.apt:

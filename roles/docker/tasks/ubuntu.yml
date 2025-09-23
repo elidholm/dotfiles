@@ -19,7 +19,7 @@
 
 - name: Docker | Get System Architecture
   ansible.builtin.command: dpkg --print-architecture
-  register: dpkg_architecture
+  register: docker_dpkg_architecture
   changed_when: false
   failed_when: false
   check_mode: false
@@ -27,7 +27,7 @@
 - name: Docker | Add Docker’s stable repository
   ansible.builtin.apt_repository:
     repo: >-
-      deb [arch={{ dpkg_architecture.stdout }} signed-by=/etc/apt/keyrings/docker.gpg]
+      deb [arch={{ docker_dpkg_architecture.stdout }} signed-by=/etc/apt/keyrings/docker.gpg]
       https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable
     mode: "0644"
   become: true

@@ -2,11 +2,11 @@
 - name: Starship | Detect Starship
   ansible.builtin.stat:
     path: /usr/local/bin/starship
-  register: starship
+  register: starship_check
 
 - name: Starship | Register Starship state
   ansible.builtin.set_fact:
-    starship_is_installed: "{{ starship.stat.exists }}"
+    starship_is_installed: "{{ starship_check.stat.exists }}"
 
 - name: Starship | Debug starship_is_installed
   ansible.builtin.debug:

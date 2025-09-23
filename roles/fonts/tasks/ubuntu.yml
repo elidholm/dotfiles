@@ -19,12 +19,12 @@
   ansible.builtin.shell: set -o pipefail && fc-list | grep -i 'MesloLGS NF'
   args:
     executable: /bin/bash
-  register: nerd_fonts_installed
+  register: fonts_nerd_installed
   changed_when: false
   failed_when: false
 
 - name: Fonts | Install nerd-fonts
-  when: nerd_fonts_installed.rc != 0
+  when: fonts_nerd_installed.rc != 0
   become: true
   block:
     - name: Fonts | Download nerd-fonts

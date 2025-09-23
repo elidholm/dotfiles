@@ -11,6 +11,6 @@
 
 - name: Lua | Gather installed lua rocks
   ansible.builtin.command: luarocks list
-  register: rocks
+  register: lua_rocks
   changed_when: false
   check_mode: false

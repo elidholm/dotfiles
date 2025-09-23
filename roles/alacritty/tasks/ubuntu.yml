@@ -7,10 +7,10 @@
 - name: Alacritty | Check if Rustup is installed
   ansible.builtin.stat:
     path: "{{ ansible_user_dir }}/.cargo/bin/cargo"
-  register: rustup_check
+  register: alacritty_rustup_check
 
 - name: Alacritty | Install Rustup
-  when: not rustup_check.stat.exists
+  when: not alacritty_rustup_check.stat.exists
   block:
     - name: Alacritty | Download rust install script
       ansible.builtin.get_url:

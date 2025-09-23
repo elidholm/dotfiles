@@ -8,14 +8,15 @@
 
 - name: Github CLI | Get System Architecture
   ansible.builtin.command: dpkg --print-architecture
-  register: dpkg_architecture
+  register: github_cli_dpkg_architecture
   changed_when: false
   failed_when: false
   check_mode: false
 
 - name: Github CLI | Add Github’s stable repository
   ansible.builtin.apt_repository:
-    repo: deb [arch={{ dpkg_architecture.stdout }} signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main
+    repo: |
+      deb [arch={{ github_cli_dpkg_architecture.stdout }} signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main
     mode: "0644"
   become: true
 

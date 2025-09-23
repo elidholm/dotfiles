@@ -8,27 +8,27 @@
     sed 's/v//'
   args:
     executable: /bin/bash
-  register: command_result
+  register: bat_command_result
   changed_when: false
   failed_when: >
-    command_result.rc != 0 or
-    not command_result.stdout|regex_search('\w+\.\w+\.\w+')
+    bat_command_result.rc != 0 or
+    not bat_command_result.stdout|regex_search('\w+\.\w+\.\w+')
   when: bat_target_bat_version|length == 0
 
 - name: Bat | Set latest version of bat
   ansible.builtin.set_fact:
-    bat_target_bat_version: "{{ command_result.stdout }}"
+    bat_target_bat_version: "{{ bat_command_result.stdout }}"
   when: bat_target_bat_version|length == 0
 
 - name: Bat | Getting local version information
   ansible.builtin.command: bat -V
-  register: current_bat_version
+  register: bat_current_version
   changed_when: false
   failed_when: false
 
-- name: Bat | Show current_bat_version debug
+- name: Bat | Show bat_current_version debug
   ansible.builtin.debug:
-    var: current_bat_version.stdout|default('')
+    var: bat_current_version.stdout|default('')
 
 - name: Bat | Show bat_target_bat_version debug
   ansible.builtin.debug:
@@ -36,7 +36,7 @@
 
 - name: Bat | Install Bat
   when:
-    - bat_target_bat_version not in current_bat_version.stdout|default('')
+    - bat_target_bat_version not in bat_current_version.stdout|default('')
     - ansible_machine != 'aarch64'
   block:
     - name: Bat | Set URL to download bins
