@@ -34,3 +34,4 @@ alias cls='clear'
 alias po="sudo shutdown now"
 alias rs="sudo reboot"
 
+alias sb="~/dev/sb-cli/src/sb.py"
