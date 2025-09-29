@@ -106,3 +106,5 @@ case ":$PATH:" in
 esac
 
 # <<< juliaup initialize <<<
+
+source '/home/elidholm/.bash_completions/sb.py.sh'
