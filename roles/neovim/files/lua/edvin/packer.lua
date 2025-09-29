@@ -12,32 +12,7 @@ return require("packer").startup(function(use)
         requires = { { "nvim-lua/plenary.nvim" } }
     }
 
-    --use {
-    --    'lalitmee/cobalt2.nvim',
-    --    as = 'cobalt2',
-    --    requires = { { 'tjdevries/colorbuddy.nvim' } },
-    --}
-
-    --use({
-    --    'rose-pine/neovim',
-    --    as = 'rose-pine',
-    --    config = function()
-    --        vim.cmd('colorscheme rose-pine')
-    --    end
-    --})
-
-    use({
-        'maxmx03/solarized.nvim',
-        as = 'solarized',
-        config = function()
-            vim.o.background = 'dark' -- or 'light'
-            --@type solarized
-            local solarized = require('solarized')
-            vim.o.termguicolors = true
-            solarized.setup({})
-            vim.cmd.colorscheme 'solarized'
-        end
-    })
+    use { "catppuccin/nvim", as = "catppuccin" }
 
     use({
         "folke/trouble.nvim",

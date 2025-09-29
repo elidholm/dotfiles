@@ -1,23 +1,10 @@
-require('solarized').setup({
-    transparent = {
-        enabled = true,
-    },
-    palette = 'selenized',
-    styles = {
-        comments = { italic = true, bold = false },
-    },
-    variant = 'spring',
-    plugins = {
-        lsp = true,
-        telescope = true,
-        treesitter = true,
-        cmp = true,
-    },
-    autocmd = true,
+require("catppuccin").setup({
+    flavour = "mocha", -- latte, frappe, macchiato, mocha
+    transparent_background = true,
 })
 
 function ColorMyPencils(color)
-	color = color or "solarized"
+	color = color or "catppuccin"
     vim.cmd.colorscheme(color)
 
 	vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
