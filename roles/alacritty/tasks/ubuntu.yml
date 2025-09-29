@@ -75,8 +75,11 @@
 
 - name: Alacritty | Create symlink to Alacritty config
   ansible.builtin.file:
-    src: "{{ role_path }}/files/alacritty.toml"
-    dest: "{{ ansible_user_dir }}/.config/alacritty/alacritty.toml"
+    src: "{{ role_path }}/files/{{ item }}"
+    dest: "{{ ansible_user_dir }}/.config/alacritty/{{ item }}"
     state: link
     force: true
   become: true
+  loop:
+    - alacritty.toml
+    - catpuccin-mocha.toml
