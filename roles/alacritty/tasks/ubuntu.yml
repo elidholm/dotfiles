@@ -82,4 +82,4 @@
   become: true
   loop:
     - alacritty.toml
-    - catpuccin-mocha.toml
+    - catppuccin-macchiato.toml

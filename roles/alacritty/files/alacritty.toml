@@ -132,5 +132,5 @@ blinking = "Always"
 
 [general]
 live_config_reload = true
-import = ["~/.config/alacritty/catppuccin-mocha.toml"]
+import = ["~/.config/alacritty/catppuccin-macchiato.toml"]
 
