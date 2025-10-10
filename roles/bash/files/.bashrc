@@ -100,10 +100,10 @@ case ":$PATH:" in
         ;;
 
     *)
-        export PATH=/home/elidholm/.juliaup/bin${PATH:+:${PATH}}
+        export PATH=$HOME/.juliaup/bin${PATH:+:${PATH}}
         ;;
 esac
 
 # <<< juliaup initialize <<<
 
-source '/home/elidholm/.bash_completions/sb.py.sh'
+source "$HOME/.bash_completions/sb.py.sh"
