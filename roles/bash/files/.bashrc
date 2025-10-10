@@ -75,7 +75,6 @@ fi
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && source  "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
-[ -s "$HOME/.bash_completion.d/alacritty" ] && source "$HOME/.bash_completion.d/alacritty"
 [ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
 [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env"
 [ -f "$HOME/.fzf.bash" ] && source "$HOME/.fzf.bash"
