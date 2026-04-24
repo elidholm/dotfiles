@@ -1,9 +1,10 @@
-require("edvin.remap")
-require("edvin.set")
-require("edvin.packer")
+require("config.remap")
+require("config.set")
+
+require("config.lazy_init")
 
 local augroup = vim.api.nvim_create_augroup
-local EdvinGroup = augroup('Edvin', {})
+local ConfGroup = augroup('Conf', {})
 
 local autocmd = vim.api.nvim_create_autocmd
 local yank_group = augroup('HighlightYank', {})
@@ -23,8 +24,9 @@ autocmd('TextYankPost', {
     end,
 })
 
+
 autocmd({"BufWritePre"}, {
-    group = EdvinGroup,
+    group = ConfGroup,
     pattern = "*",
     command = [[%s/\s\+$//e]],
 })
