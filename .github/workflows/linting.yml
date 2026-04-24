@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install ansible-lint
-        run: pip install ansible-lint
+        run: pip install "ansible-lint>=24,<25"
       - name: Install Galaxy Modules
         run: ansible-galaxy install -r requirements/common.yml
       - name: Linting with ansible-lint
@@ -26,6 +26,28 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Run ShellCheck
-        uses: ludeeus/action-shellcheck@master
+        uses: ludeeus/action-shellcheck@2.0.0
         env:
           SHELLCHECK_OPTS: -e SC2034 -e SC2015 -e SC1091 -e SC1090
+  yamllint:
+    name: YAML Lint
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install yamllint
+        run: pip install "yamllint>=1.35,<2"
+      - name: Run yamllint
+        run: yamllint .
+  python-lint:
+    name: Python Lint
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install ruff
+        run: pip install "ruff>=0.9,<1"
+      - name: Run ruff
+        run: ruff check callback_plugins/

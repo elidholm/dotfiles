@@ -1,0 +1,12 @@
+[lint]
+# Select runtime errors, pyflakes, and warnings
+select = ["E9", "F", "W"]
+# E402: Module level import not at top of file - expected in Ansible callback
+#        plugins due to the required `__metaclass__ = type` declaration.
+# F401: Imported but unused - some imports serve as re-exports or public API.
+# E722: Do not use bare `except` - used intentionally for Python 2/3 compat.
+# F821: Undefined name - `basestring` is a Python 2 built-in used in legacy
+#        compat code in the third-party beautiful_output plugin.
+# F841: Local variable assigned but never used - `except Exception as e` is a
+#        common pattern where the variable name is kept for readability.
+ignore = ["E402", "F401", "E722", "F821", "F841"]
