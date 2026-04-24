@@ -1,9 +1,6 @@
 ---
 name: Security Scanning
 on:
-  push:
-    branches:
-      - master
   pull_request:
     branches:
       - master
