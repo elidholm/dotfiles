@@ -25,7 +25,6 @@ WARNING="${RED}\xF0\x9F\x9A\xA8${NC}"
 # Configuration
 DEBUG=0
 SKIP_UPDATE=0
-DRY_RUN=0
 ANSIBLE_EXTRA_ARGS=()
 TASK=''
 PUSHED_DIR=0
@@ -65,7 +64,6 @@ Bootstrap and maintain dotfiles using Ansible.
 
 Options:
   --debug         Enable debug output (show commands as they run)
-  --check         Perform a dry run (passes --check to ansible-playbook)
   --skip-update   Skip pulling the latest dotfiles from GitHub
   --version       Print the current dotfiles commit SHA and exit
   -h, --help      Show this help message and exit
@@ -75,7 +73,6 @@ Any arguments after -- are passed directly to ansible-playbook.
 Examples:
   $(basename "$0")                    # Full run
   $(basename "$0") --debug            # Full run with debug output
-  $(basename "$0") --check            # Dry run
   $(basename "$0") -- --tags git      # Run only the 'git' tag
   $(basename "$0") --skip-update      # Skip git pull, use local dotfiles
 EOF
@@ -86,10 +83,6 @@ while [[ $# -gt 0 ]]; do
     case "$1" in
         --debug)
             DEBUG=1
-            shift
-            ;;
-        --check)
-            DRY_RUN=1
             shift
             ;;
         --skip-update)
@@ -122,8 +115,8 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-if [[ $DRY_RUN -eq 1 ]]; then
-    ANSIBLE_EXTRA_ARGS+=(--check)
+if ((DEBUG==1)); then
+    ANSIBLE_EXTRA_ARGS+=(-vv)
 fi
 
 # _task colorizes the given argument with spacing
@@ -240,7 +233,7 @@ ubuntu_setup() {
             _task_done
         fi
     else
-        print " ${WARNING} ${YELLOW}%s not available, skipping locale setup\n" 'localectl'
+        printf " ${WARNING} ${YELLOW}%s not available, skipping locale setup\n" 'localectl'
     fi
 }
 
