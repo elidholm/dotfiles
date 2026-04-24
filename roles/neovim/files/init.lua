@@ -1,1 +1,1 @@
-require("edvin")
+require("config")
