@@ -3,9 +3,6 @@ require("config.set")
 
 require("config.lazy_init")
 
---[[
-require("config.packer")
-
 local augroup = vim.api.nvim_create_augroup
 local ConfGroup = augroup('Conf', {})
 
@@ -27,14 +24,13 @@ autocmd('TextYankPost', {
     end,
 })
 
-]]--
 
---autocmd({"BufWritePre"}, {
---    group = ConfGroup,
---    pattern = "*",
---    command = [[%s/\s\+$//e]],
---})
---
---vim.g.netrw_browse_split = 0
---vim.g.netrw_banner = 0
---vim.g.netrw_winsize = 25
+autocmd({"BufWritePre"}, {
+    group = ConfGroup,
+    pattern = "*",
+    command = [[%s/\s\+$//e]],
+})
+
+vim.g.netrw_browse_split = 0
+vim.g.netrw_banner = 0
+vim.g.netrw_winsize = 25
