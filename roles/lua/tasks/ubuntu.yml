@@ -1,5 +1,5 @@
 ---
-- name: Lua | Install Lua
+- name: Lua | Ubuntu | Install Lua
   ansible.builtin.apt:
     name:
       - lua5.3

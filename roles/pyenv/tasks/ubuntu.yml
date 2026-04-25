@@ -1,5 +1,5 @@
 ---
-- name: Pyenv | Install dependencies
+- name: Pyenv | Ubuntu | Install dependencies
   ansible.builtin.apt:
     name:
       - make

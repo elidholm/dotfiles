@@ -1,5 +1,5 @@
 ---
-- name: Neovim | Install
+- name: Neovim | Ubuntu | Install
   community.general.snap:
     name: nvim
     classic: true

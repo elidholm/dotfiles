@@ -1,5 +1,5 @@
 ---
-- name: Flatpak | Install flatpak
+- name: Flatpak | Ubuntu | Install flatpak
   ansible.builtin.apt:
     name: flatpak
     state: present

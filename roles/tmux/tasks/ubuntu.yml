@@ -1,5 +1,5 @@
 ---
-- name: Tmux | Install Tmux
+- name: Tmux | Ubuntu | Install Tmux
   ansible.builtin.apt:
     name: tmux
     state: present

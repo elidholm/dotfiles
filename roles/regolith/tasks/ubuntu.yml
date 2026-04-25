@@ -1,19 +1,19 @@
 ---
-- name: Regolith | Add GPG key
+- name: Regolith | Ubuntu | Add GPG key
   ansible.builtin.apt_key:
     url: https://archive.regolith-desktop.com/regolith.key
     keyring: /usr/share/keyrings/regolith-archive-keyring.gpg
     state: present
   become: true
 
-- name: Regolith | Get System Architecture
+- name: Regolith | Ubuntu | Get System Architecture
   ansible.builtin.command: dpkg --print-architecture
   register: regolith_dpkg_architecture
   changed_when: false
   failed_when: false
   check_mode: false
 
-- name: Regolith | Add Regolith’s stable repository
+- name: Regolith | Ubuntu | Add Regolith’s stable repository
   ansible.builtin.apt_repository:
     repo: >-
       deb [arch={{ regolith_dpkg_architecture.stdout }} signed-by=/usr/share/keyrings/regolith-archive-keyring.gpg]
@@ -22,12 +22,12 @@
     filename: regolith
   become: true
 
-- name: Regolith | Update apt package cache
+- name: Regolith | Ubuntu | Update apt package cache
   ansible.builtin.apt:
     update_cache: true
   become: true
 
-- name: Regolith | Install Regolith desktop
+- name: Regolith | Ubuntu | Install Regolith desktop
   ansible.builtin.apt:
     name:
       - regolith-desktop

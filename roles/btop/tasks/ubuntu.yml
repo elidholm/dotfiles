@@ -1,5 +1,5 @@
 ---
-- name: Btop | Install
+- name: Btop | Ubuntu | Install
   ansible.builtin.apt:
     name: btop
     state: present

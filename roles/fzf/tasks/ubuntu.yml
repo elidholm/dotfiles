@@ -1,5 +1,5 @@
 ---
-- name: FZF | Uninstall APT fzf
+- name: FZF | Ubuntu | Uninstall APT fzf
   ansible.builtin.apt:
     name: fzf
     state: absent

@@ -1,5 +1,5 @@
 ---
-- name: Brave | Add GPG key
+- name: Brave | Ubuntu | Add GPG key
   ansible.builtin.get_url:
     url: https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
     dest: /usr/share/keyrings/brave-browser-archive-keyring.gpg
@@ -7,7 +7,7 @@
     force: true
   become: true
 
-- name: Brave | Add Brave repository
+- name: Brave | Ubuntu | Add Brave repository
   ansible.builtin.get_url:
     url: https://brave-browser-apt-release.s3.brave.com/brave-browser.sources
     dest: /etc/apt/sources.list.d/brave-browser-release.sources
@@ -15,12 +15,12 @@
     force: true
   become: true
 
-- name: Brave | Update apt package cache
+- name: Brave | Ubuntu | Update apt package cache
   ansible.builtin.apt:
     update_cache: true
   become: true
 
-- name: Brave | Install Brave browser
+- name: Brave | Ubuntu | Install Brave browser
   ansible.builtin.apt:
     name: brave-browser
     state: present

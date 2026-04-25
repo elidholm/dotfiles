@@ -1,5 +1,5 @@
 ---
-- name: System | Update APT Repos and Upgrade APT Packages
+- name: System | Ubuntu | Update APT Repos and Upgrade APT Packages
   ansible.builtin.apt:
     update_cache: true
     upgrade: full
@@ -11,7 +11,7 @@
   changed_when: false
   failed_when: false
 
-- name: System | Install
+- name: System | Ubuntu | Install
   ansible.builtin.apt:
     name:
       - jq

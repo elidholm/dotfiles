@@ -1,14 +1,14 @@
 ---
-- name: Bat | Install Bat
+- name: Bat | Ubuntu | Install Bat
   when:
     - bat_target_bat_version not in bat_current_version.stdout|default('')
     - ansible_machine != 'aarch64'
   block:
-    - name: Bat | Set URL to download bins
+    - name: Bat | Ubuntu | Set URL to download bins
       ansible.builtin.set_fact:
         bat_debian_url: "{{ bat_gh_repo_url }}/releases/download/v{{ bat_target_bat_version }}/bat_{{ bat_target_bat_version }}_amd64.deb"
 
-    - name: Bat | Install deb from github
+    - name: Bat | Ubuntu | Install deb from github
       become: true
       ansible.builtin.apt:
         deb: "{{ bat_debian_url }}"

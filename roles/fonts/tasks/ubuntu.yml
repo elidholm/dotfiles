@@ -1,5 +1,5 @@
 ---
-- name: Fonts | Install fontconfig and emoji support
+- name: Fonts | Ubuntu | Install fontconfig and emoji support
   ansible.builtin.apt:
     name:
       - fontconfig
