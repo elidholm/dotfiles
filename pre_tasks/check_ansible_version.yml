@@ -1,0 +1,7 @@
+---
+- name: Assert minimum ansible-core version
+  ansible.builtin.assert:
+    that: ansible_version.full is version('2.14', '>=')
+    msg: >-
+      ansible-core >= 2.14 is required (found {{ ansible_version.full }}).
+      Please upgrade: pip install --upgrade ansible-core
