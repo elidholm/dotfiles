@@ -18,15 +18,25 @@ Ansible replicates what we would do to set up a development environment pretty w
 
 ## Requirements
 
+### Ansible
+
+This playbook requires **ansible-core >= 2.14**. Earlier versions are not supported.
+
+To install or upgrade ansible-core:
+
+```bash
+pip install --upgrade ansible-core
+```
+
 ### Operating System
 
-This Ansible playbook only supports `Ubuntu` distribution. This is by design to provide a consistent development experience across hosts.
+This Ansible playbook currently supports `Ubuntu`/`Debian` distributions, with support for additional operating systems planned.
 
 ### System Upgrade
 
-Verify your `Ubuntu` installation has all latest packages installed before running the playbook.
+Verify your system has all latest packages installed before running the playbook.
 
-```
+```bash
 sudo apt-get update && sudo apt-get upgrade -y
 ```
 
