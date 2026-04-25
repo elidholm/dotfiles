@@ -44,7 +44,7 @@
       ansible.builtin.set_fact:
         npm_nodejs_arch: "{{ ansible_machine | replace('x86_64', 'x64') | replace('aarch64', 'arm64') }}"
 
-    - name: NPM | Register Pagkage Name
+    - name: NPM | Register Package Name
       ansible.builtin.set_fact:
         npm_nodejs_package_name: node-{{ npm_nodejs_latest_version.stdout }}-{{ ansible_system | lower }}-{{ npm_nodejs_arch }}
 
