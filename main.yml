@@ -13,10 +13,17 @@
       tags:
         - always
 
+    - name: Check for optional work-specific configuration
+      ansible.builtin.stat:
+        path: "{{ playbook_dir }}/group_vars/work.yml"
+      register: work_config
+      tags:
+        - always
+
     - name: Include optional work-specific configuration
       ansible.builtin.include_vars:
         file: "{{ playbook_dir }}/group_vars/work.yml"
-        optional: true
+      when: work_config.stat.exists
       tags:
         - always
 
