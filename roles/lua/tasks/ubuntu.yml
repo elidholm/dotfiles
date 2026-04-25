@@ -8,9 +8,3 @@
     state: present
     update_cache: true
   become: true
-
-- name: Lua | Gather installed lua rocks
-  ansible.builtin.command: luarocks list
-  register: lua_rocks
-  changed_when: false
-  check_mode: false

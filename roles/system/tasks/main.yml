@@ -2,3 +2,33 @@
 - name: Run Ubuntu Tasks
   ansible.builtin.import_tasks: ubuntu.yml
   when: ansible_os_family == 'Debian'
+
+- name: System | Set passwordless sudo
+  community.general.sudoers:
+    name: "{{ host_user }}"
+    nopassword: true
+    commands: ALL
+    state: present
+    user: "{{ host_user }}"
+  become: true
+
+- name: System | Ensure group exists for current user
+  ansible.builtin.group:
+    name: "{{ host_user }}"
+    state: present
+  become: true
+
+- name: System | Ensure user is in group {{ host_user }}
+  ansible.builtin.user:
+    name: "{{ host_user }}"
+    groups: "{{ host_user }}"
+    append: true
+  become: true
+
+- name: System | Set hosts
+  ansible.builtin.template:
+    dest: /etc/hosts
+    src: hosts.j2
+    mode: "0644"
+  become: true
+  changed_when: false

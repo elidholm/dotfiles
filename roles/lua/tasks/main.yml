@@ -2,3 +2,9 @@
 - name: Run Ubuntu Tasks
   ansible.builtin.import_tasks: ubuntu.yml
   when: ansible_os_family == 'Debian'
+
+- name: Lua | Gather installed lua rocks
+  ansible.builtin.command: luarocks list
+  register: lua_rocks
+  changed_when: false
+  check_mode: false
