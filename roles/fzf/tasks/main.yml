@@ -2,3 +2,11 @@
 - name: Run Ubuntu Tasks
   ansible.builtin.import_tasks: ubuntu.yml
   when: ansible_os_family == 'Debian'
+
+- name: FZF | Clone Latest Version
+  ansible.builtin.git:
+    repo: https://github.com/junegunn/fzf.git
+    depth: 1
+    dest: "{{ ansible_user_dir }}/.fzf"
+    version: master
+  notify: FZF | Install fzf

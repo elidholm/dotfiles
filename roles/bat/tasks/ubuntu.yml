@@ -1,49 +1,14 @@
 ---
-- name: Bat | Get current version of bat # noqa: command-instead-of-module
-  ansible.builtin.shell: >
-    set -o pipefail &&
-    curl --silent https://api.github.com/repos/{{ bat_gh_user }}/{{ bat_gh_repo }}/releases/latest |
-    grep '"tag_name":' |
-    sed -E 's/.*"([^"]+)".*/\1/' |
-    sed 's/v//'
-  args:
-    executable: /bin/bash
-  register: bat_command_result
-  changed_when: false
-  failed_when: >
-    bat_command_result.rc != 0 or
-    not bat_command_result.stdout|regex_search('\w+\.\w+\.\w+')
-  when: bat_target_bat_version|length == 0
-
-- name: Bat | Set latest version of bat
-  ansible.builtin.set_fact:
-    bat_target_bat_version: "{{ bat_command_result.stdout }}"
-  when: bat_target_bat_version|length == 0
-
-- name: Bat | Getting local version information
-  ansible.builtin.command: bat -V
-  register: bat_current_version
-  changed_when: false
-  failed_when: false
-
-- name: Bat | Show bat_current_version debug
-  ansible.builtin.debug:
-    var: bat_current_version.stdout|default('')
-
-- name: Bat | Show bat_target_bat_version debug
-  ansible.builtin.debug:
-    var: bat_target_bat_version|default('')
-
-- name: Bat | Install Bat
+- name: Bat | Ubuntu | Install Bat
   when:
     - bat_target_bat_version not in bat_current_version.stdout|default('')
     - ansible_machine != 'aarch64'
   block:
-    - name: Bat | Set URL to download bins
+    - name: Bat | Ubuntu | Set URL to download bins
       ansible.builtin.set_fact:
         bat_debian_url: "{{ bat_gh_repo_url }}/releases/download/v{{ bat_target_bat_version }}/bat_{{ bat_target_bat_version }}_amd64.deb"
 
-    - name: Bat | Install deb from github
+    - name: Bat | Ubuntu | Install deb from github
       become: true
       ansible.builtin.apt:
         deb: "{{ bat_debian_url }}"
