@@ -35,26 +35,21 @@ return {
                 'vimls',
             },
             handlers = {
-
                 function(server_name) -- default handler (optional)
-                    require("lspconfig")[server_name].setup {
+                    vim.lsp.config(server_name, {
                         capabilities = capabilities
+                    })
+                end
+            }
+        })
+        vim.lsp.config("lua_ls", {
+            capabilities = capabilities,
+            settings = {
+                Lua = {
+                    diagnostics = {
+                        globals = { "vim", "it", "describe", "before_each", "after_each" },
                     }
-                end,
-
-                ["lua_ls"] = function()
-                    local lspconfig = require("lspconfig")
-                    lspconfig.lua_ls.setup {
-                        capabilities = capabilities,
-                        settings = {
-                            Lua = {
-                                diagnostics = {
-                                    globals = { "vim", "it", "describe", "before_each", "after_each" },
-                                }
-                            }
-                        }
-                    }
-                end,
+                }
             }
         })
 
@@ -83,5 +78,6 @@ return {
         vim.diagnostic.config({
             virtual_text = true
         })
+        vim.lsp.set_log_level("off")
     end
 }
