@@ -15,7 +15,6 @@ return {
             build = "make install_jsregexp"
         },
         "rafamadriz/friendly-snippets",
-        "j-hui/fidget.nvim",
     },
 
     config = function()
@@ -28,8 +27,6 @@ return {
             cmp_lsp.default_capabilities()
         )
 
-        require("fidget").setup({})
-        vim.notify = require("fidget").notify
         require("mason").setup()
         require("mason-lspconfig").setup({
             ensure_installed = {
