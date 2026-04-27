@@ -9,7 +9,11 @@ return {
         "hrsh7th/cmp-cmdline",
         "hrsh7th/nvim-cmp",
         "hrsh7th/cmp-nvim-lua",
-        "L3MON4D3/LuaSnip",
+        {
+            "L3MON4D3/LuaSnip",
+            version = "v2.*",
+            build = "make install_jsregexp"
+        },
         "rafamadriz/friendly-snippets",
         "j-hui/fidget.nvim",
     },
@@ -25,6 +29,7 @@ return {
         )
 
         require("fidget").setup({})
+        vim.notify = require("fidget").notify
         require("mason").setup()
         require("mason-lspconfig").setup({
             ensure_installed = {
@@ -39,7 +44,7 @@ return {
                     vim.lsp.config(server_name, {
                         capabilities = capabilities
                     })
-                end
+                end,
             }
         })
         vim.lsp.config("lua_ls", {
@@ -78,6 +83,6 @@ return {
         vim.diagnostic.config({
             virtual_text = true
         })
-        vim.lsp.set_log_level("off")
+        vim.lsp.log.set_level("off")
     end
 }

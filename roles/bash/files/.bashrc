@@ -8,12 +8,12 @@ if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ tmux ]] && [
 fi
 
 # Source global definitions
-[ -f /etc/bash.bashrc ] && source /etc/bash.bashrc
+[[ -f /etc/bash.bashrc ]] && source /etc/bash.bashrc
 
 # Enable bash programmable completion features in interactive shells
-if [ -f /usr/share/bash-completion/bash_completion ]; then
+if [[ -f /usr/share/bash-completion/bash_completion ]]; then
 	source /usr/share/bash-completion/bash_completion
-elif [ -f /etc/bash_completion ]; then
+elif [[ -f /etc/bash_completion ]]; then
 	source /etc/bash_completion
 fi
 
@@ -32,64 +32,41 @@ eval "$(pyenv virtualenv-init -)"
 eval "$(dircolors -b "$HOME/.dircolors")" || eval "$(dircolors -b)"
 
 #Autojump
-if [ -f "/usr/share/autojump/autojump.sh" ]; then
+if [[ -f /usr/share/autojump/autojump.sh ]]; then
 	source /usr/share/autojump/autojump.sh
-elif [ -f "/usr/share/autojump/autojump.bash" ]; then
+elif [[ -f /usr/share/autojump/autojump.bash ]]; then
 	source /usr/share/autojump/autojump.bash
 else
-	echo "can't found the autojump script"
+	echo 'Unable to find the autojump script'
 fi
 
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='nvim'
-else
-  export EDITOR='nvim'
-fi
+export EDITOR=nvim
 
-if [[ -f "$HOME/.config/bash/.bash_private" ]]; then
-  source "$HOME/.config/bash/.bash_private"
-fi
-
-if [[ -f "$HOME/.config/bash/.bash_public" ]]; then
-  source "$HOME/.config/bash/.bash_public"
-fi
+[[ -f $HOME/.config/bash/.bash_private ]] && source "$HOME/.config/bash/.bash_private"
+[[ -f $HOME/.config/bash/.bash_public ]] && source "$HOME/.config/bash/.bash_public"
 
 for file in "$HOME"/.config/bash/*.sh; do
   source "$file"
 done
 
-if [[ -d "$HOME/.config/bash/work" ]]; then
-  if [[ -f "$HOME/.config/bash/work/.work_private" ]]; then
-    source "$HOME/.config/bash/work/.work_private"
-  fi
-
-  if [[ -f "$HOME/.config/bash/work/.work_public" ]]; then
-    source "$HOME/.config/bash/work/.work_public"
-  fi
+if [[ -d $HOME/.config/bash/work ]]; then
+  [[ -f $HOME/.config/bash/work/.work_private ]] && source "$HOME/.config/bash/work/.work_private"
+  [[ -f $HOME/.config/bash/work/.work_public ]] && source "$HOME/.config/bash/work/.work_public"
 
   for file in "$HOME"/.config/bash/work/*.sh; do
     source "$file"
   done
 fi
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && source  "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
-[ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
-[ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env"
-[ -f "$HOME/.fzf.bash" ] && source "$HOME/.fzf.bash"
+export NVM_DIR=$HOME/.nvm
+[[ -s $NVM_DIR/nvm.sh ]] && source "$NVM_DIR/nvm.sh"
+[[ -s $NVM_DIR/bash_completion ]] && source "$NVM_DIR/bash_completion"
+[[ -f $HOME/.cargo/env ]] && source "$HOME/.cargo/env"
+[[ -f $HOME/.ghcup/env ]] && source "$HOME/.ghcup/env"
+[[ -f $HOME/.fzf.bash ]] && source "$HOME/.fzf.bash"
+[[ -f $HOME/.bash_completions/sb.py.sh ]] && source "$HOME/.bash_completions/sb.py.sh"
 
 clean_path
-
-export PATH=$PATH:/usr/local/go/bin
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="$HOME/.sdkman"
-[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ] && source "$HOME/.sdkman/bin/sdkman-init.sh"
-
-
-
-[ -f "/home/elidholm/.ghcup/env" ] && . "/home/elidholm/.ghcup/env" # ghcup-env
 
 # >>> juliaup initialize >>>
 
@@ -106,4 +83,6 @@ esac
 
 # <<< juliaup initialize <<<
 
-source "$HOME/.bash_completions/sb.py.sh"
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR=$HOME/.sdkman
+[[ -s $HOME/.sdkman/bin/sdkman-init.sh ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
