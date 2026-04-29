@@ -15,8 +15,8 @@ fi
 
 
 # >>> JVM installed by coursier >>>
-export JAVA_HOME="/home/elidholm/.cache/coursier/arc/https/github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.25%252B9/OpenJDK11U-jdk_x64_linux_hotspot_11.0.25_9.tar.gz/jdk-11.0.25+9"
-export PATH="$PATH:/home/elidholm/.cache/coursier/arc/https/github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.25%252B9/OpenJDK11U-jdk_x64_linux_hotspot_11.0.25_9.tar.gz/jdk-11.0.25+9/bin"
+export JAVA_HOME="/home/elidholm/.cache/coursier/arc/https/aka.ms/download-jdk/microsoft-jdk-17.0.18-linux-x64.tar.gz/jdk-17.0.18+8"
+export PATH="$PATH:/home/elidholm/.cache/coursier/arc/https/aka.ms/download-jdk/microsoft-jdk-17.0.18-linux-x64.tar.gz/jdk-17.0.18+8/bin"
 # <<< JVM installed by coursier <<<
 
 # >>> coursier install directory >>>
