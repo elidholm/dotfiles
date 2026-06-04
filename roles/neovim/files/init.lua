@@ -591,18 +591,13 @@ do
 		vim.treesitter.start(buf, language)
 	end
 
-	local disabled_filetypes = {
-		"yaml",
-		"python",
-		"json",
-	}
 	local available_parsers = require("nvim-treesitter").get_available()
 	vim.api.nvim_create_autocmd("FileType", {
 		callback = function(args)
 			local buf, filetype = args.buf, args.match
 
 			local language = vim.treesitter.language.get_lang(filetype)
-			if not language or vim.tbl_contains(disabled_filetypes, filetype) then
+			if not language then
 				return
 			end
 
