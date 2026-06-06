@@ -243,7 +243,7 @@ do
 			changedelete = { text = "~" }, ---@diagnostic disable-line: missing-fields
 		},
 	})
-	require("kickstart.plugins.gitsigns")
+	require("extra.plugins.gitsigns")
 
 	vim.pack.add({ gh("folke/which-key.nvim") })
 	require("which-key").setup({
@@ -379,7 +379,9 @@ end
 -- ============================================================
 do
 	vim.pack.add({ gh("j-hui/fidget.nvim") })
-	require("fidget").setup({})
+	local fidget = require("fidget")
+	fidget.setup({})
+	vim.notify = fidget.notify
 
 	vim.api.nvim_create_autocmd("LspAttach", {
 		group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
@@ -682,4 +684,14 @@ do
 	vim.pack.add({ gh("nvim-treesitter/nvim-treesitter-context") })
 end
 
+-- ============================================================
+-- SECTION 10: WORK CONFIGS
+-- ============================================================
+do
+	vim.filetype.add({
+		filename = {
+			["Taskfile"] = "yaml",
+		},
+	})
+end
 -- vim: ts=4 sts=4 sw=4 et
