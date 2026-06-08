@@ -5,6 +5,7 @@ require("conform").setup({
 			lua = true,
 			python = true,
 			sh = true,
+			rust = true,
 		}
 		if enabled_filetypes[vim.bo[bufnr].filetype] then
 			return { timeout_ms = 500 }
