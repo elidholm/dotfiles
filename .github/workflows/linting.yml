@@ -10,7 +10,7 @@ jobs:
     name: Ansible Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Install ansible-lint
         run: pip install ansible-lint
       - name: Install Galaxy Modules
@@ -21,7 +21,7 @@ jobs:
     name: Shellcheck
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Run ShellCheck
         uses: ludeeus/action-shellcheck@2.0.0
         env:
@@ -32,7 +32,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Install yamllint
         run: pip install yamllint
       - name: Run yamllint
@@ -43,7 +43,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Install ruff
         run: pip install ruff
       - name: Run ruff
