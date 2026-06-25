@@ -293,3 +293,34 @@ roles/bash/files/
 **Neovim integration:** `vim-tmux-navigator` is installed in **both** tmux (`set -g @plugin 'christoomey/vim-tmux-navigator'`) and Neovim (`vim.pack.add({ gh("christoomey/vim-tmux-navigator") })`). Both must stay in sync.
 
 **Adding/updating TPM plugins:** edit `roles/tmux/files/.tmux.conf`, add a `set -g @plugin '...'` line before the final `run '...tpm'` line, then reload with `prefix + r` and install with `prefix + I` inside a live tmux session.
+
+---
+
+### Skills
+
+**Purpose:** deploys personal Copilot CLI skills to `~/.copilot/skills/`, where the CLI discovers them automatically alongside project-level skills (`.github/skills/`).
+
+**Delivery:** `roles/skills/files/` is symlinked wholesale to `~/.copilot/skills/`. No packages are installed; there is no `ubuntu.yml`.
+
+**Skill format:** each skill is a subdirectory containing a `SKILL.md` with YAML front-matter:
+
+```text
+roles/skills/files/
+  <skill-name>/
+    SKILL.md        ← required; front-matter + Markdown body
+    *.md / *.txt    ← optional supporting docs loaded by Copilot
+```
+
+Minimal `SKILL.md` front-matter:
+
+```yaml
+---
+name: my-skill
+description: >-
+    One-sentence description shown in /skills and used by Copilot to decide
+    when to invoke this skill.
+user-invocable: false
+---
+```
+
+**Adding a skill:** create `roles/skills/files/<skill-name>/SKILL.md`. Because `~/.copilot/skills` is a symlink into the repo, the skill is live immediately in any new Copilot session — no need to re-run the playbook.

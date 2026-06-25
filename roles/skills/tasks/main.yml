@@ -1,0 +1,15 @@
+---
+- name: Skills | Ensure ~/.copilot directory exists
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/.copilot"
+    state: directory
+    mode: "0755"
+  become: true
+
+- name: Skills | Create symlink to skills directory
+  ansible.builtin.file:
+    src: "{{ role_path }}/files"
+    dest: "{{ ansible_user_dir }}/.copilot/skills"
+    state: link
+    force: true
+  become: true
