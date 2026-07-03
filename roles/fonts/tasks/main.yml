@@ -8,7 +8,6 @@
     path: "{{ ansible_user_dir }}/.local/share/fonts"
     state: directory
     mode: "0755"
-  become: true
 
 - name: Fonts | Check if nerd-fonts are installed
   ansible.builtin.shell: set -o pipefail && fc-list | grep -i 'MesloLGS NF'
@@ -24,7 +23,7 @@
   block:
     - name: Fonts | Download nerd-fonts
       ansible.builtin.get_url:
-        url: https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Meslo.zip
+        url: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Meslo.zip
         dest: "{{ ansible_user_dir }}/Meslo.zip"
         mode: "0644"
       notify:
