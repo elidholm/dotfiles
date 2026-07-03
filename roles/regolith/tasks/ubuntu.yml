@@ -6,17 +6,10 @@
     state: present
   become: true
 
-- name: Regolith | Ubuntu | Get System Architecture
-  ansible.builtin.command: dpkg --print-architecture
-  register: regolith_dpkg_architecture
-  changed_when: false
-  failed_when: false
-  check_mode: false
-
-- name: Regolith | Ubuntu | Add Regolith’s stable repository
+- name: Regolith | Ubuntu | Add Regolith's stable repository
   ansible.builtin.apt_repository:
     repo: >-
-      deb [arch={{ regolith_dpkg_architecture.stdout }} signed-by=/usr/share/keyrings/regolith-archive-keyring.gpg]
+      deb [arch={{ dpkg_architecture }} signed-by=/usr/share/keyrings/regolith-archive-keyring.gpg]
       https://archive.regolith-desktop.com/{{ ansible_distribution | lower }}/stable {{ ansible_distribution_release }} v3.3
     state: present
     filename: regolith

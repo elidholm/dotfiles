@@ -1,0 +1,12 @@
+---
+- name: Get dpkg architecture
+  ansible.builtin.command: dpkg --print-architecture
+  register: _dpkg_arch_result
+  changed_when: false
+  check_mode: false
+  when: ansible_os_family == 'Debian'
+
+- name: Set dpkg_architecture fact
+  ansible.builtin.set_fact:
+    dpkg_architecture: "{{ _dpkg_arch_result.stdout }}"
+  when: ansible_os_family == 'Debian'
