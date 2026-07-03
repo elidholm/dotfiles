@@ -4,11 +4,11 @@
     name: nvim
     state: absent
   become: true
-  ignore_errors: true
+  failed_when: false
 
 - name: Neovim | Ubuntu | Add nightly PPA
   ansible.builtin.apt_repository:
-    repo: ppa:neovim-ppa/unstable
+    repo: ppa:neovim-ppa/stable
     state: present
     update_cache: true
   become: true

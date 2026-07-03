@@ -5,7 +5,6 @@
       - cmake
       - pkg-config
       - libtool
-      - ansible-lint
       - curl
       - unzip
       - ripgrep
