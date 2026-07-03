@@ -28,7 +28,6 @@ default_roles:
   - ssh
   - sshfs
   - starship
-  - tldr
   - tmux
   - zoxide
 
