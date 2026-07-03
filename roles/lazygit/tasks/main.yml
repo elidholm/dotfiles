@@ -9,19 +9,15 @@
   ansible.builtin.set_fact:
     lazygit_latest_release: "{{ lazygit_latest_version_json.json.tag_name }}"
 
-- name: Lazygit | Registering lazygit Latest Version
-  ansible.builtin.set_fact:
-    lazygit_latest_version: "{{ lazygit_latest_release.stdout | default('') }}"
-
 - name: Lazygit | Getting version information
   ansible.builtin.shell:
-    cmd: set -o pipefail && /usr/local/bin/lazygit --version | grep -oP 'version=\K[^,]+' | awk 'NR==1' | sed 's/^/v/'
+    cmd: set -o pipefail && {{ ansible_user_dir }}/.local/bin/lazygit --version | grep -oP 'version=\K[^,]+' | awk 'NR==1' | sed 's/^/v/'
   args:
     executable: /bin/bash
   register: lazygit_current_version
   changed_when: false
   failed_when: false
-#
+
 - name: Lazygit | Show lazygit_current_version debug
   ansible.builtin.debug:
     var: lazygit_current_version.stdout
@@ -66,7 +62,7 @@
 
     - name: Lazygit | Remove any current lazygit installations
       ansible.builtin.file:
-        path: /usr/local/bin/lazygit
+        path: "{{ ansible_user_dir }}/.local/bin/lazygit"
         state: absent
       become: true
 
@@ -74,7 +70,7 @@
       ansible.builtin.copy:
         remote_src: true
         src: /tmp/lazygit
-        dest: /usr/local/bin/
+        dest: "{{ ansible_user_dir }}/.local/bin/"
         owner: "{{ host_user }}"
         group: "{{ host_user }}"
         force: true
