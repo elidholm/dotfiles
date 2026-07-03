@@ -5,7 +5,6 @@
     dest: "{{ ansible_user_dir }}/.bashrc"
     state: link
     force: true
-  become: true
 
 - name: Bash | Create symlink to .bash_profile
   ansible.builtin.file:
@@ -13,7 +12,6 @@
     dest: "{{ ansible_user_dir }}/.bash_profile"
     state: link
     force: true
-  become: true
 
 - name: Bash | Create symlink to .inputrc
   ansible.builtin.file:
@@ -21,7 +19,6 @@
     dest: "{{ ansible_user_dir }}/.inputrc"
     state: link
     force: true
-  become: true
 
 - name: Bash | Create symlink to .dircolors
   ansible.builtin.file:
@@ -29,7 +26,6 @@
     dest: "{{ ansible_user_dir }}/.dircolors"
     state: link
     force: true
-  become: true
 
 - name: Bash | Copy custom bash config
   ansible.builtin.copy:
@@ -96,4 +92,3 @@
         - "work/*"
       loop_control:
         label: "{{ item }}"
-      become: true
