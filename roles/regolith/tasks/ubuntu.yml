@@ -15,11 +15,6 @@
     filename: regolith
   become: true
 
-- name: Regolith | Ubuntu | Update apt package cache
-  ansible.builtin.apt:
-    update_cache: true
-  become: true
-
 - name: Regolith | Ubuntu | Install Regolith desktop
   ansible.builtin.apt:
     name:
@@ -34,4 +29,5 @@
       - dunst
       - libnotify-bin
     state: present
+    update_cache: true
   become: true
