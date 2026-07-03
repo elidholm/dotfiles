@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-
 set -euo pipefail
-
 
 # color codes
 NC='\033[0m'
@@ -42,22 +40,22 @@ DOTFILES_SSH_KEY_NAME="${DOTFILES_SSH_KEY_NAME:-id_ed25519}"
 
 # _cleanup is called on EXIT, INT, and TERM signals
 _cleanup() {
-    local exit_code=$?
-    if [[ -f $DOTFILES_LOG ]]; then
-        rm -f "$DOTFILES_LOG"
-    fi
-    if [[ $PUSHED_DIR -eq 1 ]]; then
-        popd > /dev/null 2>&1 || true
-        PUSHED_DIR=0
-    fi
-    if [[ $exit_code -ne 0 && -n $TASK ]]; then
-        printf "${OVERWRITE}${NC} [${X_MARK}]  ${LRED}%s\n" "${TASK}"
-    fi
+  local exit_code=$?
+  if [[ -f $DOTFILES_LOG ]]; then
+    rm -f "$DOTFILES_LOG"
+  fi
+  if [[ $PUSHED_DIR -eq 1 ]]; then
+    popd >/dev/null 2>&1 || true
+    PUSHED_DIR=0
+  fi
+  if [[ $exit_code -ne 0 && -n $TASK ]]; then
+    printf "${OVERWRITE}${NC} [${X_MARK}]  ${LRED}%s\n" "${TASK}"
+  fi
 }
 trap _cleanup EXIT INT TERM
 
 _usage() {
-    cat <<EOF
+  cat <<EOF
 Usage: $(basename "$0") [OPTIONS] [-- ANSIBLE_ARGS...]
 
 Bootstrap and maintain dotfiles using Ansible.
@@ -80,180 +78,180 @@ EOF
 
 # Argument parsing
 while [[ $# -gt 0 ]]; do
-    case "$1" in
-        --debug)
-            DEBUG=1
-            shift
-            ;;
-        --skip-update)
-            SKIP_UPDATE=1
-            shift
-            ;;
-        --version)
-            if [[ -d $DOTFILES_DIR/.git ]]; then
-                git -C "$DOTFILES_DIR" describe --tags --always 2>/dev/null \
-                    || git -C "$DOTFILES_DIR" rev-parse --short HEAD
-            else
-                printf 'dotfiles not yet installed\n'
-            fi
-            exit 0
-            ;;
-        -h|--help)
-            _usage
-            exit 0
-            ;;
-        --)
-            shift
-            ANSIBLE_EXTRA_ARGS+=("$@")
-            break
-            ;;
-        *)
-            printf "${RED}Unknown option: %s${NC}\n" "$1" >&2
-            _usage >&2
-            exit 1
-            ;;
-    esac
+  case "$1" in
+  --debug)
+    DEBUG=1
+    shift
+    ;;
+  --skip-update)
+    SKIP_UPDATE=1
+    shift
+    ;;
+  --version)
+    if [[ -d $DOTFILES_DIR/.git ]]; then
+      git -C "$DOTFILES_DIR" describe --tags --always 2>/dev/null ||
+        git -C "$DOTFILES_DIR" rev-parse --short HEAD
+    else
+      printf 'dotfiles not yet installed\n'
+    fi
+    exit 0
+    ;;
+  -h | --help)
+    _usage
+    exit 0
+    ;;
+  --)
+    shift
+    ANSIBLE_EXTRA_ARGS+=("$@")
+    break
+    ;;
+  *)
+    printf "${RED}Unknown option: %s${NC}\n" "$1" >&2
+    _usage >&2
+    exit 1
+    ;;
+  esac
 done
 
-if ((DEBUG==1)); then
-    ANSIBLE_EXTRA_ARGS+=(-vv)
+if ((DEBUG == 1)); then
+  ANSIBLE_EXTRA_ARGS+=(-vv)
 fi
 
 # _task colorizes the given argument with spacing
 _task() {
-    # if _task is called while a task was set, complete the previous
-    if [[ $TASK != '' ]]; then
-        printf "${OVERWRITE}${NC} [${CHECK_MARK}]  ${GREEN}%s\n" "${TASK}"
-    fi
-    # set new task title and print
-    TASK=$1
-    printf "${NC} [ ]  ${LIGHTGRAY}%s \n${NC}" "${TASK}"
+  # if _task is called while a task was set, complete the previous
+  if [[ $TASK != '' ]]; then
+    printf "${OVERWRITE}${NC} [${CHECK_MARK}]  ${GREEN}%s\n" "${TASK}"
+  fi
+  # set new task title and print
+  TASK=$1
+  printf "${NC} [ ]  ${LIGHTGRAY}%s \n${NC}" "${TASK}"
 }
 
 # _cmd performs commands with error checking
 _cmd() {
-    # Create log if it doesn't exist
-    if ! [[ -f $DOTFILES_LOG ]]; then
-        touch "$DOTFILES_LOG"
+  # Create log if it doesn't exist
+  if ! [[ -f $DOTFILES_LOG ]]; then
+    touch "$DOTFILES_LOG"
+  fi
+  # Empty log
+  : >"$DOTFILES_LOG"
+  if ((DEBUG == 1)); then
+    printf 'Running: %s\n' "$*"
+    if "$@" 2>"$DOTFILES_LOG"; then
+      return 0 # Success
     fi
-    # Empty log
-    : > "$DOTFILES_LOG"
-    if ((DEBUG==1)); then
-        printf 'Running: %s\n' "$*"
-        if "$@" 2> "$DOTFILES_LOG"; then
-            return 0 # Success
-        fi
-    else
-        # Hide stdout, on error we print and exit
-        if "$@" 1> /dev/null 2> "$DOTFILES_LOG"; then
-            return 0 # Success
-        fi
+  else
+    # Hide stdout, on error we print and exit
+    if "$@" 1>/dev/null 2>"$DOTFILES_LOG"; then
+      return 0 # Success
     fi
-    # Read error from log and add spacing
-    printf "${OVERWRITE}${NC} [${X_MARK}]  ${LRED}%s\n" "${TASK}"
-    while read -r line; do
-        printf '      %s\n' "${line}"
-    done < "$DOTFILES_LOG"
-    printf '\n'
-    # Remove log file
-    rm -f "$DOTFILES_LOG"
-    # Clear task so the cleanup trap does not print a duplicate failure header
-    TASK=''
-    # Exit installation
-    exit 1
+  fi
+  # Read error from log and add spacing
+  printf "${OVERWRITE}${NC} [${X_MARK}]  ${LRED}%s\n" "${TASK}"
+  while read -r line; do
+    printf '      %s\n' "${line}"
+  done <"$DOTFILES_LOG"
+  printf '\n'
+  # Remove log file
+  rm -f "$DOTFILES_LOG"
+  # Clear task so the cleanup trap does not print a duplicate failure header
+  TASK=''
+  # Exit installation
+  exit 1
 }
 
 _clear_task() {
-    TASK=''
+  TASK=''
 }
 
 _task_done() {
-    printf "${OVERWRITE}${NC} [${CHECK_MARK}]  ${GREEN}%s\n${NC}" "${TASK}"
-    _clear_task
+  printf "${OVERWRITE}${NC} [${CHECK_MARK}]  ${GREEN}%s\n${NC}" "${TASK}"
+  _clear_task
 }
 
 _check_network() {
-    _task 'Checking network connectivity'
-    if ! curl -s --max-time 5 https://github.com > /dev/null 2>&1; then
-        printf "${OVERWRITE}${NC} [${X_MARK}]  ${LRED}%s\n" 'Network connectivity'
-        printf '      %s\n' 'No network connectivity. Please check your internet connection.'
-        TASK=''
-        exit 1
-    fi
-    _task_done
+  _task 'Checking network connectivity'
+  if ! curl -s --max-time 5 https://github.com >/dev/null 2>&1; then
+    printf "${OVERWRITE}${NC} [${X_MARK}]  ${LRED}%s\n" 'Network connectivity'
+    printf '      %s\n' 'No network connectivity. Please check your internet connection.'
+    TASK=''
+    exit 1
+  fi
+  _task_done
 }
 
 ubuntu_setup() {
-    _task 'Updating apt repository cache'
+  _task 'Updating apt repository cache'
+  _cmd sudo apt-get update
+  _task_done
+
+  if ! dpkg -s ansible >/dev/null 2>&1; then
+    _task 'Installing Ansible'
+    _cmd sudo apt-get install -y software-properties-common
+    _cmd sudo apt-add-repository -y ppa:ansible/ansible
     _cmd sudo apt-get update
+    _cmd sudo apt-get install -y ansible
+    _cmd sudo apt-get install -y python3-argcomplete
+    _cmd sudo activate-global-python-argcomplete3
     _task_done
+  fi
 
-    if ! dpkg -s ansible >/dev/null 2>&1; then
-        _task 'Installing Ansible'
-        _cmd sudo apt-get install -y software-properties-common
-        _cmd sudo apt-add-repository -y ppa:ansible/ansible
-        _cmd sudo apt-get update
-        _cmd sudo apt-get install -y ansible
-        _cmd sudo apt-get install -y python3-argcomplete
-        _cmd sudo activate-global-python-argcomplete3
-        _task_done
-    fi
+  if ! dpkg -s python3 >/dev/null 2>&1; then
+    _task 'Installing Python3'
+    _cmd sudo apt-get install -y python3
+    _task_done
+  fi
 
-    if ! dpkg -s python3 >/dev/null 2>&1; then
-        _task 'Installing Python3'
-        _cmd sudo apt-get install -y python3
-        _task_done
-    fi
+  if ! dpkg -s python3-pip >/dev/null 2>&1; then
+    _task 'Installing Python3 Pip'
+    _cmd sudo apt-get install -y python3-pip
+    _task_done
+  fi
 
-    if ! dpkg -s python3-pip >/dev/null 2>&1; then
-        _task 'Installing Python3 Pip'
-        _cmd sudo apt-get install -y python3-pip
-        _task_done
-    fi
+  # python3-watchdog is required by the beautiful_output Ansible callback plugin
+  if ! dpkg -s python3-watchdog >/dev/null 2>&1; then
+    _task 'Installing Python3 Watchdog'
+    _cmd sudo apt-get install -y python3-watchdog
+    _task_done
+  fi
 
-    # python3-watchdog is required by the beautiful_output Ansible callback plugin
-    if ! dpkg -s python3-watchdog >/dev/null 2>&1; then
-        _task 'Installing Python3 Watchdog'
-        _cmd sudo apt-get install -y python3-watchdog
-        _task_done
-    fi
+  if ! dpkg -s openssh-server >/dev/null 2>&1; then
+    _task 'Installing OpenSSH'
+    _cmd sudo apt-get install -y openssh-server
+    _task_done
+  fi
 
-    if ! dpkg -s openssh-server >/dev/null 2>&1; then
-        _task 'Installing OpenSSH'
-        _cmd sudo apt-get install -y openssh-server
-        _task_done
+  if command -v localectl >/dev/null 2>&1; then
+    local current_locale
+    current_locale=$(localectl status 2>/dev/null | awk '/System Locale/ {print $3}' || true)
+    if [[ $current_locale != 'LANG=en_US.UTF-8' ]]; then
+      _task "Setting Locale"
+      _cmd sudo localectl set-locale LANG=en_US.UTF-8
+      _task_done
     fi
-
-    if command -v localectl >/dev/null 2>&1; then
-        local current_locale
-        current_locale=$(localectl status 2>/dev/null | awk '/System Locale/ {print $3}' || true)
-        if [[ $current_locale != 'LANG=en_US.UTF-8' ]]; then
-            _task "Setting Locale"
-            _cmd sudo localectl set-locale LANG=en_US.UTF-8
-            _task_done
-        fi
-    else
-        printf " ${WARNING} ${YELLOW}%s not available, skipping locale setup\n" 'localectl'
-    fi
+  else
+    printf " ${WARNING} ${YELLOW}%s not available, skipping locale setup\n" 'localectl'
+  fi
 }
 
 update_ansible_galaxy() {
-    local os=$1
-    local os_requirements=''
-    local task_title='Updating Ansible Galaxy'
+  local os=$1
+  local os_requirements=''
+  local task_title='Updating Ansible Galaxy'
 
-    if [[ -f $DOTFILES_DIR/requirements/$os.yml ]]; then
-        task_title="Updating Ansible Galaxy with OS Config: $os"
-        os_requirements="$DOTFILES_DIR/requirements/$os.yml"
-    fi
+  if [[ -f $DOTFILES_DIR/requirements/$os.yml ]]; then
+    task_title="Updating Ansible Galaxy with OS Config: $os"
+    os_requirements="$DOTFILES_DIR/requirements/$os.yml"
+  fi
 
-    _task "$task_title"
-    if [[ -n $os_requirements ]]; then
-        _cmd ansible-galaxy install -r "$DOTFILES_DIR/requirements/common.yml" "$os_requirements"
-    else
-        _cmd ansible-galaxy install -r "$DOTFILES_DIR/requirements/common.yml"
-    fi
-    _task_done
+  _task "$task_title"
+  if [[ -n $os_requirements ]]; then
+    _cmd ansible-galaxy install -r "$DOTFILES_DIR/requirements/common.yml" -r "$os_requirements"
+  else
+    _cmd ansible-galaxy install -r "$DOTFILES_DIR/requirements/common.yml"
+  fi
+  _task_done
 }
 
 # Check network connectivity before any network operations
@@ -261,90 +259,90 @@ _check_network
 
 # Guard /etc/os-release
 if [[ ! -f /etc/os-release ]]; then
-    printf " ${WARNING} ${RED}Cannot detect OS: %s not found\n" '/etc/os-release'
-    exit 1
+  printf " ${WARNING} ${RED}Cannot detect OS: %s not found\n" '/etc/os-release'
+  exit 1
 fi
 
 # shellcheck source=/dev/null
 source /etc/os-release
 _task "Loading Setup for detected OS: $ID"
 case $ID in
-    ubuntu|debian)
-        ubuntu_setup
-        ;;
-    *)
-        printf " ${WARNING} ${YELLOW}Unsupported OS: %s!\n" "${ID}"
-        exit 1
-        ;;
+ubuntu | debian)
+  ubuntu_setup
+  ;;
+*)
+  printf " ${WARNING} ${YELLOW}Unsupported OS: %s!\n" "${ID}"
+  exit 1
+  ;;
 esac
 
 # Generate SSH keys
 # Key type and name can be overridden via DOTFILES_SSH_KEY_TYPE and DOTFILES_SSH_KEY_NAME
-if ! [[ -d $SSH_DIR ]] || ! compgen -G "${SSH_DIR}/*.pub" > /dev/null; then
-    _task 'Generating SSH keys'
-    _cmd mkdir -p "$SSH_DIR"
-    _cmd chmod 700 "$SSH_DIR"
-    if [[ $DOTFILES_SSH_KEY_TYPE == 'rsa' ]]; then
-        _cmd ssh-keygen -b 4096 -t "$DOTFILES_SSH_KEY_TYPE" -f "$SSH_DIR/$DOTFILES_SSH_KEY_NAME" -N "" -C "$USER@$HOSTNAME"
-    else
-        _cmd ssh-keygen -t "$DOTFILES_SSH_KEY_TYPE" -f "$SSH_DIR/$DOTFILES_SSH_KEY_NAME" -N "" -C "$USER@$HOSTNAME"
-    fi
-    cat "$SSH_DIR/$DOTFILES_SSH_KEY_NAME.pub" >> "$SSH_DIR/authorized_keys"
-    _task_done
+if ! [[ -d $SSH_DIR ]] || ! compgen -G "${SSH_DIR}/*.pub" >/dev/null; then
+  _task 'Generating SSH keys'
+  _cmd mkdir -p "$SSH_DIR"
+  _cmd chmod 700 "$SSH_DIR"
+  if [[ $DOTFILES_SSH_KEY_TYPE == 'rsa' ]]; then
+    _cmd ssh-keygen -b 4096 -t "$DOTFILES_SSH_KEY_TYPE" -f "$SSH_DIR/$DOTFILES_SSH_KEY_NAME" -N "" -C "$USER@$HOSTNAME"
+  else
+    _cmd ssh-keygen -t "$DOTFILES_SSH_KEY_TYPE" -f "$SSH_DIR/$DOTFILES_SSH_KEY_NAME" -N "" -C "$USER@$HOSTNAME"
+  fi
+  cat "$SSH_DIR/$DOTFILES_SSH_KEY_NAME.pub" >>"$SSH_DIR/authorized_keys"
+  _task_done
 fi
 
 # Clone or update repository
 if [[ ! -d $DOTFILES_DIR ]]; then
-    _task 'Cloning repository'
-    _cmd git clone --quiet https://github.com/elidholm/dotfiles.git "$DOTFILES_DIR"
-    _task_done
-elif ((SKIP_UPDATE==0)); then
-    _task 'Updating repository'
-    if [[ -n $(git -C "$DOTFILES_DIR" status --porcelain 2>/dev/null) ]]; then
-        printf " ${WARNING} ${YELLOW}%s is dirty, stashing changes before pull\n" 'Working tree'
-        _cmd git -C "$DOTFILES_DIR" stash
-        _cmd git -C "$DOTFILES_DIR" pull --quiet
-        _cmd git -C "$DOTFILES_DIR" stash pop
-    elif git -C "$DOTFILES_DIR" symbolic-ref HEAD > /dev/null 2>&1; then
-        _cmd git -C "$DOTFILES_DIR" pull --quiet
-    else
-        printf " ${WARNING} ${YELLOW}%s is in detached HEAD state, skipping pull\n" 'Dotfiles repo'
-    fi
-    _task_done
+  _task 'Cloning repository'
+  _cmd git clone --quiet https://github.com/elidholm/dotfiles.git "$DOTFILES_DIR"
+  _task_done
+elif ((SKIP_UPDATE == 0)); then
+  _task 'Updating repository'
+  if [[ -n $(git -C "$DOTFILES_DIR" status --porcelain 2>/dev/null) ]]; then
+    printf " ${WARNING} ${YELLOW}%s is dirty, stashing changes before pull\n" 'Working tree'
+    _cmd git -C "$DOTFILES_DIR" stash
+    _cmd git -C "$DOTFILES_DIR" pull --quiet
+    _cmd git -C "$DOTFILES_DIR" stash pop
+  elif git -C "$DOTFILES_DIR" symbolic-ref HEAD >/dev/null 2>&1; then
+    _cmd git -C "$DOTFILES_DIR" pull --quiet
+  else
+    printf " ${WARNING} ${YELLOW}%s is in detached HEAD state, skipping pull\n" 'Dotfiles repo'
+  fi
+  _task_done
 fi
 
-pushd "$DOTFILES_DIR" > /dev/null 2>&1
+pushd "$DOTFILES_DIR" >/dev/null 2>&1
 PUSHED_DIR=1
 update_ansible_galaxy "$ID"
 
 _task 'Running playbook'
 _task_done
 if [[ -f $VAULT_SECRET ]]; then
-    printf "${PURPLE}Running playbook %s\n" 'with vault'
-    ansible-playbook --vault-password-file "$VAULT_SECRET" "$DOTFILES_DIR/main.yml" "${ANSIBLE_EXTRA_ARGS[@]}"
+  printf "${PURPLE}Running playbook %s\n" 'with vault'
+  ansible-playbook --vault-password-file "$VAULT_SECRET" "$DOTFILES_DIR/main.yml" "${ANSIBLE_EXTRA_ARGS[@]}"
 else
-    printf "${PURPLE}Running playbook %s\n" 'without vault'
-    ansible-playbook "$DOTFILES_DIR/main.yml" "${ANSIBLE_EXTRA_ARGS[@]}"
+  printf "${PURPLE}Running playbook %s\n" 'without vault'
+  ansible-playbook "$DOTFILES_DIR/main.yml" "${ANSIBLE_EXTRA_ARGS[@]}"
 fi
 
 printf "${ARROW} ${CYAN}Reload your shell with: %s\n" 'exec bash'
 
-popd > /dev/null 2>&1
+popd >/dev/null 2>&1
 PUSHED_DIR=0
 
 # Check if this is the first run before recording metadata
 IS_NEW_INSTALL=0
 if [[ ! -f $IS_FIRST_RUN ]]; then
-    IS_NEW_INSTALL=1
+  IS_NEW_INSTALL=1
 fi
 
 # Record run metadata: timestamp and commit SHA
 COMMIT_SHA=$(git -C "$DOTFILES_DIR" rev-parse --short HEAD 2>/dev/null || echo 'unknown')
-printf '%s commit=%s\n' "$(date -u +"%Y-%m-%dT%H:%M:%SZ")" "$COMMIT_SHA" > "$IS_FIRST_RUN"
+printf '%s commit=%s\n' "$(date -u +"%Y-%m-%dT%H:%M:%SZ")" "$COMMIT_SHA" >"$IS_FIRST_RUN"
 
-if ((IS_NEW_INSTALL==1)); then
-    printf "${CHECK_MARK} ${GREEN}First run %s!${NC}\n" 'complete'
-    printf "${ARROW} ${CYAN}Please %s your computer to complete the setup.${NC}\n" 'reboot'
+if ((IS_NEW_INSTALL == 1)); then
+  printf "${CHECK_MARK} ${GREEN}First run %s!${NC}\n" 'complete'
+  printf "${ARROW} ${CYAN}Please %s your computer to complete the setup.${NC}\n" 'reboot'
 fi
 
 # vi:ft=sh:
