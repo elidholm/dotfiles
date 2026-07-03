@@ -2,7 +2,7 @@
 - name: Lua | Ubuntu | Install Lua
   ansible.builtin.apt:
     name:
-      - lua5.3
+      - lua5.4
       - luarocks
       - luajit
     state: present

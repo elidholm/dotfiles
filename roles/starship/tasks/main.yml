@@ -1,32 +1,44 @@
 ---
-- name: Starship | Detect Starship
-  ansible.builtin.stat:
-    path: /usr/local/bin/starship
-  register: starship_check
+- name: Starship | Get latest release from GitHub
+  ansible.builtin.uri:
+    url: https://api.github.com/repos/starship/starship/releases/latest
+  register: starship_latest_version_json
+  changed_when: false
 
-- name: Starship | Register Starship state
+- name: Starship | Register latest release tag
   ansible.builtin.set_fact:
-    starship_is_installed: "{{ starship_check.stat.exists }}"
+    starship_latest_release: "{{ starship_latest_version_json.json.tag_name }}"
 
-- name: Starship | Debug starship_is_installed
+- name: Starship | Get current installed version
+  ansible.builtin.command: starship --version
+  register: starship_current_version
+  changed_when: false
+  failed_when: false
+
+- name: Starship | Show starship_current_version debug
   ansible.builtin.debug:
-    var: starship_is_installed
+    var: starship_current_version.stdout
 
-- name: Starship | Install Starship
-  when: not starship_is_installed
+- name: Starship | Show starship_latest_release debug
+  ansible.builtin.debug:
+    var: starship_latest_release
+
+- name: Starship | Install or update Starship
+  when: starship_latest_release | regex_replace('^v', '') not in starship_current_version.stdout | default('')
   block:
     - name: Starship | Download Starship install script
       ansible.builtin.get_url:
         url: https://starship.rs/install.sh
         dest: "{{ ansible_user_dir }}/starship.install.sh"
         force: true
-        mode: "0755"
+        mode: '0755'
       notify:
         - Starship | Cleanup Starship install script
 
     - name: Starship | Run the install script
-      ansible.builtin.script:
-        cmd: "{{ ansible_user_dir }}/starship.install.sh"
+      ansible.builtin.command:
+        cmd: "{{ ansible_user_dir }}/starship.install.sh -b ~/.local/bin --yes"
+      changed_when: true
 
 - name: Starship | Create symlink to Starship config
   ansible.builtin.file:

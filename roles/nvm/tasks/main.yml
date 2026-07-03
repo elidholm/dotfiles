@@ -9,10 +9,6 @@
   ansible.builtin.set_fact:
     nvm_latest_release: "{{ nvm_latest_version_json.json.tag_name }}"
 
-- name: NVM | Registering NVM Latest Version
-  ansible.builtin.set_fact:
-    nvm_latest_version: "{{ nvm_latest_release.stdout | default('') }}"
-
 - name: NVM | Show nvm_latest_release debug
   ansible.builtin.debug:
     var: nvm_latest_release

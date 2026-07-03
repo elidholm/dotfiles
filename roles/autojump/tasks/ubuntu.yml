@@ -11,7 +11,7 @@
   block:
     - name: Autojump | Ubuntu | Clone repository from GitHub
       ansible.builtin.git:
-        repo: git://github.com/wting/autojump.git
+        repo: https://github.com/wting/autojump.git
         dest: /tmp/autojump
         version: master
       notify: Autojump | Cleanup installation script

@@ -16,7 +16,6 @@ default_roles:
   - lazygit
   - logs
   - lua
-  - neofetch
   - neovim
   - npm
   - nvm
@@ -29,7 +28,6 @@ default_roles:
   - ssh
   - sshfs
   - starship
-  - tldr
   - tmux
   - zoxide
 
@@ -258,8 +256,6 @@ ssh_key:
 
 system_host:
   127.0.0.1: localhost
-
-neovim_verison: stable
 
 bash_public:
   user: elidholm

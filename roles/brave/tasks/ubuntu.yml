@@ -4,7 +4,6 @@
     url: https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
     dest: /usr/share/keyrings/brave-browser-archive-keyring.gpg
     mode: '0644'
-    force: true
   become: true
 
 - name: Brave | Ubuntu | Add Brave repository
@@ -12,16 +11,11 @@
     url: https://brave-browser-apt-release.s3.brave.com/brave-browser.sources
     dest: /etc/apt/sources.list.d/brave-browser-release.sources
     mode: '0644'
-    force: true
-  become: true
-
-- name: Brave | Ubuntu | Update apt package cache
-  ansible.builtin.apt:
-    update_cache: true
   become: true
 
 - name: Brave | Ubuntu | Install Brave browser
   ansible.builtin.apt:
     name: brave-browser
     state: present
+    update_cache: true
   become: true

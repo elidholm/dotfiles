@@ -1,6 +1,20 @@
 ---
-- name: Neovim | Ubuntu | Install
+- name: Neovim | Ubuntu | Remove snap install if present
   community.general.snap:
     name: nvim
-    classic: true
+    state: absent
+  become: true
+  failed_when: false
+
+- name: Neovim | Ubuntu | Add nightly PPA
+  ansible.builtin.apt_repository:
+    repo: ppa:neovim-ppa/stable
+    state: present
+    update_cache: true
+  become: true
+
+- name: Neovim | Ubuntu | Install
+  ansible.builtin.package:
+    name: neovim
+    state: present
   become: true

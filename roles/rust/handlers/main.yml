@@ -1,0 +1,5 @@
+---
+- name: Rust | Cleanup rustup installer
+  ansible.builtin.file:
+    path: /tmp/rustup-init.sh
+    state: absent

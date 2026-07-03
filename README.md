@@ -47,7 +47,7 @@ sudo apt-get update && sudo apt-get upgrade -y
 
 ### all.yml values file
 
-The `all.yml` file allows you to personalize your setup to your needs. This file will be created in the file located at `~/.dotfiles/group_vars/all.yaml` after you [Install this dotfiles](#install) and include your desired settings.
+The `all.yml` file allows you to personalize your setup to your needs. This file will be created in the file located at `~/.dotfiles/group_vars/all.yml` after you [Install this dotfiles](#install) and include your desired settings.
 
 Below is a list of all available values. Not all are required but incorrect values will break the playbook if not properly set.
 
@@ -148,13 +148,14 @@ exclude_roles:
   - python
   - tmux
   - spotify
-ssh_key: !vault |
-  $ANSIBLE_VAULT;1.1;AES256
-  62333533626436313366316235626561626635396233303730343332666466393561346462303163
-  3666636638613437353663356563656537323136646137630a336332303030323031376164316562
-  65333963633339323762663865363766303966643035303234376163616239663539366564396166
-  3830376265316231630a623834333061393138306331653164626437623337366165636163306237
-  3437
+ssh_key:
+  id_ed25519: !vault |
+    $ANSIBLE_VAULT;1.1;AES256
+    62333533626436313366316235626561626635396233303730343332666466393561346462303163
+    3666636638613437353663356563656537323136646137630a336332303030323031376164316562
+    65333963633339323762663865363766303966643035303234376163616239663539366564396166
+    3830376265316231630a623834333061393138306331653164626437623337366165636163306237
+    3437
 system_host:
   127.0.0.1: localhost
 bash_public:
@@ -222,14 +223,23 @@ This will handle the following tasks:
 - Generate SSH keys and add to `~/.ssh/authorized_keys`
 - Clone this repository locally to `~/.dotfiles`
 - Verify any `ansible-galaxy` plugins are updated
-- Run this playbook with the values in `~/.config/dotfiles/group_vars/all.yaml`
+- Run this playbook with the values in `~/.dotfiles/group_vars/all.yml`
 
 This `dotfiles` command is available to you after the first use of this repo, as it adds this repo's `bin` directory to your path, allowing you to call `dotfiles` from anywhere.
 
-Any flags or arguments you pass to the `dotfiles` command are passed as-is to the `ansible-playbook` command.
+Any flags or arguments you pass to the `dotfiles` command after `--` are passed directly to `ansible-playbook`.
+
+Available `dotfiles` options:
+
+| Flag | Description |
+| ---- | ----------- |
+| `--debug` | Enable verbose output (passes `-vv` to ansible-playbook) |
+| `--skip-update` | Skip pulling the latest dotfiles from GitHub |
+| `--version` | Print the current dotfiles commit SHA and exit |
+| `-h`, `--help` | Show the help message and exit |
 
 For Example: Running the tmux tag with verbosity
 
 ```bash
-dotfiles -t tmux -vvv
+dotfiles -- -t tmux -vvv
 ```

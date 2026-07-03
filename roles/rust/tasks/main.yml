@@ -1,4 +1,21 @@
 ---
-- name: Run Ubuntu Tasks
-  ansible.builtin.import_tasks: ubuntu.yml
-  when: ansible_os_family == 'Debian'
+- name: Rust | Check if rustup is installed
+  ansible.builtin.stat:
+    path: "{{ ansible_user_dir }}/.cargo/bin/rustc"
+  register: rust_rustc_check
+
+- name: Rust | Install rustup
+  when: not rust_rustc_check.stat.exists
+  block:
+    - name: Rust | Download rustup installer
+      ansible.builtin.get_url:
+        url: https://sh.rustup.rs
+        dest: /tmp/rustup-init.sh
+        mode: '0755'
+      notify: Rust | Cleanup rustup installer
+
+    - name: Rust | Run rustup installer
+      ansible.builtin.shell: /tmp/rustup-init.sh -y --no-modify-path --profile minimal
+      args:
+        executable: /bin/bash
+      changed_when: true

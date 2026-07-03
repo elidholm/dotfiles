@@ -1,6 +1,6 @@
 ---
 - name: Starship | Cleanup Starship install script
   ansible.builtin.file:
-    path: /{{ ansible_user_dir }}/starship.install.sh
+    path: "{{ ansible_user_dir }}/starship.install.sh"
     state: absent
   become: true
