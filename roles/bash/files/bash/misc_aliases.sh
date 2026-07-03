@@ -27,7 +27,6 @@ alias mkdir='mkdir -p'
 alias psaux='ps auxf'
 alias ping='ping -c 10'
 alias less='less -R'
-alias neoclear='clear && neofetch'
 alias cls='clear'
 
 #poweroff
