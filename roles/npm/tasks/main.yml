@@ -10,19 +10,13 @@
 
 - name: NPM | Check if NodeJS is installed
   ansible.builtin.command: node --version
-  register: npm_nodejs_installed
-  failed_when: false
-  changed_when: false
-
-- name: NPM | Check if NodeJS is up to date
-  ansible.builtin.command: node --version
-  register: npm_nodejs_up_to_date
+  register: npm_nodejs_installed_version
   failed_when: false
   changed_when: false
 
 - name: NPM | Show NodeJS version
   ansible.builtin.debug:
-    msg: "Installed NodeJS version: {{ npm_nodejs_installed.stdout }}"
+    msg: "Installed NodeJS version: {{ npm_nodejs_installed_version.stdout }}"
 
 - name: NPM | Show NodeJS latest version
   ansible.builtin.debug:
@@ -32,7 +26,7 @@
   ansible.builtin.set_fact:
     npm_nodejs_install_needed: true
   when:
-    - npm_nodejs_up_to_date.stdout != npm_nodejs_latest_version.stdout
+    - npm_nodejs_installed_version.stdout != npm_nodejs_latest_version.stdout
 
 - name: NPM | Install NodeJS
   become: true
@@ -52,13 +46,15 @@
       ansible.builtin.get_url:
         url: https://nodejs.org/dist/{{ npm_nodejs_latest_version.stdout }}/{{ npm_nodejs_package_name }}.tar.xz
         dest: /tmp/{{ npm_nodejs_package_name }}.tar.xz
-        mode: "0644"
+        mode: '0644'
+      notify:
+        - NPM | Cleanup NodeJS
 
     - name: NPM | Ensure Extraction NodeJS directory exists
       ansible.builtin.file:
         path: /tmp/{{ npm_nodejs_package_name }}
         state: directory
-        mode: "0755"
+        mode: '0755'
 
     - name: NPM | Extract NodeJS
       ansible.builtin.unarchive:
@@ -70,19 +66,19 @@
     - name: NPM | Copy NodeJS
       ansible.builtin.copy:
         src: /tmp/{{ npm_nodejs_package_name }}/bin/
-        dest: /usr/local/bin/*
+        dest: /usr/local/bin/
         remote_src: true
-        mode: "0644"
+        mode: '0644'
 
     - name: NPM | Ensure NodeJS Modules directory exists
       ansible.builtin.file:
         path: /usr/local/lib/node_modules
         state: directory
-        mode: "0755"
+        mode: '0755'
 
     - name: NPM | Copy NodeJS Modules
       ansible.builtin.copy:
         src: /tmp/{{ npm_nodejs_package_name }}/lib/node_modules/
-        dest: /usr/local/lib/node_modules/*
+        dest: /usr/local/lib/node_modules/
         remote_src: true
-        mode: "0644"
+        mode: '0644'
