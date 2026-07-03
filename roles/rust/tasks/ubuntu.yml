@@ -1,9 +1,0 @@
----
-- name: Rust | Ubuntu | Install packages
-  ansible.builtin.apt:
-    name:
-      - rustc
-      - cargo
-    state: present
-    update_cache: true
-  become: true
