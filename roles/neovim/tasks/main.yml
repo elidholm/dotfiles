@@ -9,6 +9,7 @@
       - curl
       - unzip
       - ripgrep
+      - software-properties-common
     state: present
     update_cache: true
   become: true

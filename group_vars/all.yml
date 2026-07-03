@@ -259,8 +259,6 @@ ssh_key:
 system_host:
   127.0.0.1: localhost
 
-neovim_verison: stable
-
 bash_public:
   user: elidholm
   GREP_COLOR: 1;37;41
