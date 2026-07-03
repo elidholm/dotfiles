@@ -8,14 +8,12 @@
     autoclean: true
     only_upgrade: true
   become: true
-  changed_when: false
   failed_when: false
 
 - name: System | Ubuntu | Install
   ansible.builtin.apt:
     name:
       - jq
-      - open-iscsi
       - aptitude
       - fd-find
     state: present
