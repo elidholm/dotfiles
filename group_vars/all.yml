@@ -259,7 +259,7 @@ system_host:
 
 bash_public:
   user: elidholm
-  GREP_COLOR: 1;37;41
+  GREP_COLORS: mt=1;37;41
   XDG_XONFIG_HOME: $HOME/.config
   CARGO_PATH: $HOME/.cargo/bin
   DOTFILES: $HOME/.dotfiles
