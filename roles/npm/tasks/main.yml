@@ -24,15 +24,11 @@
 
 - name: NPM | Register update needed
   ansible.builtin.set_fact:
-    npm_nodejs_install_needed: true
-  when:
-    - npm_nodejs_installed_version.stdout != npm_nodejs_latest_version.stdout
+    npm_nodejs_install_needed: "{{ npm_nodejs_installed_version.stdout != npm_nodejs_latest_version.stdout }}"
 
 - name: NPM | Install NodeJS
   become: true
-  when:
-    - npm_nodejs_install_needed is defined
-    - npm_nodejs_install_needed
+  when: npm_nodejs_install_needed
   block:
     - name: NPM | Get System Arch
       ansible.builtin.set_fact:
@@ -50,35 +46,18 @@
       notify:
         - NPM | Cleanup NodeJS
 
-    - name: NPM | Ensure Extraction NodeJS directory exists
-      ansible.builtin.file:
-        path: /tmp/{{ npm_nodejs_package_name }}
-        state: directory
-        mode: '0755'
-
-    - name: NPM | Extract NodeJS
-      ansible.builtin.unarchive:
-        src: /tmp/{{ npm_nodejs_package_name }}.tar.xz
-        dest: /tmp/{{ npm_nodejs_package_name }}
-        remote_src: true
-        extra_opts: --strip-components=1
-
-    - name: NPM | Copy NodeJS
-      ansible.builtin.copy:
-        src: /tmp/{{ npm_nodejs_package_name }}/bin/
-        dest: /usr/local/bin/
-        remote_src: true
-        mode: '0644'
-
     - name: NPM | Ensure NodeJS Modules directory exists
       ansible.builtin.file:
         path: /usr/local/lib/node_modules
         state: directory
         mode: '0755'
 
-    - name: NPM | Copy NodeJS Modules
-      ansible.builtin.copy:
-        src: /tmp/{{ npm_nodejs_package_name }}/lib/node_modules/
-        dest: /usr/local/lib/node_modules/
+    - name: NPM | Extract NodeJS into /usr/local
+      ansible.builtin.unarchive:
+        src: /tmp/{{ npm_nodejs_package_name }}.tar.xz
+        dest: /usr/local
         remote_src: true
-        mode: '0644'
+        extra_opts:
+          - --strip-components=1
+          - "{{ npm_nodejs_package_name }}/bin"
+          - "{{ npm_nodejs_package_name }}/lib/node_modules"
