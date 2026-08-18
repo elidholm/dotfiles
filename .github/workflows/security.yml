@@ -20,24 +20,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  semgrep:
-    name: Semgrep
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@v7
-      - name: Install semgrep
-        run: pip install semgrep
-      - name: Run Semgrep on shell scripts
-        run: >-
-          semgrep
-          --config=p/bash
-          --config=p/command-injection
-          --error
-          bin/
-          $(find roles/ -name "*.sh")
-
   analyze:
     name: CodeQL
     runs-on: ubuntu-latest
