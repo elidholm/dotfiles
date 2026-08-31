@@ -183,7 +183,7 @@ roles/neovim/files/
 - `stylua` — Lua formatting tool (installed by mason-tool-installer, not used as LSP)
 - `lua_ls` — Lua; formatting disabled (stylua handles it)
 
-**Format-on-save** is opt-in by filetype in `conform.lua`. Currently enabled for: `lua`, `python`, `sh`, `rust`. Formatters: `stylua` (lua), `rustfmt` (rust), `isort` + `black` (python), `shfmt -i 2` (sh).
+**Format-on-save** is opt-in by filetype in `conform.lua`. Currently enabled for: `lua`, `python`, `sh`, `rust`, `css`, `json`, `html`, `scss`, `jinja`, `groovy`, `rst`, `toml`, `yaml`. Formatters: `stylua` (lua), `rustfmt` (rust), `ruff` + `docformatter` (python), `shellcheck` + `shfmt -i 2` (sh), `prettierd` (css, json, html, scss), `djlint` (jinja), `npm-groovy-lint` (groovy), `rstfmt` (rst), `taplo` (toml), `yamlfix` (yaml).
 
 **Key globals:**
 

@@ -23,3 +23,17 @@
     dest: "{{ ansible_user_dir }}/.config/nvim"
     state: link
     force: true
+
+- name: Neovim | Setup formatters and linters
+  block:
+    - name: Neovim | Install Node.js dependencies
+      community.general.npm:
+        name: npm-groovy-lint
+        global: true
+        state: present
+      become: true
+
+    - name: Neovim | Install Cargo dependencies
+      community.general.cargo:
+        name: rustfmt
+        state: present

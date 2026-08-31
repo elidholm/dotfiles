@@ -189,6 +189,14 @@ do
 
 	---@type table<string, vim.lsp.Config>
 	local servers = {
+		taplo = {},
+		ruff = {},
+		shellcheck = {},
+		shfmt = {},
+		yamlfix = {},
+		prettier = {},
+		prettierd = {},
+		djlint = {},
 		pyright = {},
 		pylsp = {},
 		rust_analyzer = {},

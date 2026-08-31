@@ -6,6 +6,15 @@ require("conform").setup({
 			python = true,
 			sh = true,
 			rust = true,
+			css = true,
+			json = true,
+			html = true,
+			scss = true,
+			jinja = true,
+			groovy = true,
+			rst = true,
+			toml = true,
+			yaml = true,
 		}
 		if enabled_filetypes[vim.bo[bufnr].filetype] then
 			return { timeout_ms = 500 }
@@ -19,12 +28,29 @@ require("conform").setup({
 	formatters_by_ft = {
 		lua = { "stylua" },
 		rust = { "rustfmt" },
-		python = { "ruff_format", "ruff_organize_imports" },
-		sh = { "shfmt" },
+		python = { "ruff_organize_imports", "docformatter", "ruff_format" },
+		sh = { "shfmt", "shellcheck" },
+		css = { "prettierd", "prettier", stop_after_first = true },
+		json = { "json_repair", "prettierd" },
+		html = { "prettierd", "prettier", stop_after_first = true },
+		scss = { "prettierd", "prettier", stop_after_first = true },
+		jinja = { "djlint" },
+		groovy = { "npm-groovy-lint" },
+		rst = { "rstfmt" },
+		toml = { "taplo" },
+		yaml = { "yamlfix" },
 	},
 	formatters = {
 		shfmt = {
 			append_args = { "-i", "2" },
+		},
+		yamlfix = {
+			env = {
+				YAMLFIX_WHITELINES = "1",
+				YAMLFIX_SEQUENCE_STYLE = "keep_style",
+				YAMLFIX_LINE_LENGTH = "119",
+				YAMLFIX_preserve_quotes = "true",
+			},
 		},
 	},
 })
