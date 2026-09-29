@@ -14,7 +14,7 @@ require("conform").setup({
 			groovy = true,
 			rst = true,
 			toml = true,
-			yaml = true,
+			yaml = false,
 		}
 		if enabled_filetypes[vim.bo[bufnr].filetype] then
 			return { timeout_ms = 500 }
@@ -50,6 +50,7 @@ require("conform").setup({
 				YAMLFIX_SEQUENCE_STYLE = "keep_style",
 				YAMLFIX_LINE_LENGTH = "119",
 				YAMLFIX_preserve_quotes = "true",
+				YAMLFIX_COMMENTS_WHITELINES = "2",
 			},
 		},
 	},

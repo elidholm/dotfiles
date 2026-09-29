@@ -1,7 +1,7 @@
 ---
 - name: Run Ubuntu Tasks
   ansible.builtin.import_tasks: ubuntu.yml
-  when: ansible_os_family == 'Debian'
+  when: ansible_facts["os_family"] == 'Debian'
 
 - name: System | Set passwordless sudo
   community.general.sudoers:
