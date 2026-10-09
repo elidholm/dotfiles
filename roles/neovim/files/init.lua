@@ -161,6 +161,9 @@ do
 			map("gra", vim.lsp.buf.code_action, "[G]oto Code [A]ction", { "n", "x" })
 			map("grD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
 
+			map("<F15>", vim.lsp.buf.rename, "Rename")
+			map("<F16>", vim.lsp.buf.code_action, "Code Action")
+
 			local client = vim.lsp.get_client_by_id(event.data.client_id)
 			if client and client:supports_method("textDocument/documentHighlight", event.buf) then
 				local highlight_augroup = vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })

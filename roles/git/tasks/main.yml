@@ -1,7 +1,7 @@
 ---
 - name: Run Ubuntu Tasks
   ansible.builtin.import_tasks: ubuntu.yml
-  when: ansible_os_family == 'Debian'
+  when: ansible_facts["os_family"] == 'Debian'
 
 - name: Git | Set global configs
   community.general.git_config:
@@ -37,3 +37,5 @@
       value: log --graph --pretty=format:'%C(yellow)%d%Creset %C(cyan)%h%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=short --all
     - name: alias.rename
       value: branch -m
+    - name: alias.super
+      value: "!f() { git $@ && git submodule foreach --recursive \"git $@\"; }; f"

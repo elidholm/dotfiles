@@ -1,6 +1,11 @@
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
+vim.keymap.set("n", "<F13>", vim.diagnostic.open_float, { desc = "Show diagnostic" })
+
+vim.keymap.set("n", "<F14>", function()
+	vim.diagnostic.jump({ count = 1, float = true })
+end, { desc = "Next diagnostic" })
 
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
