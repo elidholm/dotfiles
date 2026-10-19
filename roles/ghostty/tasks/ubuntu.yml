@@ -1,0 +1,8 @@
+---
+- name: Ghostty | Ubuntu/Debian | Install Ghostty
+  community.general.snap:
+    name: ghostty
+    channel: latest/stable
+    classic: true
+    state: present
+  become: true

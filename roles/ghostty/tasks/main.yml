@@ -1,0 +1,17 @@
+---
+- name: Run Ubuntu/Debian Tasks
+  ansible.builtin.import_tasks: ubuntu.yml
+  when: ansible_facts["os_family"] == 'Debian'
+
+- name: Ghostty | Create config directory
+  ansible.builtin.file:
+    path: "{{ ansible_facts['user_dir'] }}/.config/ghostty"
+    state: directory
+    mode: '0755'
+
+- name: Ghostty | Create symlink to Ghostty config
+  ansible.builtin.file:
+    src: "{{ role_path }}/files/config.ghostty"
+    dest: "{{ ansible_facts['user_dir'] }}/.config/ghostty/config.ghostty"
+    state: link
+    force: true
