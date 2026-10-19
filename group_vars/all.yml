@@ -1,6 +1,7 @@
 ---
 default_roles:
   - system
+  - snapd
   - autojump
   - bash
   - bat
@@ -13,6 +14,7 @@ default_roles:
   - fzf
   - git
   - github_cli
+  - ghostty
   - lazygit
   - logs
   - lua

@@ -1,0 +1,7 @@
+---
+- name: Snapd | Ubuntu/Debian | Install
+  ansible.builtin.apt:
+    name: snapd
+    state: present
+    update_cache: true
+  become: true
