@@ -1,25 +1,22 @@
-"$schema" = 'https://starship.rs/config-schema.json'
+add_newline = false
+format = '$directory$fill$all$line_break$character'
+palette = "catppuccin_mocha"
 
-palette = "catppuccin_macchiato"
+[fill]
+symbol = ' '
 
-[username]
-show_always = true
-format = '[$user ]($style)'
-
-[git_branch]
-style = "bold mauve"
-
-[directory]
-format = "[ $path ]($style)"
-truncation_length = 3
-truncation_symbol = "…/"
-style = "bold lavender"
+[character]
+vicmd_symbol = "[N] >>>"
+success_symbol = '[➜](bold green)'
 
 [directory.substitutions]
 "Documents" = " "
 "Downloads" = " "
 "Music" = " "
 "Pictures" = " "
+
+[git_branch]
+format = '[$symbol$branch(:$remote_branch) ]($style)'
 
 [palettes.catppuccin_mocha]
 rosewater = "#f5e0dc"
