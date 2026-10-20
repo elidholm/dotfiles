@@ -18,6 +18,20 @@ success_symbol = '[➜](bold green)'
 [git_branch]
 format = '[$symbol$branch(:$remote_branch) ]($style)'
 
+[docker_context]
+format = 'via [🐋 $context](blue bold) '
+only_with_files = false
+detect_files = [
+  "compose.yml",
+  "compose.yaml",
+  "docker-compose.yml",
+  "docker-compose.yaml",
+  "docker-stack.yml",
+  "docker-stack.yaml",
+  "Dockerfile",
+  ".dockerignore",
+]
+
 [palettes.catppuccin_mocha]
 rosewater = "#f5e0dc"
 flamingo = "#f2cdcd"
