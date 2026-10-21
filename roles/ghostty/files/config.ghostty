@@ -8,6 +8,7 @@ cursor-style-blink = false
 shell-integration-features = no-cursor
 
 mouse-hide-while-typing = true
+mouse-scroll-multiplier = discrete:1
 theme = Catppuccin Mocha
 window-padding-x = 10
 window-padding-y = 10
