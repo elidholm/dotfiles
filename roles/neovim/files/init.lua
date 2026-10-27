@@ -193,15 +193,16 @@ do
 	---@type table<string, vim.lsp.Config>
 	local servers = {
 		taplo = {},
-		ruff = {},
+		ruff = {
+			capabilities = { general = { positionEncodings = { "utf-16" } } },
+		},
 		shellcheck = {},
 		shfmt = {},
 		yamlfix = {},
 		prettier = {},
 		prettierd = {},
 		djlint = {},
-		pyright = {},
-		pylsp = {},
+		pyright = require("extra.plugins.pyright"),
 		rust_analyzer = {},
 		stylua = {},
 
