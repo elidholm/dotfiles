@@ -18,6 +18,7 @@ default_roles:
   - lazygit
   - logs
   - lua
+  - markdownlint
   - neovim
   - npm
   - nvm

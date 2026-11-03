@@ -1,0 +1,17 @@
+---
+- name: Run Ubuntu Tasks
+  ansible.builtin.import_tasks: ubuntu.yml
+  when: ansible_os_family == 'Debian'
+
+- name: Markdownlint | Ensure config directory exists
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/.config"
+    state: directory
+    mode: "0755"
+
+- name: Markdownlint | Create symlink to config
+  ansible.builtin.file:
+    src: "{{ role_path }}/files/.markdownlint.yml"
+    dest: "{{ ansible_user_dir }}/.config/.markdownlint.yml"
+    state: link
+    force: true
