@@ -11,6 +11,7 @@ lint.linters_by_ft = {
 	rust = { "clippy" },
 }
 lint.linters.luacheck.args = { "--globals", "vim" }
+lint.linters.markdownlint.args = { "--stdin", "--config", vim.fn.expand("~/.config") .. "/.markdownlint.yml", "--" }
 local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
 	group = lint_augroup,

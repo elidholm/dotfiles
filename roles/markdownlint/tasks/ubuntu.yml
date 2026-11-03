@@ -1,0 +1,7 @@
+---
+- name: Markdownlint | Install markdownlint-cli2
+  community.general.npm:
+    name: markdownlint-cli2
+    global: true
+    state: present
+  become: true
