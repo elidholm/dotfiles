@@ -32,11 +32,11 @@
   block:
     - name: NPM | Get System Arch
       ansible.builtin.set_fact:
-        npm_nodejs_arch: "{{ ansible_machine | replace('x86_64', 'x64') | replace('aarch64', 'arm64') }}"
+        npm_nodejs_arch: "{{ ansible_facts['machine'] | replace('x86_64', 'x64') | replace('aarch64', 'arm64') }}"
 
     - name: NPM | Register Package Name
       ansible.builtin.set_fact:
-        npm_nodejs_package_name: node-{{ npm_nodejs_latest_version.stdout }}-{{ ansible_system | lower }}-{{ npm_nodejs_arch }}
+        npm_nodejs_package_name: node-{{ npm_nodejs_latest_version.stdout }}-{{ ansible_facts['system'] | lower }}-{{ npm_nodejs_arch }}
 
     - name: NPM | Download NodeJS
       ansible.builtin.get_url:
